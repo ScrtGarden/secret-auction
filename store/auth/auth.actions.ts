@@ -1,9 +1,9 @@
-import { action, thunk } from 'easy-peasy'
-
-import initialState from './auth.state'
+import { action } from 'easy-peasy'
 
 const actions = {
-//
+  setAccounts: action((state: any, payload) => {
+    state.accounts = payload
+  })
 }
 
 export default actions

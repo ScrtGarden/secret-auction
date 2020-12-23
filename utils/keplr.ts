@@ -29,7 +29,7 @@ const getGetEnigmaUtils = () => {
   return window.getEnigmaUtils
 }
 
-const setup = async (): Promise<Response> => {
+const connect = async (): Promise<Response> => {
   const keplr = getKeplr()
   
   if (!keplr) {
@@ -100,6 +100,6 @@ const getAccounts = async () => {
 
 
 export default {
-  setup,
+  connect,
   getAccounts
 }

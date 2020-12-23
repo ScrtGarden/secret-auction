@@ -5,15 +5,15 @@ import { AuthModel, AuthState } from './auth/auth.models'
 import authState  from "./auth/auth.state"
 import authStore  from "./auth/auth.store"
 
-let store: Store | undefined
-
 export interface StoreModel {
-  auth: Store<AuthModel>
+  auth: AuthModel
 }
 
 export interface StoreState {
-  auth: State<AuthState>
+  auth: AuthState
 }
+
+let store: Store | undefined
 
 const initialStoreState: StoreState = {
   auth: authState
@@ -25,6 +25,7 @@ const model = persist(
   },
   {
     storage: 'localStorage',
+    deny: ["auth"]
   }
 )
 
