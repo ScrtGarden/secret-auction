@@ -4,7 +4,6 @@ import { useStoreActions, useStoreState } from '../../../utils/hooks/storeHooks'
 import useGetAccounts from '../../../utils/hooks/useGetAccounts'
 import Footer from '../Footer'
 import Header from '../Header'
-import LoadingPage from '../LoadingPage'
 
 type Props = {
   children?: React.ReactElement
@@ -17,7 +16,7 @@ const Layout = ({ children }: Props) => {
   // store actions
   const setAccounts = useStoreActions((actions) => actions.auth.setAccounts)
 
-  const { loading, error, accounts } = useGetAccounts()
+  const { loading, accounts } = useGetAccounts()
 
   useEffect(() => {
     if (accounts.length > 0) {

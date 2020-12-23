@@ -1,5 +1,6 @@
 import Dizzy from './Dizzy'
 import Farming from './Farming'
+import Keplr from './Kelpr'
 import Seedling from './Seedling'
 
 type Props = {
@@ -13,6 +14,9 @@ const Icon = (props: Props) => {
   let SelectedIcon
 
   switch (name) {
+    case 'keplr':
+      SelectedIcon = Keplr
+      break
     case 'seedling':
       SelectedIcon = Seedling
       break

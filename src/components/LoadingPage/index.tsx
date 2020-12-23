@@ -1,4 +1,3 @@
-import { Spinner } from '@zendeskgarden/react-loaders'
 import { FC, memo } from 'react'
 
 import { Container, StyledSpinner } from './styles'

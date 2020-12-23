@@ -14,6 +14,7 @@ import { FC, memo, useMemo, useState } from 'react'
 import { useStoreActions, useStoreState } from '../../../utils/hooks/storeHooks'
 import keplr from '../../../utils/keplr'
 import truncateAddress from '../../../utils/truncateAddress'
+import GetKeplrModal from '../GetKeplrModal'
 import { Address, MainIcon, StyledButton } from './styles'
 
 const MainHeader: FC = () => {
@@ -26,6 +27,7 @@ const MainHeader: FC = () => {
 
   // component state
   const [loading, setLoading] = useState<boolean>(false)
+  const [visible, setVisible] = useState(false)
 
   const parsedAddress = useMemo(
     () => (isConnected ? truncateAddress(accounts[0].address) : ''),
@@ -42,6 +44,8 @@ const MainHeader: FC = () => {
       if (accountsResponse.accounts) {
         setAccounts(accountsResponse.accounts)
       }
+    } else if (connect.error?.message === 'Kelpr not installed.') {
+      setVisible(true)
     } else {
       setAccounts([])
     }
@@ -74,6 +78,7 @@ const MainHeader: FC = () => {
             )}
           </HeaderItemWrapper>
         </Header>
+        {visible && <GetKeplrModal setVisible={setVisible} />}
       </Body>
     </Chrome>
   )
