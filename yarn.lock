@@ -557,6 +557,14 @@
     "@babel/runtime" "^7.8.4"
     "@zendeskgarden/container-selection" "^1.3.7"
 
+"@zendeskgarden/container-field@^1.3.1":
+  version "1.3.5"
+  resolved "https://registry.yarnpkg.com/@zendeskgarden/container-field/-/container-field-1.3.5.tgz#1567f6d017c2287292b41699c76fa1ac41431da6"
+  integrity sha512-WM7IX4bBWZbARu09IycLMyHKt6fi6+WsV9nvNgyJZS0YuXtIvuNXQbTG+eMUWvf9OOALRES+KJeAQ3LvAKSpZg==
+  dependencies:
+    "@babel/runtime" "^7.8.4"
+    react-uid "^2.2.0"
+
 "@zendeskgarden/container-focusjail@^1.4.4":
   version "1.4.4"
   resolved "https://registry.yarnpkg.com/@zendeskgarden/container-focusjail/-/container-focusjail-1.4.4.tgz#c0510a3ec437f3cd45ad2833c0d7e9531bca9bc6"
@@ -607,12 +615,21 @@
     "@babel/runtime" "^7.8.4"
     "@zendeskgarden/container-utilities" "^0.5.4"
 
-"@zendeskgarden/container-utilities@^0.5.1", "@zendeskgarden/container-utilities@^0.5.4":
+"@zendeskgarden/container-utilities@^0.5.1", "@zendeskgarden/container-utilities@^0.5.3", "@zendeskgarden/container-utilities@^0.5.4":
   version "0.5.4"
   resolved "https://registry.yarnpkg.com/@zendeskgarden/container-utilities/-/container-utilities-0.5.4.tgz#8550404cafd0aab5ed80f3da0a51d424e8e3facb"
   integrity sha512-Iz6YZ6va3JIShzKXKjK4TCf168GSX+/XeeBr6o9MTJ4K84lO0F0ZX2GIFuZmacfkBjCXfyNxj4aua/5/1ZXyPg==
   dependencies:
     "@babel/runtime" "^7.8.4"
+
+"@zendeskgarden/react-accordions@^8.28.2":
+  version "8.28.2"
+  resolved "https://registry.yarnpkg.com/@zendeskgarden/react-accordions/-/react-accordions-8.28.2.tgz#63f87edd6447853343dfbf50467d33d0ee5fd101"
+  integrity sha512-mRSpbMjbN7u8jJLUFcJrMERiNJEJLIJtIbPKdHjwzwNdIgzhJDpN07svrX6TUkfY0USPM8nQ7fKVzG9R19MMDA==
+  dependencies:
+    "@zendeskgarden/container-accordion" "^1.0.0"
+    "@zendeskgarden/container-utilities" "^0.5.3"
+    polished "^4.0.0"
 
 "@zendeskgarden/react-buttons@^8.28.2":
   version "8.28.2"
@@ -630,6 +647,15 @@
   dependencies:
     "@zendeskgarden/container-accordion" "^1.0.0"
     "@zendeskgarden/container-keyboardfocus" "^0.4.1"
+    "@zendeskgarden/container-utilities" "^0.5.1"
+    polished "^4.0.0"
+
+"@zendeskgarden/react-forms@^8.28.2":
+  version "8.28.2"
+  resolved "https://registry.yarnpkg.com/@zendeskgarden/react-forms/-/react-forms-8.28.2.tgz#1825222c18ad52f1ed7ea9b263ab38e0b435d443"
+  integrity sha512-tc/TnJvtYD7/XxfdypBqb0CKJjQ2OxNDKtzpfXyJ/pwuvZZRFgdHvb+8ee4YADEj/lnEaK1UIM0tm3HRPxzP+A==
+  dependencies:
+    "@zendeskgarden/container-field" "^1.3.1"
     "@zendeskgarden/container-utilities" "^0.5.1"
     polished "^4.0.0"
 
