@@ -1,3 +1,4 @@
+import { Alert, Close, Title } from '@zendeskgarden/react-notifications'
 import styled from 'styled-components'
 
 const Forms = styled.div`
@@ -7,4 +8,12 @@ const Forms = styled.div`
   margin-top: ${(props) => props.theme.space.lg};
 `
 
-export { Forms }
+const StyledAlert = styled(Alert)`
+  bottom: 70px;
+  position: fixed;
+  right: 40px;
+  width: 500px;
+  word-break: break-word;
+`
+
+export { Forms, StyledAlert }

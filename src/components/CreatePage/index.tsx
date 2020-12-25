@@ -1,14 +1,20 @@
+import { Alert, Close, Title } from '@zendeskgarden/react-notifications'
+import { Code } from '@zendeskgarden/react-typography'
 import { FC, useReducer, useState } from 'react'
 
 import { useStoreState } from '../../../utils/hooks/storeHooks'
 import keplr from '../../../utils/keplr'
 import reducer from '../../../utils/reducer'
 import validate from '../../../utils/validators/createAuction'
-import { Container, InnerContainer, Title } from '../Common/StyledComponents'
+import {
+  Container,
+  InnerContainer,
+  Title as StyledTitle,
+} from '../Common/StyledComponents'
 import CreatedAuctionModal from '../CreatedAuctionModal'
 import Confirm from './Confirm'
 import Header from './Header'
-import { Forms } from './styles'
+import { Forms, StyledAlert } from './styles'
 import TokenForm from './TokenForm'
 
 export type Contract = {
@@ -68,8 +74,11 @@ const CreatePage: FC = () => {
     tokenAddress: '',
     amount: '',
   })
+  const [failed, setFailed] = useState('')
 
   const onSubmit = async () => {
+    setFailed('')
+
     const { hasError, sell, want } = validate({
       sell: sellContract,
       want: exchangeForContract,
@@ -128,6 +137,7 @@ const CreatePage: FC = () => {
       setVisible(true)
     } catch (error) {
       console.log('Error instantiating', error.message)
+      setFailed(error.message)
     }
 
     setLoading(false)
@@ -142,7 +152,7 @@ const CreatePage: FC = () => {
   return (
     <Container>
       <InnerContainer>
-        <Title>Create an auction</Title>
+        <StyledTitle>Create an auction</StyledTitle>
         <Header />
         <Forms>
           <TokenForm
@@ -177,6 +187,15 @@ const CreatePage: FC = () => {
           setVisible={setVisible}
           resetForms={resetForms}
         />
+      )}
+      {failed && (
+        <StyledAlert type="error">
+          <Title>Oopsie</Title>
+          Not too sure what happened but here's the response dump:
+          <br />
+          <Code hue="red">{failed}</Code>
+          <Close aria-label="Close Alert" onClick={() => setFailed('')} />
+        </StyledAlert>
       )}
     </Container>
   )

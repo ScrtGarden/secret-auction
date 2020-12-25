@@ -8,13 +8,14 @@
     "start": "next start"
   },
   "dependencies": {
-    "@zendeskgarden/react-accordions": "^8.28.2",
     "@zendeskgarden/react-buttons": "^8.28.2",
     "@zendeskgarden/react-chrome": "^8.28.2",
     "@zendeskgarden/react-forms": "^8.28.2",
     "@zendeskgarden/react-loaders": "^8.28.2",
     "@zendeskgarden/react-modals": "^8.28.2",
+    "@zendeskgarden/react-notifications": "^8.29.0",
     "@zendeskgarden/react-theming": "^8.28.2",
+    "@zendeskgarden/react-typography": "^8.29.0",
     "bech32": "^1.1.4",
     "easy-peasy": "^4.0.1",
     "next": "10.0.3",

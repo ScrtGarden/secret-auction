@@ -615,21 +615,12 @@
     "@babel/runtime" "^7.8.4"
     "@zendeskgarden/container-utilities" "^0.5.4"
 
-"@zendeskgarden/container-utilities@^0.5.1", "@zendeskgarden/container-utilities@^0.5.3", "@zendeskgarden/container-utilities@^0.5.4":
+"@zendeskgarden/container-utilities@^0.5.1", "@zendeskgarden/container-utilities@^0.5.4":
   version "0.5.4"
   resolved "https://registry.yarnpkg.com/@zendeskgarden/container-utilities/-/container-utilities-0.5.4.tgz#8550404cafd0aab5ed80f3da0a51d424e8e3facb"
   integrity sha512-Iz6YZ6va3JIShzKXKjK4TCf168GSX+/XeeBr6o9MTJ4K84lO0F0ZX2GIFuZmacfkBjCXfyNxj4aua/5/1ZXyPg==
   dependencies:
     "@babel/runtime" "^7.8.4"
-
-"@zendeskgarden/react-accordions@^8.28.2":
-  version "8.28.2"
-  resolved "https://registry.yarnpkg.com/@zendeskgarden/react-accordions/-/react-accordions-8.28.2.tgz#63f87edd6447853343dfbf50467d33d0ee5fd101"
-  integrity sha512-mRSpbMjbN7u8jJLUFcJrMERiNJEJLIJtIbPKdHjwzwNdIgzhJDpN07svrX6TUkfY0USPM8nQ7fKVzG9R19MMDA==
-  dependencies:
-    "@zendeskgarden/container-accordion" "^1.0.0"
-    "@zendeskgarden/container-utilities" "^0.5.3"
-    polished "^4.0.0"
 
 "@zendeskgarden/react-buttons@^8.28.2":
   version "8.28.2"
@@ -681,6 +672,11 @@
     react-popper "^2.2.3"
     react-transition-group "^4.4.1"
 
+"@zendeskgarden/react-notifications@^8.29.0":
+  version "8.29.0"
+  resolved "https://registry.yarnpkg.com/@zendeskgarden/react-notifications/-/react-notifications-8.29.0.tgz#b0f91b393b7774dd5ee2d53c1a44d7a2daee60a4"
+  integrity sha512-1h01JL1D9y9AV18UVNo8bqecEQ0rSMEeb1gzZOkZW7byUZ0HQtIhPUzKFTCFq5TzH+/BK8bvHLRt7j58/LVh1w==
+
 "@zendeskgarden/react-theming@^8.28.2":
   version "8.28.2"
   resolved "https://registry.yarnpkg.com/@zendeskgarden/react-theming/-/react-theming-8.28.2.tgz#36238f29ff2892a5d235308ad1ad81be635c6dc3"
@@ -689,6 +685,14 @@
     "@zendeskgarden/container-focusvisible" "^0.4.3"
     "@zendeskgarden/container-utilities" "^0.5.1"
     polished "^4.0.0"
+
+"@zendeskgarden/react-typography@^8.29.0":
+  version "8.29.0"
+  resolved "https://registry.yarnpkg.com/@zendeskgarden/react-typography/-/react-typography-8.29.0.tgz#afa136f90ef4fb9d06173b5ef99b03cf6ea634c9"
+  integrity sha512-faLw0iuzsiKk+DJTTN4TqvtVSHaAdAFaN2JP1COOl6aFo9LyD/hFZrKJFNGANhO/Ccr6x5bIa5yFAbC4LCHtdw==
+  dependencies:
+    polished "^4.0.0"
+    prism-react-renderer "^1.1.1"
 
 abort-controller@3.0.0:
   version "3.0.0"
@@ -3503,6 +3507,11 @@ prebuild-install@^5.3.5:
     tar-fs "^2.0.0"
     tunnel-agent "^0.6.0"
     which-pm-runs "^1.0.0"
+
+prism-react-renderer@^1.1.1:
+  version "1.1.1"
+  resolved "https://registry.yarnpkg.com/prism-react-renderer/-/prism-react-renderer-1.1.1.tgz#1c1be61b1eb9446a146ca7a50b7bcf36f2a70a44"
+  integrity sha512-MgMhSdHuHymNRqD6KM3eGS0PNqgK9q4QF5P0yoQQvpB6jNjeSAi3jcSAz0Sua/t9fa4xDOMar9HJbLa08gl9ug==
 
 process-nextick-args@~2.0.0:
   version "2.0.1"
