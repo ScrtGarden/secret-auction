@@ -1,7 +1,8 @@
-import { Alert, Close, Title } from '@zendeskgarden/react-notifications'
+import { Close, Title } from '@zendeskgarden/react-notifications'
 import { Code } from '@zendeskgarden/react-typography'
 import { FC, useReducer, useState } from 'react'
 
+import { CONTRACT_ID } from '../../../utils/constants'
 import { useStoreState } from '../../../utils/hooks/storeHooks'
 import keplr from '../../../utils/keplr'
 import reducer from '../../../utils/reducer'
@@ -93,7 +94,7 @@ const CreatePage: FC = () => {
 
     setLoading(true)
 
-    const { error, secretjs } = await keplr.sign()
+    const { error, secretjs } = await keplr.createClient()
 
     if (error) {
       console.log('Error signing.', error.message)
@@ -123,7 +124,7 @@ const CreatePage: FC = () => {
 
     try {
       const response = await secretjs.instantiate(
-        102,
+        CONTRACT_ID,
         body,
         `test-auction-${Math.floor(Math.random() * 10000)}`
       )
@@ -136,7 +137,7 @@ const CreatePage: FC = () => {
 
       setVisible(true)
     } catch (error) {
-      console.log('Error instantiating', error.message)
+      console.log('Error instantiating:', error.message)
       setFailed(error.message)
     }
 

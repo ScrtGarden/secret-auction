@@ -16,6 +16,7 @@ const Layout = ({ children }: Props) => {
   // store actions
   const setAccounts = useStoreActions((actions) => actions.auth.setAccounts)
 
+  // custom hooks
   const { loading, accounts } = useGetAccounts()
 
   useEffect(() => {

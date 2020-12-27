@@ -82,11 +82,13 @@ const MainHeader: FC = () => {
               </StyledHeaderItemText>
             </StyledHeaderItem>
           </Link>
-          <StyledHeaderItem>
-            <StyledHeaderItemText selected={pathname === '/bid'}>
-              Bid
-            </StyledHeaderItemText>
-          </StyledHeaderItem>
+          <Link href="/auctions">
+            <StyledHeaderItem>
+              <StyledHeaderItemText selected={pathname === '/auctions'}>
+                Auctions
+              </StyledHeaderItemText>
+            </StyledHeaderItem>
+          </Link>
           <HeaderItemWrapper>
             {!isConnected ? (
               <StyledButton isPrimary onClick={onStart}>

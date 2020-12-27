@@ -16,8 +16,14 @@ const MAP_ROUTE_AND_COLOR: MapRouteAndColor = {
     color: 'grey',
     strength: 100,
   },
+  '/auctions': {
+    color: 'grey',
+    strength: 100,
+  },
 }
 
 const CHAIN_EXPLORER = 'https://puzzle.report/secret/chains/holodeck-2/'
 
-export { MAP_ROUTE_AND_COLOR, CHAIN_EXPLORER }
+const CONTRACT_ID = 102
+
+export { MAP_ROUTE_AND_COLOR, CHAIN_EXPLORER, CONTRACT_ID }

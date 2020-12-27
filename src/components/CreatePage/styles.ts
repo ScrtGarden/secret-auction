@@ -1,4 +1,4 @@
-import { Alert, Close, Title } from '@zendeskgarden/react-notifications'
+import { Alert } from '@zendeskgarden/react-notifications'
 import styled from 'styled-components'
 
 const Forms = styled.div`
