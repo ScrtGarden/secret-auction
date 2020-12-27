@@ -1,6 +1,6 @@
-import { Action, Computed } from "easy-peasy";
+import { Action, Computed } from 'easy-peasy'
 
-import { StoreModel } from "..";
+import { StoreModel } from '..'
 
 export interface Account {
   address: string
@@ -16,4 +16,5 @@ export interface AuthModel extends AuthState {
   accounts: Account[]
   setAccounts: Action<AuthModel, Account[]>
   isWalletConnected: Computed<AuthModel, boolean>
+  connectedAddress: Computed<AuthModel, string>
 }

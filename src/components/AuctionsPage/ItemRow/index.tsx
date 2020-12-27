@@ -1,4 +1,3 @@
-import { Button } from '@zendeskgarden/react-buttons'
 import { Skeleton } from '@zendeskgarden/react-loaders'
 import { Cell, Row } from '@zendeskgarden/react-tables'
 import { FC, memo, useEffect, useState } from 'react'
