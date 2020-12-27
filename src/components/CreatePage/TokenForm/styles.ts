@@ -23,13 +23,6 @@ const Title = styled.h1`
   margin: 0;
 `
 
-const SubText = styled.p`
-  font-size: ${(props) => props.theme.fontSizes.sm};
-  font-weight: ${(props) => props.theme.fontWeights.semibold};
-  margin: 0 0 5px 0;
-  text-align: center;
-`
-
 const Fields = styled.div`
   padding: ${(props) => props.theme.space.sm};
 `
@@ -40,4 +33,4 @@ const Separator = styled.div`
   width: 100%;
 `
 
-export { Container, Separator, Header, Title, Fields, SubText, InnerContainer }
+export { Container, Separator, Header, Title, Fields, InnerContainer }

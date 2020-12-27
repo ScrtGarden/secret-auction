@@ -2,9 +2,9 @@ import { Close, Title } from '@zendeskgarden/react-notifications'
 import { Code } from '@zendeskgarden/react-typography'
 import { FC, useReducer, useState } from 'react'
 
-import { CONTRACT_ID } from '../../../utils/constants'
+import { FACTORY_CONTRACT_ADDRESS } from '../../../utils/constants'
 import { useStoreState } from '../../../utils/hooks/storeHooks'
-import keplr from '../../../utils/keplr'
+import useSecretJs from '../../../utils/hooks/useSecretJs'
 import reducer from '../../../utils/reducer'
 import validate from '../../../utils/validators/createAuction'
 import {
@@ -19,7 +19,6 @@ import { Forms, StyledAlert } from './styles'
 import TokenForm from './TokenForm'
 
 export type Contract = {
-  codeHash: string
   address: string
   amount: string
 }
@@ -37,7 +36,6 @@ export type ConsignData = {
 }
 
 const initialContractState: Contract = {
-  codeHash: '',
   address: '',
   amount: '',
 }
@@ -50,6 +48,7 @@ const initContractErrors: ContractErrors = {
 
 const CreatePage: FC = () => {
   const isConnected = useStoreState((state) => state.auth.isWalletConnected)
+  const { error, secretjs } = useSecretJs()
 
   const [sellContract, setSellContract] = useReducer(
     reducer,
@@ -70,7 +69,7 @@ const CreatePage: FC = () => {
   )
   const [loading, setLoading] = useState(false)
   const [visible, setVisible] = useState(false)
-  const [cosignData, setCosignData] = useState<ConsignData>({
+  const [cosignData, setConsignData] = useState<ConsignData>({
     contractAddress: '',
     tokenAddress: '',
     amount: '',
@@ -94,8 +93,6 @@ const CreatePage: FC = () => {
 
     setLoading(true)
 
-    const { error, secretjs } = await keplr.createClient()
-
     if (error) {
       console.log('Error signing.', error.message)
       setLoading(false)
@@ -103,41 +100,79 @@ const CreatePage: FC = () => {
     }
 
     if (!secretjs) {
-      console.log('Error creating secretjs instance.')
+      console.log('Error creating secretjs client.')
+      setLoading(false)
+      return
+    }
+
+    let sellCodeHash = ''
+    let exchangeForCodeHash = ''
+    try {
+      sellCodeHash = await secretjs.getCodeHashByContractAddr(
+        sellContract.address
+      )
+    } catch (error) {
+      console.log(
+        'Cannot find code hash with sell token contract address',
+        error
+      )
+      setSellContractErrors({
+        address: 'Cannot find code hash with this address.',
+      })
+      setLoading(false)
+      return
+    }
+
+    try {
+      exchangeForCodeHash = await secretjs.getCodeHashByContractAddr(
+        exchangeForContract.address
+      )
+    } catch (error) {
+      console.log(
+        'Cannot find code hash with exchange for token contract address',
+        error
+      )
+      setExchangeForContractErorrs({
+        address: 'Cannot find code hash with this address.',
+      })
       setLoading(false)
       return
     }
 
     const body = {
-      sell_contract: {
-        code_hash: sellContract.codeHash.trim(),
-        address: sellContract.address.trim(),
+      create_auction: {
+        label: `test-auction-${Math.floor(Math.random() * 10000)}`,
+        sell_contract: {
+          code_hash: sellCodeHash,
+          address: sellContract.address.trim(),
+        },
+        bid_contract: {
+          code_hash: exchangeForCodeHash,
+          address: exchangeForContract.address.trim(),
+        },
+        sell_amount: sellContract.amount,
+        minimum_bid: exchangeForContract.amount,
+        description: description,
       },
-      bid_contract: {
-        code_hash: exchangeForContract.codeHash.trim(),
-        address: exchangeForContract.address.trim(),
-      },
-      sell_amount: sellContract.amount,
-      minimum_bid: exchangeForContract.amount,
-      description: description,
     }
 
     try {
-      const response = await secretjs.instantiate(
-        CONTRACT_ID,
-        body,
-        `test-auction-${Math.floor(Math.random() * 10000)}`
-      )
+      const response = await secretjs.execute(FACTORY_CONTRACT_ADDRESS, body)
+      const contractAddress =
+        response.logs[0].events
+          .find((item) => item.type === 'message')
+          ?.attributes.find((item) => item.key === 'contract_address')?.value ||
+        ''
 
-      setCosignData({
-        contractAddress: response.contractAddress,
+      setConsignData({
+        contractAddress,
         tokenAddress: sellContract.address.trim(),
         amount: sellContract.amount,
       })
 
       setVisible(true)
     } catch (error) {
-      console.log('Error instantiating:', error.message)
+      console.log('Error creating:', error.message)
       setFailed(error.message)
     }
 
@@ -192,8 +227,6 @@ const CreatePage: FC = () => {
       {failed && (
         <StyledAlert type="error">
           <Title>Oopsie</Title>
-          Not too sure what happened but here's the response dump:
-          <br />
           <Code hue="red">{failed}</Code>
           <Close aria-label="Close Alert" onClick={() => setFailed('')} />
         </StyledAlert>

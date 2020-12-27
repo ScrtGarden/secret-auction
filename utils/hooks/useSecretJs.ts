@@ -2,12 +2,14 @@ import { useEffect, useState } from 'react'
 import { SigningCosmWasmClient } from 'secretjs'
 
 import keplr from '../keplr'
+import { useStoreState } from './storeHooks'
 
 type ErrorResponse = {
   message?: string
 }
 
 const useSecretJs = () => {
+  const isConnected = useStoreState((state) => state.auth.isWalletConnected)
   const [secretjs, setSecretJs] = useState<SigningCosmWasmClient>()
   const [error, setError] = useState<ErrorResponse | undefined>()
   const [loading, setLoading] = useState<boolean>(true)
@@ -19,8 +21,10 @@ const useSecretJs = () => {
     } = await keplr.createClient()
     if (secretjsResponse) {
       setSecretJs(secretjsResponse)
+      setError(undefined)
     } else {
       setError(errorResponse)
+      setSecretJs(undefined)
     }
     setLoading(false)
   }
@@ -35,7 +39,7 @@ const useSecretJs = () => {
     if (document.readyState !== 'complete') {
       return window.removeEventListener('load', async () => createClient())
     }
-  }, [])
+  }, [isConnected])
 
   return { error, secretjs, loading }
 }

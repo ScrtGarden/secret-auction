@@ -11,7 +11,7 @@ import {
 import { SetStateAction, useEffect, useState } from 'react'
 
 import { Contract } from '../../../interfaces'
-import { CONTRACT_ID } from '../../../utils/constants'
+import { AUCTION_CONTRACT_ID } from '../../../utils/constants'
 import useSecretJs from '../../../utils/hooks/useSecretJs'
 import {
   Container,
@@ -30,7 +30,7 @@ const AuctionsPage = () => {
 
   useEffect(() => {
     const getContracts = async () => {
-      const result = await secretjs?.getContracts(CONTRACT_ID)
+      const result = await secretjs?.getContracts(AUCTION_CONTRACT_ID)
       if (result) {
         setContracts(result)
       }

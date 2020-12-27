@@ -11,12 +11,10 @@ const validator = (data: Data) => {
   const sellErrors = {
     amount: '',
     address: '',
-    codeHash: '',
   }
   const forErrors = {
     amount: '',
     address: '',
-    codeHash: '',
   }
   const { sell, want } = data
 
@@ -28,10 +26,6 @@ const validator = (data: Data) => {
     sellErrors.address = 'Invalid address.'
     hasError = true
   }
-  if (!sell.codeHash) {
-    sellErrors.codeHash = 'Invalid code hash.'
-    hasError = true
-  }
 
   if (!want.amount || parseFloat(want.amount) <= 0) {
     forErrors.amount = 'Invalid amount.'
@@ -39,10 +33,6 @@ const validator = (data: Data) => {
   }
   if (!validateAddress(want.address)) {
     forErrors.address = 'Invalid address.'
-    hasError = true
-  }
-  if (!want.codeHash) {
-    forErrors.codeHash = 'Invalid code hash.'
     hasError = true
   }
 

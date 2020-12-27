@@ -47,7 +47,7 @@ const Confirm: FC<Props> = (props) => {
             onClick={onSubmit}
             disabled={loading || !isConnected}
           >
-            {loading ? <Dots size="20" /> : 'Create Auction!'}
+            {loading ? <Dots size="20" /> : 'Create Auction'}
           </Button>
         </Fields>
       </InnerContainer>
