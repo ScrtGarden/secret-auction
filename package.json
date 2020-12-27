@@ -15,6 +15,7 @@
     "@zendeskgarden/react-modals": "^8.28.2",
     "@zendeskgarden/react-notifications": "^8.29.0",
     "@zendeskgarden/react-tables": "^8.29.0",
+    "@zendeskgarden/react-tabs": "^8.29.0",
     "@zendeskgarden/react-tags": "^8.29.0",
     "@zendeskgarden/react-theming": "^8.28.2",
     "@zendeskgarden/react-typography": "^8.29.0",
