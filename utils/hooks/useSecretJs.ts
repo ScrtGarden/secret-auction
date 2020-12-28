@@ -12,13 +12,15 @@ const useSecretJs = () => {
   const isConnected = useStoreState((state) => state.auth.isWalletConnected)
   const [secretjs, setSecretJs] = useState<SigningCosmWasmClient>()
   const [error, setError] = useState<ErrorResponse | undefined>()
-  const [loading, setLoading] = useState<boolean>(true)
+  const [loading, setLoading] = useState<boolean>(false)
 
   const createClient = async () => {
+    setLoading(true)
     const {
       error: errorResponse,
       secretjs: secretjsResponse,
     } = await keplr.createClient()
+    console.log(errorResponse, secretjsResponse)
     if (secretjsResponse) {
       setSecretJs(secretjsResponse)
       setError(undefined)
