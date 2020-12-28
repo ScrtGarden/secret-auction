@@ -2,6 +2,8 @@ import Dizzy from './Dizzy'
 import Farming from './Farming'
 import Keplr from './Kelpr'
 import Seedling from './Seedling'
+import User from './User'
+import UserSecret from './UserSecret'
 
 type Props = {
   name?: string
@@ -14,6 +16,12 @@ const Icon = (props: Props) => {
   let SelectedIcon
 
   switch (name) {
+    case 'user':
+      SelectedIcon = User
+      break
+    case 'user-secret':
+      SelectedIcon = UserSecret
+      break
     case 'keplr':
       SelectedIcon = Keplr
       break
