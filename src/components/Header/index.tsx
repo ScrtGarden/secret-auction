@@ -30,6 +30,7 @@ const MainHeader: FC = () => {
 
   // store state
   const isConnected = useStoreState((state) => state.auth.isWalletConnected)
+  const address = useStoreState((state) => state.auth.connectedAddress)
 
   // store actions
   const setAccounts = useStoreActions((actions) => actions.auth.setAccounts)
@@ -91,9 +92,11 @@ const MainHeader: FC = () => {
                 {loading ? <Dots size="20" /> : 'Start'}
               </StyledButton>
             ) : (
-              <StyledAvatar backgroundColor={PALETTE.grey[600]}>
-                <StyledIcon name="user" />
-              </StyledAvatar>
+              <Link href="/profile/[id]" as={`/profile/${address}`}>
+                <StyledAvatar backgroundColor={PALETTE.grey[600]}>
+                  <StyledIcon name="user" />
+                </StyledAvatar>
+              </Link>
             )}
           </HeaderItemWrapper>
         </Header>
