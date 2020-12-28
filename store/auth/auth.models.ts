@@ -10,11 +10,12 @@ export interface Account {
 
 export interface AuthState {
   accounts: Account[]
+  viewingKey: string
 }
 
 export interface AuthModel extends AuthState {
-  accounts: Account[]
   setAccounts: Action<AuthModel, Account[]>
+  setViewingKey: Action<AuthModel, string>
   isWalletConnected: Computed<AuthModel, boolean>
   connectedAddress: Computed<AuthModel, string>
 }
