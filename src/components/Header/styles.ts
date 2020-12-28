@@ -1,3 +1,4 @@
+import { Avatar } from '@zendeskgarden/react-avatars'
 import { Button } from '@zendeskgarden/react-buttons'
 import {
   Body,
@@ -33,11 +34,6 @@ const MainIcon = styled(Icon)`
   width: 3rem;
 `
 
-const Address = styled(HeaderItemText)`
-  color: ${(props) => props.theme.palette.green[700]};
-  font-weight: ${(props) => props.theme.fontWeights.bold};
-`
-
 const StyledHeaderItemText = styled(HeaderItemText)<{ selected: boolean }>`
   color: ${(props) => props.theme.palette.grey[props.selected ? 800 : 600]};
   font-weight: ${(props) => (props.selected ? 'bold' : 'normal')};
@@ -51,13 +47,24 @@ const StyledHeaderItem = styled(HeaderItem)`
   cursor: pointer;
 `
 
+const StyledIcon = styled(Icon)`
+  fill: ${(props) => props.theme.palette.white};
+  height: 0.5rem;
+  width: 0.5rem;
+`
+
+const StyledAvatar = styled(Avatar)`
+  cursor: pointer;
+`
+
 export {
   Container,
   MainIcon,
-  Address,
   StyledButton,
   StyledHeaderItem,
   StyledChrome,
   StyledBody,
   StyledHeaderItemText,
+  StyledIcon,
+  StyledAvatar,
 }
