@@ -20,6 +20,10 @@ const MAP_ROUTE_AND_COLOR: MapRouteAndColor = {
     color: 'grey',
     strength: 100,
   },
+  '/profile/[id]': {
+    color: 'grey',
+    strength: 100,
+  },
 }
 
 const CHAIN_EXPLORER = 'https://puzzle.report/secret/chains/holodeck-2'
