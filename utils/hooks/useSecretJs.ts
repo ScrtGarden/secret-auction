@@ -20,7 +20,7 @@ const useSecretJs = () => {
       error: errorResponse,
       secretjs: secretjsResponse,
     } = await keplr.createClient()
-    console.log(errorResponse, secretjsResponse)
+
     if (secretjsResponse) {
       setSecretJs(secretjsResponse)
       setError(undefined)
