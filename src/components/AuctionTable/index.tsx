@@ -8,12 +8,12 @@ import {
 import { FC, memo, useEffect, useState } from 'react'
 import { SigningCosmWasmClient } from 'secretjs'
 
-import { Contract } from '../../../../interfaces'
-import ItemRow from '../ItemRow'
+import { AuctionInfo } from '../../../interfaces'
+import ItemRow from './ItemRow'
 import SkeletonRows from './SkeletonRows'
 
 type Props = {
-  data: readonly Contract[]
+  data: readonly AuctionInfo[]
   secretjs: SigningCosmWasmClient | undefined
   getContracts: () => void
   loading: boolean

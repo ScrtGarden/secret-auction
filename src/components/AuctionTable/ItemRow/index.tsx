@@ -1,9 +1,9 @@
 import { Skeleton } from '@zendeskgarden/react-loaders'
 import { Cell, Row } from '@zendeskgarden/react-tables'
-import { FC, memo, useEffect, useState } from 'react'
+import { FC, memo, useEffect, useMemo, useState } from 'react'
 import { SigningCosmWasmClient } from 'secretjs'
 
-import { AuctionInfo, Contract } from '../../../../interfaces'
+import { AuctionInfo, DetailedAuctionInfo } from '../../../../interfaces'
 import { StyledButton, StyledTag } from './styles'
 
 const status = {
@@ -14,7 +14,7 @@ const status = {
 }
 
 type Props = {
-  item: Contract
+  item: AuctionInfo
   secretjs: SigningCosmWasmClient | undefined
 }
 
@@ -46,10 +46,18 @@ const initialState = {
 
 const ItemRow: FC<Props> = (props) => {
   const { item, secretjs } = props
-  const { label, address } = item
+  const { label, address, minimum_bid, sell_amount, pair } = item
+
+  const { bidTokenSymbol, sellTokenSymbol } = useMemo(() => {
+    const pairSplit = pair.split('-')
+    return {
+      bidTokenSymbol: pairSplit[1],
+      sellTokenSymbol: pairSplit[0],
+    }
+  }, [pair])
 
   const [loading, setLoading] = useState(true)
-  const [extraInfo, setExtraInfo] = useState<AuctionInfo>(initialState)
+  const [extraInfo, setExtraInfo] = useState<DetailedAuctionInfo>(initialState)
 
   useEffect(() => {
     const getExtraInfo = async () => {
@@ -62,33 +70,12 @@ const ItemRow: FC<Props> = (props) => {
 
     getExtraInfo()
   }, [])
-
+  console.log(extraInfo)
   return (
     <Row>
       <Cell>{label}</Cell>
-      <Cell>
-        {loading ? (
-          <Skeleton height="14px" width="40%" />
-        ) : (
-          `${extraInfo.sell_amount} ${extraInfo.sell_token.token_info.symbol}`
-        )}
-      </Cell>
-      <Cell>
-        {loading ? (
-          <Skeleton height="14px" width="40%" />
-        ) : (
-          `${extraInfo.minimum_bid} ${extraInfo.bid_token.token_info.symbol}`
-        )}
-      </Cell>
-      <Cell>
-        {loading ? (
-          <Skeleton height="14px" width="20%" />
-        ) : (
-          <StyledButton size="small" disabled={extraInfo.status === 'Closed'}>
-            Bid
-          </StyledButton>
-        )}
-      </Cell>
+      <Cell>{`${sell_amount} ${sellTokenSymbol}`}</Cell>
+      <Cell>{`${minimum_bid} ${bidTokenSymbol}`}</Cell>
       <Cell>
         {loading ? (
           <Skeleton height="14px" width="20%" />
@@ -110,6 +97,15 @@ const ItemRow: FC<Props> = (props) => {
               </StyledTag>
             )}
           </>
+        )}
+      </Cell>
+      <Cell>
+        {loading ? (
+          <Skeleton height="14px" width="20%" />
+        ) : (
+          <StyledButton size="small" disabled={extraInfo.status === 'Closed'}>
+            Bid
+          </StyledButton>
         )}
       </Cell>
     </Row>
