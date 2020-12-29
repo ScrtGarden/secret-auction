@@ -5,7 +5,7 @@ export interface TokenInfo {
   total_supply: string
 }
 
-export interface AuctionInfo {
+export interface DetailedAuctionInfo {
   auction_address: string
   bid_token: {
     contract_address: string
@@ -21,9 +21,12 @@ export interface AuctionInfo {
   status: string
 }
 
-export interface Contract {
+export interface AuctionInfo {
   address: string
-  codeId: number
-  creator: string
   label: string
+  minimum_bid: string
+  pair: string
+  sell_amount: string
+  timestamp: number
+  winning_bid: string
 }
