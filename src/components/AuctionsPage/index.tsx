@@ -2,15 +2,15 @@ import { Tab, TabList, TabPanel, Tabs } from '@zendeskgarden/react-tabs'
 import { useRouter } from 'next/router'
 import { useEffect, useState } from 'react'
 
-import { Contract } from '../../../interfaces'
+import { AuctionInfo } from '../../../interfaces'
 import { FACTORY_CONTRACT_ADDRESS } from '../../../utils/constants'
 import useSecretJs from '../../../utils/hooks/useSecretJs'
+import AuctionTable from '../AuctionTable'
 import {
   Container,
   InnerContainer,
   Title as StyledTitle,
 } from '../Common/StyledComponents'
-import AuctionTable from './AuctionTable'
 
 const AuctionsPage = () => {
   const router = useRouter()
@@ -20,10 +20,10 @@ const AuctionsPage = () => {
   const { loading, error, secretjs } = useSecretJs()
 
   // component states
-  const [openContracts, setOpenContracts] = useState<readonly Contract[]>([])
-  const [closedContracts, setClosedContracts] = useState<readonly Contract[]>(
-    []
-  )
+  const [openContracts, setOpenContracts] = useState<readonly AuctionInfo[]>([])
+  const [closedContracts, setClosedContracts] = useState<
+    readonly AuctionInfo[]
+  >([])
   const [selectedTab, setSelectedTab] = useState(tab || 'open')
 
   useEffect(() => {
@@ -33,26 +33,30 @@ const AuctionsPage = () => {
   }, [tab])
 
   const getOpenContracts = async () => {
-    const { list_active_auctions } = await secretjs?.queryContractSmart(
+    const result = await secretjs?.queryContractSmart(
       FACTORY_CONTRACT_ADDRESS,
       {
         list_active_auctions: {},
       }
     )
-    if (list_active_auctions) {
+
+    const { list_active_auctions } = result
+    // console.log(result)
+    if (list_active_auctions.active) {
       setOpenContracts(list_active_auctions.active)
     }
   }
 
   const getClosedContracts = async () => {
-    const { list_closed_auctions } = await secretjs?.queryContractSmart(
+    const result = await secretjs?.queryContractSmart(
       FACTORY_CONTRACT_ADDRESS,
       {
         list_closed_auctions: {},
       }
     )
-
-    if (list_closed_auctions) {
+    const { list_closed_auctions } = result
+    // console.log(result)
+    if (list_closed_auctions.closed) {
       setClosedContracts(list_closed_auctions.closed)
     }
   }
@@ -72,6 +76,7 @@ const AuctionsPage = () => {
               secretjs={secretjs}
               getContracts={getOpenContracts}
               loading={loading}
+              type="open"
             />
           </TabPanel>
           <TabPanel item="closed">
@@ -80,6 +85,7 @@ const AuctionsPage = () => {
               secretjs={secretjs}
               getContracts={getClosedContracts}
               loading={loading}
+              type="closed"
             />
           </TabPanel>
         </Tabs>

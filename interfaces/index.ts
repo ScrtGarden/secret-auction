@@ -1,3 +1,8 @@
+export const enum AuctionStatus {
+  closed = 'closed',
+  open = 'open',
+}
+
 export interface TokenInfo {
   decimals: number
   name: string

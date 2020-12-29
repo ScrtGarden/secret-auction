@@ -8,7 +8,7 @@ import {
 import { FC, memo, useEffect, useState } from 'react'
 import { SigningCosmWasmClient } from 'secretjs'
 
-import { AuctionInfo } from '../../../interfaces'
+import { AuctionInfo, AuctionStatus } from '../../../interfaces'
 import ItemRow from './ItemRow'
 import SkeletonRows from './SkeletonRows'
 
@@ -17,10 +17,11 @@ type Props = {
   secretjs: SigningCosmWasmClient | undefined
   getContracts: () => void
   loading: boolean
+  type?: AuctionStatus
 }
 
 const AuctionTable: FC<Props> = (props) => {
-  const { data, secretjs, getContracts, loading } = props
+  const { data, secretjs, getContracts, loading, type } = props
 
   const [fetching, setFetching] = useState(true)
 
@@ -42,8 +43,9 @@ const AuctionTable: FC<Props> = (props) => {
           <HeaderCell>Label</HeaderCell>
           <HeaderCell>Trading</HeaderCell>
           <HeaderCell>Minimum Bid</HeaderCell>
-          <HeaderCell>Actions</HeaderCell>
           <HeaderCell>Status</HeaderCell>
+          {type === 'closed' && <HeaderCell>Finalised</HeaderCell>}
+          {type === 'open' && <HeaderCell>Actions</HeaderCell>}
         </HeaderRow>
       </Head>
       <Body>
@@ -51,7 +53,12 @@ const AuctionTable: FC<Props> = (props) => {
           <SkeletonRows />
         ) : (
           data.map((item) => (
-            <ItemRow key={item.address} item={item} secretjs={secretjs} />
+            <ItemRow
+              key={item.address}
+              item={item}
+              secretjs={secretjs}
+              type={type}
+            />
           ))
         )}
       </Body>

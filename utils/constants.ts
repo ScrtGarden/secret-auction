@@ -29,8 +29,12 @@ const MAP_ROUTE_AND_COLOR: MapRouteAndColor = {
 const CHAIN_EXPLORER = 'https://puzzle.report/secret/chains/holodeck-2'
 
 const AUCTION_CONTRACT_ID = 171
-const FACTORY_CONTRACT_ID = 170
-const FACTORY_CONTRACT_ADDRESS = 'secret1s0l9vyh8futvlctv4nup8pa8lfz9u4rgcye7c2'
+
+// const FACTORY_CONTRACT_ID = 170
+// const FACTORY_CONTRACT_ADDRESS = 'secret1s0l9vyh8futvlctv4nup8pa8lfz9u4rgcye7c2'
+
+const FACTORY_CONTRACT_ID = 176
+const FACTORY_CONTRACT_ADDRESS = 'secret1q5dadwv9dtvqde7l8tvkm0zlgn0hqr9vkla5pn'
 
 export {
   MAP_ROUTE_AND_COLOR,
