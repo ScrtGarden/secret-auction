@@ -2,7 +2,7 @@ import { Tab, TabList, TabPanel, Tabs } from '@zendeskgarden/react-tabs'
 import { useRouter } from 'next/router'
 import { useEffect, useState } from 'react'
 
-import { AuctionInfo } from '../../../interfaces'
+import { AuctionInfo, AuctionStatus } from '../../../interfaces'
 import { FACTORY_CONTRACT_ADDRESS } from '../../../utils/constants'
 import useSecretJs from '../../../utils/hooks/useSecretJs'
 import AuctionTable from '../AuctionTable'
@@ -76,7 +76,7 @@ const AuctionsPage = () => {
               secretjs={secretjs}
               getContracts={getOpenContracts}
               loading={loading}
-              type="open"
+              type={AuctionStatus.open}
             />
           </TabPanel>
           <TabPanel item="closed">
@@ -85,7 +85,7 @@ const AuctionsPage = () => {
               secretjs={secretjs}
               getContracts={getClosedContracts}
               loading={loading}
-              type="closed"
+              type={AuctionStatus.closed}
             />
           </TabPanel>
         </Tabs>

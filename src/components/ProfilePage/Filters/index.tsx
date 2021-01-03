@@ -41,7 +41,7 @@ const Filters: FC<Props> = (props) => {
           onChange={onChange}
         />
       </Field>
-      <Dropdown
+      {/* <Dropdown
         onSelect={onSelect}
         onStateChange={(options) =>
           Object.prototype.hasOwnProperty.call(options, 'isOpen') &&
@@ -63,7 +63,7 @@ const Filters: FC<Props> = (props) => {
             </Item>
           ))}
         </Menu>
-      </Dropdown>
+      </Dropdown> */}
     </Container>
   )
 }

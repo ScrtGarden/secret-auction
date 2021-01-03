@@ -1,78 +1,27 @@
 import { Skeleton } from '@zendeskgarden/react-loaders'
 import { Cell, Row } from '@zendeskgarden/react-tables'
-import { memo } from 'react'
+import { FC, memo } from 'react'
 
-const SkeletonRows = () => {
+type Props = {
+  rows: number
+  columns: number
+}
+
+const SkeletonRows: FC<Props> = ({ rows = 3, columns = 3 }) => {
+  const numOfRows = Array.from(Array(rows).keys())
+  const numOfColumns = Array.from(Array(columns).keys())
+
   return (
     <>
-      <Row>
-        <Cell>
-          <Skeleton height="14px" width="50%" />
-        </Cell>
-        <Cell>
-          <Skeleton height="14px" width="40%" />
-        </Cell>
-        <Cell>
-          <Skeleton height="14px" width="40%" />
-        </Cell>
-        <Cell>
-          <Skeleton height="14px" width="20%" />
-        </Cell>
-        <Cell>
-          <Skeleton height="14px" width="20%" />
-        </Cell>
-      </Row>
-      <Row>
-        <Cell>
-          <Skeleton height="14px" width="40%" />
-        </Cell>
-        <Cell>
-          <Skeleton height="14px" width="40%" />
-        </Cell>
-        <Cell>
-          <Skeleton height="14px" width="40%" />
-        </Cell>
-        <Cell>
-          <Skeleton height="14px" width="20%" />
-        </Cell>
-        <Cell>
-          <Skeleton height="14px" width="20%" />
-        </Cell>
-      </Row>
-      <Row>
-        <Cell>
-          <Skeleton height="14px" width="25%" />
-        </Cell>
-        <Cell>
-          <Skeleton height="14px" width="40%" />
-        </Cell>
-        <Cell>
-          <Skeleton height="14px" width="40%" />
-        </Cell>
-        <Cell>
-          <Skeleton height="14px" width="20%" />
-        </Cell>
-        <Cell>
-          <Skeleton height="14px" width="20%" />
-        </Cell>
-      </Row>
-      <Row>
-        <Cell>
-          <Skeleton height="14px" width="35%" />
-        </Cell>
-        <Cell>
-          <Skeleton height="14px" width="40%" />
-        </Cell>
-        <Cell>
-          <Skeleton height="14px" width="40%" />
-        </Cell>
-        <Cell>
-          <Skeleton height="14px" width="20%" />
-        </Cell>
-        <Cell>
-          <Skeleton height="14px" width="20%" />
-        </Cell>
-      </Row>
+      {numOfRows.map((row) => (
+        <Row key={row}>
+          {numOfColumns.map((column) => (
+            <Cell key={column}>
+              <Skeleton height="14px" width="40%" />
+            </Cell>
+          ))}
+        </Row>
+      ))}
     </>
   )
 }

@@ -8,25 +8,26 @@ import {
 import { FC, memo, useEffect, useState } from 'react'
 import { SigningCosmWasmClient } from 'secretjs'
 
-import { AuctionInfo, AuctionStatus } from '../../../interfaces'
+import { AuctionInfoUi, AuctionStatus } from '../../../interfaces'
 import ItemRow from './ItemRow'
 import SkeletonRows from './SkeletonRows'
 
 type Props = {
-  data: readonly AuctionInfo[]
+  data: readonly AuctionInfoUi[]
   secretjs: SigningCosmWasmClient | undefined
   getContracts: () => void
   loading: boolean
-  type?: AuctionStatus
+  type: AuctionStatus
 }
 
 const AuctionTable: FC<Props> = (props) => {
   const { data, secretjs, getContracts, loading, type } = props
 
-  const [fetching, setFetching] = useState(true)
+  const [fetching, setFetching] = useState(false)
 
   useEffect(() => {
     const goGetContracts = async () => {
+      setFetching(true)
       const response = await getContracts()
       setFetching(false)
     }
@@ -44,13 +45,17 @@ const AuctionTable: FC<Props> = (props) => {
           <HeaderCell>Trading</HeaderCell>
           <HeaderCell>Minimum Bid</HeaderCell>
           <HeaderCell>Status</HeaderCell>
-          {type === 'closed' && <HeaderCell>Finalised</HeaderCell>}
-          {type === 'open' && <HeaderCell>Actions</HeaderCell>}
+          {(type === 'closed' || type === 'both') && (
+            <HeaderCell>Finalised</HeaderCell>
+          )}
+          {(type === 'open' || type === 'both') && (
+            <HeaderCell>Actions</HeaderCell>
+          )}
         </HeaderRow>
       </Head>
       <Body>
         {fetching ? (
-          <SkeletonRows />
+          <SkeletonRows rows={4} columns={type === 'both' ? 6 : 5} />
         ) : (
           data.map((item) => (
             <ItemRow

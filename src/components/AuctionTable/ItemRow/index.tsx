@@ -5,10 +5,11 @@ import { FC, memo, useEffect, useMemo, useState } from 'react'
 import { SigningCosmWasmClient } from 'secretjs'
 
 import {
-  AuctionInfo,
+  AuctionInfoUi,
   AuctionStatus,
   DetailedAuctionInfo,
 } from '../../../../interfaces'
+import MultiActionButton from '../MultiActionButton'
 import { StyledButton, StyledTag } from './styles'
 
 const status = {
@@ -19,7 +20,7 @@ const status = {
 }
 
 type Props = {
-  item: AuctionInfo
+  item: AuctionInfoUi
   secretjs: SigningCosmWasmClient | undefined
   type: AuctionStatus
 }
@@ -52,7 +53,15 @@ const initialState = {
 
 const ItemRow: FC<Props> = (props) => {
   const { item, secretjs, type } = props
-  const { label, address, minimum_bid, sell_amount, pair, timestamp } = item
+  const {
+    label,
+    address,
+    minimum_bid,
+    sell_amount,
+    pair,
+    timestamp,
+    active,
+  } = item
 
   const { bidTokenSymbol, sellTokenSymbol } = useMemo(() => {
     const pairSplit = pair.split('-')
@@ -110,19 +119,23 @@ const ItemRow: FC<Props> = (props) => {
               <span>Closed</span>
             </StyledTag>
           )}
-          {type === 'open' && (
+          {(type === 'open' || active) && (
             <StyledTag hue="#5EAE91" size="small">
               <span style={{ color: 'white' }}>Open</span>
             </StyledTag>
           )}
         </>
       </Cell>
-      {type === 'closed' && (
-        <Cell>{format(timestamp * 1000, 'do MMM yyyy')}</Cell>
+      {(type === 'closed' || type === 'both') && (
+        <Cell>{timestamp ? format(timestamp * 1000, 'do MMM yyyy') : ''}</Cell>
       )}
-      {type === 'open' && (
+      {(type === 'open' || type === 'both') && (
         <Cell>
-          <StyledButton size="small">Bid</StyledButton>
+          {type === 'both' ? (
+            <MultiActionButton />
+          ) : (
+            <StyledButton>Bid</StyledButton>
+          )}
         </Cell>
       )}
     </Row>
