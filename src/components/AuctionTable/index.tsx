@@ -43,7 +43,9 @@ const AuctionTable: FC<Props> = (props) => {
         <HeaderRow>
           <HeaderCell>Label</HeaderCell>
           <HeaderCell>Trading</HeaderCell>
-          <HeaderCell>Minimum Bid</HeaderCell>
+          <HeaderCell>
+            {type === 'closed' ? 'Winning' : 'Minimum'} bid
+          </HeaderCell>
           <HeaderCell>Status</HeaderCell>
           {(type === 'closed' || type === 'both') && (
             <HeaderCell>Finalised</HeaderCell>

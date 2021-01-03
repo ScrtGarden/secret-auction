@@ -9,6 +9,7 @@ import {
   AuctionStatus,
   DetailedAuctionInfo,
 } from '../../../../interfaces'
+import toHighestDenominator from '../../../../utils/toHighestDenominator'
 import MultiActionButton from '../MultiActionButton'
 import { StyledButton, StyledTag } from './styles'
 
@@ -61,6 +62,9 @@ const ItemRow: FC<Props> = (props) => {
     pair,
     timestamp,
     active,
+    sell_decimals,
+    winning_bid,
+    bid_decimals,
   } = item
 
   const { bidTokenSymbol, sellTokenSymbol } = useMemo(() => {
@@ -89,8 +93,21 @@ const ItemRow: FC<Props> = (props) => {
   return (
     <Row>
       <Cell>{label}</Cell>
-      <Cell>{`${sell_amount} ${sellTokenSymbol}`}</Cell>
-      <Cell>{`${minimum_bid} ${bidTokenSymbol}`}</Cell>
+      <Cell>{`${toHighestDenominator(
+        sell_amount,
+        sell_decimals
+      )} ${sellTokenSymbol}`}</Cell>
+      {type === 'closed' && (
+        <Cell>
+          {winning_bid && bid_decimals
+            ? `${toHighestDenominator(
+                winning_bid,
+                bid_decimals
+              )} ${bidTokenSymbol}`
+            : ''}
+        </Cell>
+      )}
+      {type !== 'closed' && <Cell>{`${minimum_bid} ${bidTokenSymbol}`}</Cell>}
       <Cell>
         {/* {loading ? (
           <Skeleton height="14px" width="20%" />
