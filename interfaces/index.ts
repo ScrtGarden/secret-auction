@@ -1,6 +1,7 @@
-export const enum AuctionStatus {
+export enum AuctionStatus {
   closed = 'closed',
   open = 'open',
+  both = 'both',
 }
 
 export interface TokenInfo {
@@ -29,9 +30,17 @@ export interface DetailedAuctionInfo {
 export interface AuctionInfo {
   address: string
   label: string
-  minimum_bid: string
   pair: string
   sell_amount: string
-  timestamp: number
-  winning_bid: string
+  sell_decimals: number
+  minimum_bid?: string
+  bid_decimals?: number
+  winning_bid?: string
+  timestamp?: number
+}
+
+export interface AuctionInfoUi extends AuctionInfo {
+  active?: boolean
+  winner?: boolean
+  seller?: boolean
 }
