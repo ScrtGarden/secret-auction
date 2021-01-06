@@ -33,8 +33,8 @@ const AUCTION_CONTRACT_ID = 171
 // const FACTORY_CONTRACT_ID = 170
 // const FACTORY_CONTRACT_ADDRESS = 'secret1s0l9vyh8futvlctv4nup8pa8lfz9u4rgcye7c2'
 
-const FACTORY_CONTRACT_ID = 179
-const FACTORY_CONTRACT_ADDRESS = 'secret1fr3m662gpe97jw2xgg4hfkn8lufq4hf8k6zn0a'
+const FACTORY_CONTRACT_ID = 214
+const FACTORY_CONTRACT_ADDRESS = 'secret1n8d8ma2ae4fgchw2wdvfvtwsy7pa4h02u93m9m'
 
 const OPEN_OWNER_ACTIONS = {
   consign: 'Consign',
@@ -50,6 +50,8 @@ const CLOSED_AUCTION_ACTIONS = {
   return: 'Return All',
 }
 
+const DATE_FORMAT = 'do MMM yyyy'
+
 export {
   MAP_ROUTE_AND_COLOR,
   CHAIN_EXPLORER,
@@ -58,4 +60,5 @@ export {
   FACTORY_CONTRACT_ADDRESS,
   OPEN_OWNER_ACTIONS,
   OPEN_BIDDER_ACTIONS,
+  DATE_FORMAT,
 }
