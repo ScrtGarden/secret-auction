@@ -19,7 +19,7 @@ const useSecretJs = () => {
     const {
       error: errorResponse,
       secretjs: secretjsResponse,
-    } = await keplr.createClient()
+    } = await keplr.createSigningClient()
 
     if (secretjsResponse) {
       setSecretJs(secretjsResponse)
