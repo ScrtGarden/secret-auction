@@ -9,7 +9,8 @@ import {
   AuctionStatus,
   DetailedAuctionInfo,
 } from '../../../../interfaces'
-import toHighestDenominator from '../../../../utils/toHighestDenominator'
+import { DATE_FORMAT } from '../../../../utils/constants'
+import toBiggestDenomination from '../../../../utils/toBiggestDenomination'
 import MultiActionButton from '../MultiActionButton'
 import { StyledButton, StyledTag } from './styles'
 
@@ -22,7 +23,6 @@ const status = {
 
 type Props = {
   item: AuctionInfoUi
-  secretjs: SigningCosmWasmClient | undefined
   type: AuctionStatus
 }
 
@@ -53,7 +53,7 @@ const initialState = {
 }
 
 const ItemRow: FC<Props> = (props) => {
-  const { item, secretjs, type } = props
+  const { item, type } = props
   const {
     label,
     address,
@@ -93,21 +93,26 @@ const ItemRow: FC<Props> = (props) => {
   return (
     <Row>
       <Cell>{label}</Cell>
-      <Cell>{`${toHighestDenominator(
+      <Cell>{`${toBiggestDenomination(
         sell_amount,
         sell_decimals
       )} ${sellTokenSymbol}`}</Cell>
       {type === 'closed' && (
         <Cell>
           {winning_bid && bid_decimals
-            ? `${toHighestDenominator(
+            ? `${toBiggestDenomination(
                 winning_bid,
                 bid_decimals
               )} ${bidTokenSymbol}`
             : ''}
         </Cell>
       )}
-      {type !== 'closed' && <Cell>{`${minimum_bid} ${bidTokenSymbol}`}</Cell>}
+      {type !== 'closed' && (
+        <Cell>{`${toBiggestDenomination(
+          minimum_bid,
+          bid_decimals
+        )} ${bidTokenSymbol}`}</Cell>
+      )}
       <Cell>
         {/* {loading ? (
           <Skeleton height="14px" width="20%" />
@@ -144,7 +149,7 @@ const ItemRow: FC<Props> = (props) => {
         </>
       </Cell>
       {(type === 'closed' || type === 'both') && (
-        <Cell>{timestamp ? format(timestamp * 1000, 'do MMM yyyy') : ''}</Cell>
+        <Cell>{timestamp ? format(timestamp * 1000, DATE_FORMAT) : ''}</Cell>
       )}
       {(type === 'open' || type === 'both') && (
         <Cell>

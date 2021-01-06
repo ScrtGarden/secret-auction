@@ -1,10 +1,10 @@
 import { Tab, TabList, TabPanel, Tabs } from '@zendeskgarden/react-tabs'
 import { useRouter } from 'next/router'
-import { useEffect, useState } from 'react'
+import { useContext, useEffect, useState } from 'react'
 
 import { AuctionInfo, AuctionStatus } from '../../../interfaces'
 import { FACTORY_CONTRACT_ADDRESS } from '../../../utils/constants'
-import useSecretJs from '../../../utils/hooks/useSecretJs'
+import { SecretJsContext } from '../../../utils/secretjs'
 import AuctionTable from '../AuctionTable'
 import {
   Container,
@@ -16,8 +16,7 @@ const AuctionsPage = () => {
   const router = useRouter()
   const { tab } = router.query
 
-  // custom hooks
-  const { loading, error, secretjs } = useSecretJs()
+  const { secretjs } = useContext(SecretJsContext)
 
   // component states
   const [openContracts, setOpenContracts] = useState<readonly AuctionInfo[]>([])
@@ -25,6 +24,7 @@ const AuctionsPage = () => {
     readonly AuctionInfo[]
   >([])
   const [selectedTab, setSelectedTab] = useState(tab || 'open')
+  const [loading, setLoading] = useState(false)
 
   useEffect(() => {
     if (tab) {
@@ -73,18 +73,14 @@ const AuctionsPage = () => {
           <TabPanel item="open">
             <AuctionTable
               data={openContracts}
-              secretjs={secretjs}
               getContracts={getOpenContracts}
-              loading={loading}
               type={AuctionStatus.open}
             />
           </TabPanel>
           <TabPanel item="closed">
             <AuctionTable
               data={closedContracts}
-              secretjs={secretjs}
               getContracts={getClosedContracts}
-              loading={loading}
               type={AuctionStatus.closed}
             />
           </TabPanel>

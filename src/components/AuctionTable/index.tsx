@@ -6,7 +6,6 @@ import {
   Table,
 } from '@zendeskgarden/react-tables'
 import { FC, memo, useEffect, useState } from 'react'
-import { SigningCosmWasmClient } from 'secretjs'
 
 import { AuctionInfoUi, AuctionStatus } from '../../../interfaces'
 import ItemRow from './ItemRow'
@@ -14,28 +13,24 @@ import SkeletonRows from './SkeletonRows'
 
 type Props = {
   data: readonly AuctionInfoUi[]
-  secretjs: SigningCosmWasmClient | undefined
   getContracts: () => void
-  loading: boolean
   type: AuctionStatus
 }
 
 const AuctionTable: FC<Props> = (props) => {
-  const { data, secretjs, getContracts, loading, type } = props
+  const { data, getContracts, type } = props
 
   const [fetching, setFetching] = useState(false)
 
   useEffect(() => {
     const goGetContracts = async () => {
       setFetching(true)
-      const response = await getContracts()
+      await getContracts()
       setFetching(false)
     }
 
-    if (secretjs) {
-      goGetContracts()
-    }
-  }, [loading])
+    goGetContracts()
+  }, [])
 
   return (
     <Table>
@@ -60,12 +55,7 @@ const AuctionTable: FC<Props> = (props) => {
           <SkeletonRows rows={4} columns={type === 'both' ? 6 : 5} />
         ) : (
           data.map((item) => (
-            <ItemRow
-              key={item.address}
-              item={item}
-              secretjs={secretjs}
-              type={type}
-            />
+            <ItemRow key={item.address} item={item} type={type} />
           ))
         )}
       </Body>
