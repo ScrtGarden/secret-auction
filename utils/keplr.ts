@@ -100,7 +100,7 @@ const getAccounts = async () => {
   }
 }
 
-const createClient = async () => {
+const createSigningClient = async () => {
   const { accounts, signer, error } = await getAccounts()
 
   if (error) {
@@ -137,5 +137,5 @@ const createClient = async () => {
 export default {
   connect,
   getAccounts,
-  createClient,
+  createSigningClient,
 }
