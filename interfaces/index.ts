@@ -8,7 +8,7 @@ export interface TokenInfo {
   decimals: number
   name: string
   symbol: string
-  total_supply: string
+  total_supply?: string
 }
 
 export interface DetailedAuctionInfo {
