@@ -16,4 +16,10 @@ const StyledAlert = styled(Alert)`
   word-break: break-word;
 `
 
-export { Forms, StyledAlert }
+const Wrapper = styled.div`
+  column-gap: ${(props) => props.theme.space.lg};
+  display: flex;
+  flex-direction: row;
+`
+
+export { Forms, StyledAlert, Wrapper }
