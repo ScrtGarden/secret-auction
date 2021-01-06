@@ -8,9 +8,11 @@
     "start": "next start"
   },
   "dependencies": {
+    "@zendeskgarden/react-accordions": "^8.29.1",
     "@zendeskgarden/react-avatars": "^8.29.0",
     "@zendeskgarden/react-buttons": "^8.28.2",
     "@zendeskgarden/react-chrome": "^8.28.2",
+    "@zendeskgarden/react-datepickers": "^8.29.1",
     "@zendeskgarden/react-dropdowns": "^8.29.0",
     "@zendeskgarden/react-forms": "^8.28.2",
     "@zendeskgarden/react-loaders": "^8.29.0",
@@ -23,6 +25,7 @@
     "@zendeskgarden/react-tooltips": "8.28.2",
     "@zendeskgarden/react-typography": "^8.29.0",
     "bech32": "^1.1.4",
+    "big.js": "^6.0.3",
     "crypto-random-string": "^3.3.0",
     "date-fns": "^2.16.1",
     "easy-peasy": "^4.0.1",
@@ -34,6 +37,7 @@
     "styled-normalize": "^8.0.7"
   },
   "devDependencies": {
+    "@types/big.js": "^6.0.2",
     "@types/node": "^14.14.12",
     "@types/react": "^17.0.0",
     "@types/styled-components": "^5.1.7",
