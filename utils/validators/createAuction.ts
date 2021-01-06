@@ -19,20 +19,20 @@ const validator = (data: Data) => {
   const { sell, want } = data
 
   if (!sell.amount || parseFloat(sell.amount) <= 0) {
-    sellErrors.amount = 'Invalid amount.'
+    sellErrors.amount = 'Invalid amount'
     hasError = true
   }
   if (!validateAddress(sell.address)) {
-    sellErrors.address = 'Invalid address.'
+    sellErrors.address = 'Invalid snip-20 contract address'
     hasError = true
   }
 
   if (!want.amount || parseFloat(want.amount) <= 0) {
-    forErrors.amount = 'Invalid amount.'
+    forErrors.amount = 'Invalid amount'
     hasError = true
   }
   if (!validateAddress(want.address)) {
-    forErrors.address = 'Invalid address.'
+    forErrors.address = 'Invalid snip-20 contract address'
     hasError = true
   }
 
