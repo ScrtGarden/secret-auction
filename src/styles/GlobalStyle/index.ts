@@ -1,4 +1,4 @@
-import { createGlobalStyle } from "styled-components"
+import { createGlobalStyle } from 'styled-components'
 import { normalize } from 'styled-normalize'
 
 const GlobalStyle = createGlobalStyle`
@@ -10,20 +10,20 @@ const GlobalStyle = createGlobalStyle`
 
   html {
     font-size: 62.5%;
-    height: 100%;
+    min-height: 100vh;
   }
 
   body {
     font-family: 'Open Sans';
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
-    height: inherit;
+    min-height: inherit;
   }
 
   #__next {
     display: flex;
     flex-direction: column;
-    height: inherit;
+    min-height: inherit;
   }
 
   @font-face {

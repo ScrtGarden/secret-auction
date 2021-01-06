@@ -12,7 +12,9 @@ import { RouteAndColor } from '../../../utils/constants'
 import Icon from '../Icons'
 
 const StyledChrome = styled(Chrome)`
-  height: 82px;
+  && {
+    height: 82px;
+  }
 `
 
 const StyledBody = styled(Body)<{ background: RouteAndColor }>`

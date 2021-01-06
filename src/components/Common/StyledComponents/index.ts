@@ -1,4 +1,11 @@
+import { Message } from '@zendeskgarden/react-forms'
 import styled from 'styled-components'
+
+type SeparatorProps = {
+  readonly sm?: boolean
+  readonly md?: boolean
+  readonly lg?: boolean
+}
 
 const Container = styled.div`
   flex: 1;
@@ -23,4 +30,14 @@ const FieldGrid = styled.div`
   row-gap: 10px;
 `
 
-export { Container, InnerContainer, Title, FieldGrid }
+const StyledMessage = styled(Message)`
+  margin-top: ${(props) => props.theme.space.xs};
+`
+
+const Separator = styled.div<SeparatorProps>`
+  ${(props) => props.sm && `height: ${props.theme.space.sm}`};
+  ${(props) => props.md && `height: ${props.theme.space.md}`};
+  ${(props) => props.lg && `height: ${props.theme.space.lg}`};
+`
+
+export { Container, InnerContainer, Title, FieldGrid, StyledMessage, Separator }
