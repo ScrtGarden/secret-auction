@@ -3,20 +3,21 @@ import { StoreProvider } from 'easy-peasy'
 import { AppProps } from 'next/app'
 
 import GlobalStyle from '../src/styles/GlobalStyle'
-import theme from '../src/styles/theme'
 import { useStore } from '../store'
-
-// import { ThemeProvider } from 'styled-components'
+import { SecretJsContext, useCosmWasmClient } from '../utils/secretjs'
 
 const MyApp = ({ Component, pageProps }: AppProps) => {
   const store = useStore(pageProps.initialState)
+  const client = useCosmWasmClient()
 
   return (
     <StoreProvider store={store}>
-      <ThemeProvider focusVisibleRef={null}>
-        <GlobalStyle />
-        <Component {...pageProps} />
-      </ThemeProvider>
+      <SecretJsContext.Provider value={{ secretjs: client }}>
+        <ThemeProvider focusVisibleRef={null}>
+          <GlobalStyle />
+          <Component {...pageProps} />
+        </ThemeProvider>
+      </SecretJsContext.Provider>
     </StoreProvider>
   )
 }
