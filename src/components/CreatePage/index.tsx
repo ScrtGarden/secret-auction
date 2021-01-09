@@ -5,9 +5,7 @@ import { endOfDay } from 'date-fns'
 import { FC, useContext, useReducer, useState } from 'react'
 
 import { FACTORY_CONTRACT_ADDRESS } from '../../../utils/constants'
-import decoder from '../../../utils/decoder'
 import { useStoreActions, useStoreState } from '../../../utils/hooks/storeHooks'
-import useSecretJs from '../../../utils/hooks/useSecretJs'
 import keplr from '../../../utils/keplr'
 import reducer from '../../../utils/reducer'
 import { SecretJsContext } from '../../../utils/secretjs'
@@ -18,11 +16,9 @@ import {
   InnerContainer,
   Title as StyledTitle,
 } from '../Common/StyledComponents'
-import CreatedAuctionModal from '../CreatedAuctionModal'
 import CreateForm from './CreateForm'
 import ProgressStepper from './ProgressStepper'
 import { Grid, StyledAlert } from './styles'
-import TokenForm from './TokenForm'
 
 export type Contract = {
   address: string
