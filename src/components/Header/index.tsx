@@ -12,7 +12,6 @@ import { FC, memo, useState } from 'react'
 import { MAP_ROUTE_AND_COLOR } from '../../../utils/constants'
 import { useStoreActions, useStoreState } from '../../../utils/hooks/storeHooks'
 import keplr from '../../../utils/keplr'
-import GetKeplrModal from '../GetKeplrModal'
 import {
   MainIcon,
   StyledAvatar,
@@ -34,10 +33,12 @@ const MainHeader: FC = () => {
 
   // store actions
   const setAccounts = useStoreActions((actions) => actions.auth.setAccounts)
+  const toggleModal = useStoreActions(
+    (actions) => actions.controls.toggleGetKeplrModal
+  )
 
   // component state
   const [loading, setLoading] = useState<boolean>(false)
-  const [visible, setVisible] = useState(false)
 
   const onStart = async () => {
     setLoading(true)
@@ -53,7 +54,7 @@ const MainHeader: FC = () => {
         }
       }
     } else if (connect.error?.message === 'Kelpr not installed.') {
-      setVisible(true)
+      toggleModal()
     } else {
       setAccounts([])
     }
@@ -100,7 +101,6 @@ const MainHeader: FC = () => {
             )}
           </HeaderItemWrapper>
         </Header>
-        {visible && <GetKeplrModal setVisible={setVisible} />}
       </StyledBody>
     </StyledChrome>
   )

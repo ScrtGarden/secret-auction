@@ -3,6 +3,7 @@ import { useEffect, useMemo } from 'react'
 import { useStoreActions, useStoreState } from '../../../utils/hooks/storeHooks'
 import useGetAccounts from '../../../utils/hooks/useGetAccounts'
 import Footer from '../Footer'
+import GetKeplrModal from '../GetKeplrModal'
 import Header from '../Header'
 
 type Props = {
@@ -15,6 +16,11 @@ const Layout = ({ children }: Props) => {
 
   // store actions
   const setAccounts = useStoreActions((actions) => actions.auth.setAccounts)
+
+  // store state
+  const isGetKeplrModalOpen = useStoreState(
+    (state) => state.controls.isGetKeplrModalOpen
+  )
 
   // custom hooks
   const { loading, accounts } = useGetAccounts()
@@ -32,6 +38,8 @@ const Layout = ({ children }: Props) => {
       <Header />
       {children}
       <Footer />
+      // modals
+      {isGetKeplrModalOpen && <GetKeplrModal />}
     </>
   )
 }

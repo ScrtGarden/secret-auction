@@ -8,25 +8,24 @@ import {
 } from '@zendeskgarden/react-modals'
 import { FC, memo } from 'react'
 
+import { useStoreActions } from '../../../utils/hooks/storeHooks'
 import { StyledBody, StyledIcon } from './styles'
 
-type Props = {
-  setVisible: Function
-}
-
-const GetKeplrModal: FC<Props> = (props) => {
-  const { setVisible } = props
+const GetKeplrModal: FC = () => {
+  const toggleModal = useStoreActions(
+    (actions) => actions.controls.toggleGetKeplrModal
+  )
 
   const onClick = () => {
     window.open(
       'https://chrome.google.com/webstore/detail/keplr/dmkamcknogkgcdfhhbddcghachkejeap?hl=en',
       '_blank'
     )
-    setVisible(false)
+    toggleModal()
   }
 
   return (
-    <Modal onClose={() => setVisible(false)}>
+    <Modal onClose={() => toggleModal()}>
       <Header>Wanna trade?</Header>
       <StyledBody>
         <StyledIcon name="keplr" /> 9 out of 10 Secret Agents recommends Keplr.

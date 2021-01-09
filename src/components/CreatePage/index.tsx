@@ -53,6 +53,9 @@ const CreatePage: FC = () => {
 
   // store actions
   const setAccounts = useStoreActions((actions) => actions.auth.setAccounts)
+  const toggleModal = useStoreActions(
+    (actions) => actions.controls.toggleGetKeplrModal
+  )
 
   // store states
   const isConnected = useStoreState((state) => state.auth.isWalletConnected)
@@ -113,6 +116,7 @@ const CreatePage: FC = () => {
       } else if (connect.error?.message === 'Kelpr not installed.') {
         console.log('Kelpr not installed.')
         setLoading(false)
+        toggleModal()
         return
       } else {
         console.log('Did not accept approval from Keplr.')
