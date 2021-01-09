@@ -1,79 +1,130 @@
-import { Field, Input, Label, Message } from '@zendeskgarden/react-forms'
-import { FC, FormEvent, memo } from 'react'
+import { Field, Input, InputGroup, Label } from '@zendeskgarden/react-forms'
+import { Dots } from '@zendeskgarden/react-loaders'
+import {
+  Dispatch,
+  FC,
+  FormEvent,
+  memo,
+  useContext,
+  useEffect,
+  useState,
+} from 'react'
 
-import { FieldGrid } from '../../Common/StyledComponents'
-import { Container, Fields, Header, InnerContainer, Title } from './styles'
+import { TokenInfo } from '../../../../interfaces'
+import { SecretJsContext } from '../../../../utils/secretjs'
+import { Separator, StyledMessage } from '../../Common/StyledComponents'
+import { SetContractState } from '../CreateForm'
+import { StyledButton, TokenLabel } from './styles'
 import { Contract, ContractErrors } from '..'
 
 type Props = {
   data: Contract
-  title: string
-  onChange: Function
-  errors: ContractErrors
+  onChange: Dispatch<SetContractState>
   amountLabel?: string
-  onBlur: (key: string) => void
-  isConnected: boolean
+  errors: ContractErrors
+  setErrors: Dispatch<{ address?: string; amount?: string }>
 }
 
 const TokenForm: FC<Props> = (props) => {
-  const {
-    data,
-    errors,
-    onChange,
-    title,
-    amountLabel = 'Amount',
-    onBlur,
-    isConnected,
-  } = props
-  const { amount, address } = data
+  const { data, onChange, amountLabel = 'Amount', errors, setErrors } = props
+  const { address, amount } = data
+  const { secretjs } = useContext(SecretJsContext)
+
+  const [loading, setLoading] = useState(false)
+  const [error, setError] = useState('')
+  const [tokenInfo, setTokenInfo] = useState<TokenInfo>()
+
+  useEffect(() => {
+    if (!address) {
+      setTokenInfo(undefined)
+    }
+  }, [address])
+
+  const getTokenInfo = async () => {
+    setError('')
+    setErrors({ address: '' })
+
+    if (!address) {
+      setError('Invalid snip-20 contract address')
+      return
+    }
+
+    try {
+      setLoading(true)
+      const queryMsg = {
+        token_info: {},
+      }
+      const trimmedAddress = address.trim()
+      const response = await secretjs?.queryContractSmart(
+        trimmedAddress,
+        queryMsg
+      )
+      const { token_info } = response
+      console.log(response)
+      if (token_info) {
+        setTokenInfo(token_info)
+        onChange({ address: trimmedAddress, decimals: token_info.decimals })
+      }
+    } catch (error) {
+      setError('Invalid snip-20 contract address')
+      setTokenInfo(undefined)
+      onChange({ amount: '', decimals: -1 })
+      console.log('Could not fetch token info', error)
+    }
+    setLoading(false)
+  }
 
   const onChangeAmount = (e: FormEvent<HTMLInputElement>) => {
-    const amount = e.currentTarget.value
+    if (errors.amount) {
+      setErrors({ amount: '' })
+    }
 
-    if (!amount || amount.match(/^\d{1,}(\.\d{0,})?$/)) {
+    const amount = e.currentTarget.value
+    const pattern = `^\\d{1,}(\\.\\d{0,${tokenInfo?.decimals}})?$`
+    const regex = new RegExp(pattern)
+
+    if (!amount || amount.match(regex)) {
       onChange({ amount })
     }
   }
 
   return (
-    <Container>
-      <InnerContainer>
-        <Header>
-          <Title>{title}</Title>
-        </Header>
-        <Fields>
-          <FieldGrid>
-            <Field>
-              <Label>{amountLabel}</Label>
-              <Input
-                placeholder="0"
-                value={amount}
-                onChange={onChangeAmount}
-                validation={errors.amount ? 'error' : undefined}
-                onBlur={() => onBlur('amount')}
-                disabled={!isConnected}
-              />
-              {errors.amount && (
-                <Message validation="error">{errors.amount}</Message>
-              )}
-            </Field>
-            <Field>
-              <Label>Snip-20 Contract Address</Label>
-              <Input
-                value={address}
-                onChange={(e) => onChange({ address: e.target.value })}
-                validation={errors.address ? 'error' : undefined}
-                onBlur={() => onBlur('address')}
-                disabled={!isConnected}
-              />
-              {errors.address && (
-                <Message validation="error">{errors.address}</Message>
-              )}
-            </Field>
-          </FieldGrid>
-        </Fields>
-      </InnerContainer>
-    </Container>
+    <>
+      <Field>
+        <Label>Snip-20 Contract Address</Label>
+        <InputGroup>
+          <Input
+            value={address}
+            onChange={(e) => onChange({ address: e.currentTarget.value })}
+            validation={error || errors.address ? 'error' : undefined}
+          />
+          <StyledButton onClick={getTokenInfo} disabled={loading}>
+            {loading ? <Dots /> : 'Get Info'}
+          </StyledButton>
+        </InputGroup>
+        {(error || errors.address) && (
+          <StyledMessage validation="error">
+            {error || errors.address}
+          </StyledMessage>
+        )}
+      </Field>
+      <Separator sm />
+      <Field>
+        <Label>{amountLabel}</Label>
+        <InputGroup>
+          <Input
+            value={amount}
+            onChange={onChangeAmount}
+            disabled={!tokenInfo}
+            validation={errors.amount ? 'error' : undefined}
+          />
+          {tokenInfo && <TokenLabel>{tokenInfo.symbol}</TokenLabel>}
+        </InputGroup>
+        {errors.amount && (
+          <StyledMessage validation="error">{errors.amount}</StyledMessage>
+        )}
+      </Field>
+    </>
   )
 }
 

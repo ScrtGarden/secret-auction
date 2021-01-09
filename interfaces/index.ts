@@ -27,7 +27,7 @@ export interface DetailedAuctionInfo {
   status: string
 }
 
-export interface AuctionInfo {
+export interface BaseAuctionInfo {
   address: string
   label: string
   pair: string
@@ -35,11 +35,18 @@ export interface AuctionInfo {
   sell_decimals: number
   minimum_bid?: string
   bid_decimals?: number
-  winning_bid?: string
-  timestamp?: number
 }
 
-export interface AuctionInfoUi extends AuctionInfo {
+export interface ActiveAuctionInfo extends BaseAuctionInfo {
+  ends_at: number
+}
+
+export interface ClosedAuctionInfo extends BaseAuctionInfo {
+  winning_bid?: string
+  timestamp: number
+}
+
+export interface AuctionInfoUi extends BaseAuctionInfo {
   active?: boolean
   winner?: boolean
   seller?: boolean

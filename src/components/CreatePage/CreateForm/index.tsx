@@ -8,7 +8,7 @@ import { Dispatch, FC, memo } from 'react'
 import { DATE_FORMAT } from '../../../../utils/constants'
 import { Separator } from '../../Common/StyledComponents'
 import ProgressStepper from '../ProgressStepper'
-import TokenForm from '../TokenForm2'
+import TokenForm from '../TokenForm'
 import { Container, Header, Wrapper } from './styles'
 import { Contract, ContractErrors } from '..'
 

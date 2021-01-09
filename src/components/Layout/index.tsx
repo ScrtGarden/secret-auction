@@ -38,7 +38,8 @@ const Layout = ({ children }: Props) => {
       <Header />
       {children}
       <Footer />
-      // modals
+
+      {/* modals */}
       {isGetKeplrModalOpen && <GetKeplrModal />}
     </>
   )

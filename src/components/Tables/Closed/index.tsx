@@ -7,18 +7,17 @@ import {
 } from '@zendeskgarden/react-tables'
 import { FC, memo, useEffect, useState } from 'react'
 
-import { AuctionInfoUi, AuctionStatus } from '../../../interfaces'
+import { ClosedAuctionInfo } from '../../../../interfaces'
+import SkeletonRows from '../SkeletonRows'
 import ItemRow from './ItemRow'
-import SkeletonRows from './SkeletonRows'
 
 type Props = {
-  data: readonly AuctionInfoUi[]
+  data: readonly ClosedAuctionInfo[]
   getContracts: () => void
-  type: AuctionStatus
 }
 
 const AuctionTable: FC<Props> = (props) => {
-  const { data, getContracts, type } = props
+  const { data, getContracts } = props
 
   const [fetching, setFetching] = useState(false)
 
@@ -38,25 +37,16 @@ const AuctionTable: FC<Props> = (props) => {
         <HeaderRow>
           <HeaderCell>Label</HeaderCell>
           <HeaderCell>Trading</HeaderCell>
-          <HeaderCell>
-            {type === 'closed' ? 'Winning' : 'Minimum'} bid
-          </HeaderCell>
-          <HeaderCell>Status</HeaderCell>
-          {(type === 'closed' || type === 'both') && (
-            <HeaderCell>Finalised</HeaderCell>
-          )}
-          {(type === 'open' || type === 'both') && (
-            <HeaderCell>Actions</HeaderCell>
-          )}
+          <HeaderCell>Winning Bid</HeaderCell>
+          <HeaderCell>Finalised</HeaderCell>
+          {/* <HeaderCell>Actions</HeaderCell> */}
         </HeaderRow>
       </Head>
       <Body>
         {fetching ? (
-          <SkeletonRows rows={4} columns={type === 'both' ? 6 : 5} />
+          <SkeletonRows rows={4} columns={4} />
         ) : (
-          data.map((item) => (
-            <ItemRow key={item.address} item={item} type={type} />
-          ))
+          data.map((item) => <ItemRow key={item.address} item={item} />)
         )}
       </Body>
     </Table>

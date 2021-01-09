@@ -2,15 +2,16 @@ import { Tab, TabList, TabPanel, Tabs } from '@zendeskgarden/react-tabs'
 import { useRouter } from 'next/router'
 import { useContext, useEffect, useState } from 'react'
 
-import { AuctionInfo, AuctionStatus } from '../../../interfaces'
+import { ActiveAuctionInfo, ClosedAuctionInfo } from '../../../interfaces'
 import { FACTORY_CONTRACT_ADDRESS } from '../../../utils/constants'
 import { SecretJsContext } from '../../../utils/secretjs'
-import AuctionTable from '../AuctionTable'
 import {
   Container,
   InnerContainer,
   Title as StyledTitle,
 } from '../Common/StyledComponents'
+import Closed from '../Tables/Closed'
+import Open from '../Tables/Open'
 
 const AuctionsPage = () => {
   const router = useRouter()
@@ -19,9 +20,11 @@ const AuctionsPage = () => {
   const { secretjs } = useContext(SecretJsContext)
 
   // component states
-  const [openContracts, setOpenContracts] = useState<readonly AuctionInfo[]>([])
+  const [openContracts, setOpenContracts] = useState<
+    readonly ActiveAuctionInfo[]
+  >([])
   const [closedContracts, setClosedContracts] = useState<
-    readonly AuctionInfo[]
+    readonly ClosedAuctionInfo[]
   >([])
   const [selectedTab, setSelectedTab] = useState(tab || 'open')
   const [loading, setLoading] = useState(false)
@@ -41,7 +44,7 @@ const AuctionsPage = () => {
     )
 
     const { list_active_auctions } = result
-    // console.log(result)
+    console.log(result)
     if (list_active_auctions.active) {
       setOpenContracts(list_active_auctions.active)
     }
@@ -55,7 +58,7 @@ const AuctionsPage = () => {
       }
     )
     const { list_closed_auctions } = result
-    // console.log(result)
+    console.log(result)
     if (list_closed_auctions.closed) {
       setClosedContracts(list_closed_auctions.closed)
     }
@@ -71,18 +74,10 @@ const AuctionsPage = () => {
             <Tab item="closed">Closed</Tab>
           </TabList>
           <TabPanel item="open">
-            <AuctionTable
-              data={openContracts}
-              getContracts={getOpenContracts}
-              type={AuctionStatus.open}
-            />
+            <Open data={openContracts} getContracts={getOpenContracts} />
           </TabPanel>
           <TabPanel item="closed">
-            <AuctionTable
-              data={closedContracts}
-              getContracts={getClosedContracts}
-              type={AuctionStatus.closed}
-            />
+            <Closed data={closedContracts} getContracts={getClosedContracts} />
           </TabPanel>
         </Tabs>
       </InnerContainer>
