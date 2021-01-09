@@ -33,8 +33,8 @@ const AUCTION_CONTRACT_ID = 171
 // const FACTORY_CONTRACT_ID = 170
 // const FACTORY_CONTRACT_ADDRESS = 'secret1s0l9vyh8futvlctv4nup8pa8lfz9u4rgcye7c2'
 
-const FACTORY_CONTRACT_ID = 214
-const FACTORY_CONTRACT_ADDRESS = 'secret1n8d8ma2ae4fgchw2wdvfvtwsy7pa4h02u93m9m'
+const FACTORY_CONTRACT_ID = 220
+const FACTORY_CONTRACT_ADDRESS = 'secret1zzhwed94q894l4t3ckmdvs5twyeeg2nudmm3ar'
 
 const OPEN_OWNER_ACTIONS = {
   consign: 'Consign',
