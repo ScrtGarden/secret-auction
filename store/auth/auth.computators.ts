@@ -1,14 +1,13 @@
-import { State, StateMapper, StateResolver, computed } from 'easy-peasy'
+import { computed } from 'easy-peasy'
 
-import { AuthModel, AuthState } from './auth.models'
-import { StoreModel } from '..'
+import { AuthComputators } from './auth.models'
 
-const computators = {
+const computators: AuthComputators = {
   isWalletConnected: computed(
-    [(state: any) => state.accounts],
+    [(state) => state.accounts],
     (accounts) => accounts.length > 0
   ),
-  connectedAddress: computed([(state: any) => state.accounts], (accounts) =>
+  connectedAddress: computed([(state) => state.accounts], (accounts) =>
     accounts.length > 0 ? accounts[0].address : ''
   ),
 }
