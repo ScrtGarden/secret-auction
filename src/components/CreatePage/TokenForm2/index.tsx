@@ -1,6 +1,14 @@
 import { Field, Input, InputGroup, Label } from '@zendeskgarden/react-forms'
 import { Dots } from '@zendeskgarden/react-loaders'
-import { Dispatch, FC, FormEvent, memo, useContext, useState } from 'react'
+import {
+  Dispatch,
+  FC,
+  FormEvent,
+  memo,
+  useContext,
+  useEffect,
+  useState,
+} from 'react'
 
 import { TokenInfo } from '../../../../interfaces'
 import { SecretJsContext } from '../../../../utils/secretjs'
@@ -25,6 +33,12 @@ const TokenForm: FC<Props> = (props) => {
   const [loading, setLoading] = useState(false)
   const [error, setError] = useState('')
   const [tokenInfo, setTokenInfo] = useState<TokenInfo>()
+
+  useEffect(() => {
+    if (!address) {
+      setTokenInfo(undefined)
+    }
+  }, [address])
 
   const getTokenInfo = async () => {
     setError('')
