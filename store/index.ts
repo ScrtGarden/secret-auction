@@ -1,33 +1,41 @@
-import { State, Store, createStore, persist } from 'easy-peasy'
+import { PersistConfig, Store, createStore, persist } from 'easy-peasy'
 import { useMemo } from 'react'
 
 import { AuthModel, AuthState } from './auth/auth.models'
 import authState from './auth/auth.state'
 import authStore from './auth/auth.store'
+import { ControlsModel, ControlsState } from './controls/controls.models'
+import controlsState from './controls/controls.state'
+import controlsStore from './controls/controls.store'
 
 export interface StoreModel {
   auth: AuthModel
+  controls: ControlsModel
 }
 
 export interface StoreState {
   auth: AuthState
+  controls: ControlsState
 }
 
 let store: Store | undefined
 
 const initialStoreState: StoreState = {
   auth: authState,
+  controls: controlsState,
 }
 
-const model = persist(
-  {
-    auth: authStore,
-  },
-  {
-    storage: 'localStorage',
-    // deny: ["auth"]
-  }
-)
+const storeModel: StoreModel = {
+  auth: authStore,
+  controls: controlsStore,
+}
+
+const storeConfig: PersistConfig<StoreModel> = {
+  storage: 'localStorage',
+  deny: ['controls'],
+}
+
+const model = persist(storeModel, storeConfig)
 
 // add this if you want to inject store
 // const getStore = () => store
