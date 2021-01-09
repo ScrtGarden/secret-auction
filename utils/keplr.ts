@@ -100,7 +100,7 @@ const getAccounts = async () => {
   }
 }
 
-const createSigningClient = async () => {
+const createSigningClient = async ({ maxGas = '300000' } = {}) => {
   const { accounts, signer, error } = await getAccounts()
 
   if (error) {
@@ -122,8 +122,8 @@ const createSigningClient = async () => {
         },
         // 300k - Max gas units we're willing to use for exec
         exec: {
-          amount: [{ amount: '300000', denom: 'uscrt' }],
-          gas: '300000',
+          amount: [{ amount: maxGas, denom: 'uscrt' }],
+          gas: maxGas,
         },
       }
     )
