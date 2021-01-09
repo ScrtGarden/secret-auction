@@ -1,10 +1,11 @@
 import { Close, Title } from '@zendeskgarden/react-notifications'
 import { Code } from '@zendeskgarden/react-typography'
 import { getUnixTime } from 'date-fns'
-import { endOfDay } from 'date-fns/esm'
+import { endOfDay } from 'date-fns'
 import { FC, useContext, useReducer, useState } from 'react'
 
 import { FACTORY_CONTRACT_ADDRESS } from '../../../utils/constants'
+import decoder from '../../../utils/decoder'
 import { useStoreActions, useStoreState } from '../../../utils/hooks/storeHooks'
 import useSecretJs from '../../../utils/hooks/useSecretJs'
 import keplr from '../../../utils/keplr'
@@ -18,11 +19,9 @@ import {
   Title as StyledTitle,
 } from '../Common/StyledComponents'
 import CreatedAuctionModal from '../CreatedAuctionModal'
-import Confirm from './Confirm'
 import CreateForm from './CreateForm'
-import Header from './Header'
 import ProgressStepper from './ProgressStepper'
-import { Forms, StyledAlert, Wrapper } from './styles'
+import { Grid, StyledAlert } from './styles'
 import TokenForm from './TokenForm'
 
 export type Contract = {
@@ -62,9 +61,6 @@ const CreatePage: FC = () => {
   // store states
   const isConnected = useStoreState((state) => state.auth.isWalletConnected)
 
-  // custom hooks
-  const { error, secretjs } = useSecretJs()
-
   // component states
   const [sellContract, setSellContract] = useReducer(
     reducer,
@@ -75,7 +71,7 @@ const CreatePage: FC = () => {
     initialContractState
   )
   const [description, setDescription] = useState('')
-  const [endDate, setEndDate] = useState(new Date())
+  const [endDate, setEndDate] = useState(endOfDay(new Date()))
   const [sellContractErrors, setSellContractErrors] = useReducer(
     reducer,
     initContractErrors
@@ -85,17 +81,14 @@ const CreatePage: FC = () => {
     initContractErrors
   )
   const [loading, setLoading] = useState(false)
-  const [visible, setVisible] = useState(false)
+  const [auctionContractAddress, setAuctionContractAddress] = useState('')
 
-  const [cosignData, setConsignData] = useState<ConsignData>({
-    contractAddress: '',
-    tokenAddress: '',
-    amount: '',
-  })
   const [failed, setFailed] = useState('')
   const [step, setStep] = useState(-1)
 
   const onSubmit = async () => {
+    setFailed('')
+
     const { hasError, sell, want } = validate({
       sell: sellContract,
       want: exchangeForContract,
@@ -112,7 +105,10 @@ const CreatePage: FC = () => {
 
     // if not connected, trigger keplr pop up
     if (!isConnected) {
+      // promise does not get resolved when user is shown screen to unlock wallet
+      // and then closes keplr pop up
       const connect = await keplr.connect()
+
       if (connect.success) {
         const accountsResponse = await keplr.getAccounts()
         if (accountsResponse.accounts) {
@@ -166,41 +162,50 @@ const CreatePage: FC = () => {
       return
     }
 
-    // create signing client
-    const { secretjs: signingClient } = await keplr.createSigningClient()
-
     // trigger allowance command
+    setStep(0)
+    const { secretjs: signingClientOne } = await keplr.createSigningClient({
+      maxGas: '150000',
+    })
     const sellAmountAtSmallestDenomination = toSmallestDenomination(
       sellContract.amount,
       sellContract.decimals
     )
     const handleMsgIncreaseAllowance = {
       increase_allowance: {
-        spender: 'secret1n8d8ma2ae4fgchw2wdvfvtwsy7pa4h02u93m9m',
+        spender: FACTORY_CONTRACT_ADDRESS,
         amount: sellAmountAtSmallestDenomination,
       },
     }
-    console.log(handleMsgIncreaseAllowance)
+    // console.log(handleMsgIncreaseAllowance)
+
     try {
-      const response = await signingClient?.execute(
+      const response = await signingClientOne?.execute(
         sellContract.address,
         handleMsgIncreaseAllowance
       )
-      console.log(response)
+      // console.log(response)
     } catch (error) {
-      console.log('Error giving permission:', error.message)
+      console.log('Error giving allowance:', error.message)
+      setFailed(error.message)
+      setStep(-1)
       setLoading(false)
       return
     }
 
     // trigger create auction command
+    setStep(1)
+    const { secretjs: signingClientTwo } = await keplr.createSigningClient({
+      maxGas: '600000',
+    })
     const bidAmountAtSmallestDenomination = toSmallestDenomination(
       exchangeForContract.amount,
       exchangeForContract.decimals
     )
+    const label = `test-auction-${Math.floor(Math.random() * 10000)}`
     const handleMsg = {
       create_auction: {
-        label: `test-auction-${Math.floor(Math.random() * 10000)}`,
+        label,
         sell_contract: {
           code_hash: sellCodeHash,
           address: sellContract.address,
@@ -215,28 +220,34 @@ const CreatePage: FC = () => {
         ends_at: getUnixTime(endOfDay(endDate)),
       },
     }
-
-    console.log(handleMsg)
+    // console.log(handleMsg)
 
     try {
-      const response = await signingClient?.execute(
+      const response = await signingClientTwo?.execute(
         FACTORY_CONTRACT_ADDRESS,
         handleMsg
       )
-      console.log(response)
+      // console.log(response)
+      // const result = decoder(response?.data)
+      // console.log(result)
     } catch (error) {
       console.log('Error creating:', error.message)
       setFailed(error.message)
+      setLoading(false)
+      setStep(-1)
+      return
     }
 
-    console.log('!!! Finished !!!')
     setLoading(false)
+    setStep(2)
+    resetForms()
   }
 
   const resetForms = () => {
     setSellContract(initialContractState)
     setExchangeForContract(initialContractState)
     setDescription('')
+    setEndDate(endOfDay(new Date()))
   }
 
   return (
@@ -259,15 +270,12 @@ const CreatePage: FC = () => {
           setBidContractErrors={setExchangeForContractErorrs}
           loading={loading}
         />
-        <ProgressStepper step={step} />
+        <Grid>
+          <div />
+          <div />
+          {step !== -1 && <ProgressStepper step={step} />}
+        </Grid>
       </InnerContainer>
-      {visible && (
-        <CreatedAuctionModal
-          data={cosignData}
-          setVisible={setVisible}
-          resetForms={resetForms}
-        />
-      )}
       {failed && (
         <StyledAlert type="error">
           <Title>Oopsie</Title>
