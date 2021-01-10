@@ -20,6 +20,10 @@ const MAP_ROUTE_AND_COLOR: MapRouteAndColor = {
     color: 'grey',
     strength: 100,
   },
+  '/auctions/[address]': {
+    color: 'grey',
+    strength: 100,
+  },
   '/profile/[id]': {
     color: 'grey',
     strength: 100,
@@ -28,13 +32,12 @@ const MAP_ROUTE_AND_COLOR: MapRouteAndColor = {
 
 const CHAIN_EXPLORER = 'https://puzzle.report/secret/chains/holodeck-2'
 
-const AUCTION_CONTRACT_ID = 171
-
-// const FACTORY_CONTRACT_ID = 170
-// const FACTORY_CONTRACT_ADDRESS = 'secret1s0l9vyh8futvlctv4nup8pa8lfz9u4rgcye7c2'
+const KEPLR_CHROME_STORE_URL =
+  'https://chrome.google.com/webstore/detail/keplr/dmkamcknogkgcdfhhbddcghachkejeap?hl=en'
 
 const FACTORY_CONTRACT_ID = 220
 const FACTORY_CONTRACT_ADDRESS = 'secret1zzhwed94q894l4t3ckmdvs5twyeeg2nudmm3ar'
+const AUCTION_CONTRACT_ID = 219
 
 const OPEN_OWNER_ACTIONS = {
   consign: 'Consign',
@@ -61,4 +64,5 @@ export {
   OPEN_OWNER_ACTIONS,
   OPEN_BIDDER_ACTIONS,
   DATE_FORMAT,
+  KEPLR_CHROME_STORE_URL,
 }
