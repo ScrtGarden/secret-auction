@@ -3,8 +3,8 @@ import { useEffect, useMemo } from 'react'
 import { useStoreActions, useStoreState } from '../../../utils/hooks/storeHooks'
 import useGetAccounts from '../../../utils/hooks/useGetAccounts'
 import Footer from '../Footer'
-import GetKeplrModal from '../GetKeplrModal'
 import Header from '../Header'
+import GetKeplrModal from '../Modals/GetKeplr'
 
 type Props = {
   children?: React.ReactElement
