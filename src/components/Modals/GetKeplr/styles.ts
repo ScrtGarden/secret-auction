@@ -1,9 +1,7 @@
-import {
-  Body,
-} from '@zendeskgarden/react-modals'
-import styled from "styled-components"
+import { Body } from '@zendeskgarden/react-modals'
+import styled from 'styled-components'
 
-import Icon from "../Icons"
+import Icon from '../../Icons'
 
 const StyledBody = styled(Body)`
   align-items: center;
@@ -15,7 +13,7 @@ const StyledBody = styled(Body)`
 
 const StyledIcon = styled(Icon)`
   height: 10rem;
-  margin-bottom: ${props => props.theme.space.md};
+  margin-bottom: ${(props) => props.theme.space.md};
   width: 10rem;
 `
 

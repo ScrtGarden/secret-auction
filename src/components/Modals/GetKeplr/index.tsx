@@ -8,7 +8,8 @@ import {
 } from '@zendeskgarden/react-modals'
 import { FC, memo } from 'react'
 
-import { useStoreActions } from '../../../utils/hooks/storeHooks'
+import { KEPLR_CHROME_STORE_URL } from '../../../../utils/constants'
+import { useStoreActions } from '../../../../utils/hooks/storeHooks'
 import { StyledBody, StyledIcon } from './styles'
 
 const GetKeplrModal: FC = () => {
@@ -17,10 +18,7 @@ const GetKeplrModal: FC = () => {
   )
 
   const onClick = () => {
-    window.open(
-      'https://chrome.google.com/webstore/detail/keplr/dmkamcknogkgcdfhhbddcghachkejeap?hl=en',
-      '_blank'
-    )
+    window.open(KEPLR_CHROME_STORE_URL, '_blank')
     toggleModal()
   }
 
