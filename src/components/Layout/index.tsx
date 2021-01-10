@@ -4,6 +4,7 @@ import { useStoreActions, useStoreState } from '../../../utils/hooks/storeHooks'
 import useGetAccounts from '../../../utils/hooks/useGetAccounts'
 import Footer from '../Footer'
 import Header from '../Header'
+import BidModal from '../Modals/Bid'
 import GetKeplrModal from '../Modals/GetKeplr'
 
 type Props = {
@@ -21,6 +22,7 @@ const Layout = ({ children }: Props) => {
   const isGetKeplrModalOpen = useStoreState(
     (state) => state.controls.isGetKeplrModalOpen
   )
+  const isBidModalOpen = useStoreState((state) => state.controls.isBidModalOpen)
 
   // custom hooks
   const { loading, accounts } = useGetAccounts()
@@ -41,6 +43,7 @@ const Layout = ({ children }: Props) => {
 
       {/* modals */}
       {isGetKeplrModalOpen && <GetKeplrModal />}
+      {isBidModalOpen && <BidModal />}
     </>
   )
 }
