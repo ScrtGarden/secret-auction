@@ -1,4 +1,5 @@
 import ChevronDown from './ChevronDown'
+import Copy from './Copy'
 import Dizzy from './Dizzy'
 import Farming from './Farming'
 import Keplr from './Kelpr'
@@ -18,6 +19,9 @@ const Icon = (props: Props) => {
   let SelectedIcon
 
   switch (name) {
+    case 'copy':
+      SelectedIcon = Copy
+      break
     case 'chevron-down':
       SelectedIcon = ChevronDown
       break
