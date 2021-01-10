@@ -51,3 +51,9 @@ export interface AuctionInfoUi extends BaseAuctionInfo {
   winner?: boolean
   seller?: boolean
 }
+
+export interface ErrorResponse {
+  error: {
+    message: string
+  }
+}
