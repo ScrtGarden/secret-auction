@@ -1,3 +1,5 @@
+import { ParsedUrlQuery } from 'querystring'
+
 export enum AuctionStatus {
   closed = 'closed',
   open = 'open',
@@ -11,20 +13,20 @@ export interface TokenInfo {
   total_supply?: string
 }
 
+export interface TargetTokenInfo {
+  contract_address: string
+  token_info: TokenInfo
+}
+
 export interface DetailedAuctionInfo {
   auction_address: string
-  bid_token: {
-    contract_address: string
-    token_info: TokenInfo
-  }
+  bid_token: TargetTokenInfo
   description: string
   minimum_bid: string
   sell_amount: string
-  sell_token: {
-    contract_address: string
-    token_info: TokenInfo
-  }
+  sell_token: TargetTokenInfo
   status: string
+  ends_at: string
 }
 
 export interface BaseAuctionInfo {
@@ -56,4 +58,8 @@ export interface ErrorResponse {
   error: {
     message: string
   }
+}
+
+export interface BidRouterQuery extends ParsedUrlQuery {
+  address: string
 }
