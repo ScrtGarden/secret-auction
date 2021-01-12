@@ -1,7 +1,9 @@
 import ChevronDown from './ChevronDown'
+import Clock from './Clock'
 import Copy from './Copy'
 import Dizzy from './Dizzy'
 import Farming from './Farming'
+import InfoCircle from './InfoCircle'
 import Keplr from './Kelpr'
 import Search from './Search'
 import Seedling from './Seedling'
@@ -19,6 +21,12 @@ const Icon = (props: Props) => {
   let SelectedIcon
 
   switch (name) {
+    case 'clock':
+      SelectedIcon = Clock
+      break
+    case 'info-circle':
+      SelectedIcon = InfoCircle
+      break
     case 'copy':
       SelectedIcon = Copy
       break

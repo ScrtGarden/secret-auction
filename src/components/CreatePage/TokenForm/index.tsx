@@ -12,6 +12,7 @@ import {
 
 import { TokenInfo } from '../../../../interfaces'
 import { SecretJsContext } from '../../../../utils/secretjs'
+import InputWithSymbol from '../../Common/InputWithSymbol'
 import { Separator, StyledMessage } from '../../Common/StyledComponents'
 import { SetContractState } from '../CreateForm'
 import { StyledButton, TokenLabel } from './styles'
@@ -109,21 +110,14 @@ const TokenForm: FC<Props> = (props) => {
         )}
       </Field>
       <Separator sm />
-      <Field>
-        <Label>{amountLabel}</Label>
-        <InputGroup>
-          <Input
-            value={amount}
-            onChange={onChangeAmount}
-            disabled={!tokenInfo}
-            validation={errors.amount ? 'error' : undefined}
-          />
-          {tokenInfo && <TokenLabel>{tokenInfo.symbol}</TokenLabel>}
-        </InputGroup>
-        {errors.amount && (
-          <StyledMessage validation="error">{errors.amount}</StyledMessage>
-        )}
-      </Field>
+      <InputWithSymbol
+        label={amountLabel}
+        value={amount}
+        onChange={onChangeAmount}
+        disabled={!tokenInfo}
+        symbol={tokenInfo?.symbol}
+        error={errors.amount}
+      />
     </>
   )
 }

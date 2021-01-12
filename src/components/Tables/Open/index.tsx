@@ -45,7 +45,7 @@ const AuctionTable: FC<Props> = (props) => {
       </Head>
       <Body>
         {fetching ? (
-          <SkeletonRows rows={4} columns={5} />
+          <SkeletonRows rows={4} columns={4} />
         ) : (
           data.map((item) => (
             <ItemRow key={item.address} item={item} router={router} />

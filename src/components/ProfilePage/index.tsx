@@ -1,10 +1,9 @@
 import { useState } from 'react'
 
-import { AuctionInfo, AuctionStatus } from '../../../interfaces'
+import { AuctionStatus } from '../../../interfaces'
 import { FACTORY_CONTRACT_ADDRESS } from '../../../utils/constants'
 import { useStoreState } from '../../../utils/hooks/storeHooks'
 import useSecretJs from '../../../utils/hooks/useSecretJs'
-import AuctionTable from '../AuctionTable'
 import { Container, InnerContainer, Title } from '../Common/StyledComponents'
 import Filters from './Filters'
 import Header from './Header'
@@ -106,13 +105,13 @@ const ProfilePage = () => {
           filter={filter}
           onSelect={(value) => setFilter(value)}
         />
-        <AuctionTable
+        {/* <AuctionTable
           data={contracts}
           getContracts={getContracts}
           secretjs={secretjs}
           loading={loading}
           type={AuctionStatus.both}
-        />
+        /> */}
       </InnerContainer>
     </Container>
   )
