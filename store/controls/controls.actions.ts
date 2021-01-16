@@ -9,6 +9,12 @@ const actions: ControlsActions = {
   toggleBidModal: action((state) => {
     state.isBidModalOpen = !state.isBidModalOpen
   }),
+  toggleAlert: action((state) => {
+    state.showAlert = !state.showAlert
+  }),
+  setAlertInfo: action((state, payload) => {
+    state.alertInfo = payload
+  }),
 }
 
 export default actions
