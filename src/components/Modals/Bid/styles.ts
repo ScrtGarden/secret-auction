@@ -5,7 +5,9 @@ const StyledModal = styled(Modal)`
   align-items: center;
   display: flex;
   flex-direction: column;
-  width: 400px;
+  && {
+    width: 400px;
+  }
 `
 
 const Header = styled.div`

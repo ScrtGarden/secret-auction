@@ -20,6 +20,7 @@ const Text = styled.p<TextProps>`
 const Description = styled.p`
   color: ${(props) => props.theme.palette.grey[600]};
   font-size: ${(props) => props.theme.fontSizes.sm};
+  line-height: ${(props) => props.theme.lineHeights.sm};
   margin: ${(props) => props.theme.space.xxs} 0 0 0;
 `
 
