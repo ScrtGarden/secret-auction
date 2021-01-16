@@ -1,7 +1,5 @@
-import { Close, Footer, FooterItem, Modal } from '@zendeskgarden/react-modals'
+import { Modal } from '@zendeskgarden/react-modals'
 import styled from 'styled-components'
-
-import Icon from '../../Icons'
 
 const StyledModal = styled(Modal)`
   align-items: center;
