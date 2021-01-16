@@ -1,31 +1,25 @@
-import { Button } from '@zendeskgarden/react-buttons'
-import { Skeleton } from '@zendeskgarden/react-loaders'
 import { Close } from '@zendeskgarden/react-modals'
 import { useRouter } from 'next/router'
 import { FormEvent, useState } from 'react'
 
 import { BidRouterQuery } from '../../../../interfaces'
+import addPadding from '../../../../utils/addPadding'
 import { useStoreActions } from '../../../../utils/hooks/storeHooks'
+import useConnectToKeplr from '../../../../utils/hooks/useConnectToKeplr'
 import useGetAuction from '../../../../utils/hooks/useGetAuction'
-import InputWithSymbol from '../../Common/InputWithSymbol'
-import { Separator } from '../../Common/StyledComponents'
+import keplr from '../../../../utils/keplr'
+import toSmallestDenomination from '../../../../utils/toSmallestDenomination'
+import validator from '../../../../utils/validators/bid'
 import Details from './Details'
-import {
-  EndAt,
-  EndAtText,
-  Header,
-  StyledClock,
-  StyledModal,
-  Title,
-  Wrapper,
-} from './styles'
+import { Header, StyledModal, Title } from './styles'
 
 const BidModal = () => {
   const router = useRouter()
   const { from, address } = router.query as BidRouterQuery
 
   // custom hooks
-  const { loading, data, error } = useGetAuction(address)
+  const { loading: loadingAuctionInfo, data, error } = useGetAuction(address)
+  const [connectToKeplr] = useConnectToKeplr()
 
   // store actions
   const toggleModal = useStoreActions(
@@ -33,7 +27,10 @@ const BidModal = () => {
   )
 
   // component state
-  const [amount, setAmount] = useState('')
+  const [amount, setAmount] = useState('0')
+  const [bidAmountError, setBidAmountError] = useState('')
+  const [loading, setLoading] = useState(false)
+  const [success, setSuccess] = useState(false)
 
   const onClose = () => {
     toggleModal()
@@ -53,44 +50,82 @@ const BidModal = () => {
     }
   }
 
-  console.log(loading, data, error)
+  const onSubmit = async () => {
+    setBidAmountError('')
+    const amountInSmallestDenomination = toSmallestDenomination(
+      amount,
+      data?.bid_token.token_info.decimals || 0
+    )
+    const amountError = validator(
+      amountInSmallestDenomination,
+      data?.minimum_bid || '0'
+    )
+
+    if (amountError) {
+      setBidAmountError(amountError)
+      return
+    }
+
+    setLoading(true)
+
+    const { error: connectionError } = await connectToKeplr()
+
+    if (connectionError) {
+      setLoading(false)
+      return
+    }
+
+    // place bid
+    const handleMsg = {
+      send: {
+        recipient: data?.auction_address,
+        amount: amountInSmallestDenomination,
+        padding: addPadding(amountInSmallestDenomination),
+      },
+    }
+
+    const { secretjs: signingClientOne } = await keplr.createSigningClient({
+      maxGas: '300000',
+    })
+
+    try {
+      const response = await signingClientOne?.execute(
+        data?.bid_token.contract_address || '',
+        handleMsg
+      )
+      console.log(response)
+      setSuccess(true)
+    } catch (error) {
+      console.log('Error placing bid:', error.message)
+      setLoading(false)
+    }
+
+    console.log('*** FINISHED ***')
+  }
+
+  console.log(loadingAuctionInfo, data, error)
   return (
     <StyledModal onClose={onClose}>
       <Header>
         <Title>Bid</Title>
         <Close />
       </Header>
-      <EndAt>
-        {!loading ? (
-          <>
-            <StyledClock name="clock" />
-            <EndAtText>{data?.ends_at}</EndAtText>
-          </>
-        ) : (
-          <Skeleton height="16px" width="200px" />
-        )}
-      </EndAt>
-      <Wrapper>
-        <Details
-          sellAmount={data?.sell_amount}
-          minimumBidAmount={data?.minimum_bid}
-          sellToken={data?.sell_token}
-          bidToken={data?.bid_token}
-          loading={loading}
-          description={data?.description}
-        />
-        <Separator lg />
-        <InputWithSymbol
-          label="Amount"
-          value={amount}
-          onChange={onChangeAmount}
-          symbol={data?.bid_token.token_info.symbol}
-        />
-        <Separator md />
-        <Button isPrimary isStretched disabled={loading || !!error}>
-          Place bid
-        </Button>
-      </Wrapper>
+      <Details
+        endsAt={data?.ends_at}
+        sellAmount={data?.sell_amount}
+        minimumBidAmount={data?.minimum_bid}
+        sellToken={data?.sell_token}
+        bidToken={data?.bid_token}
+        loading={loadingAuctionInfo}
+        description={data?.description}
+        label="Amount"
+        value={amount}
+        onChange={onChangeAmount}
+        error={bidAmountError}
+        bidding={loading}
+        bidError={!!error}
+        onSubmit={onSubmit}
+      />
     </StyledModal>
   )
 }

@@ -1,33 +1,71 @@
-import { Skeleton } from '@zendeskgarden/react-loaders'
+import { Button } from '@zendeskgarden/react-buttons'
+import { Dots, Skeleton } from '@zendeskgarden/react-loaders'
 import { Tooltip } from '@zendeskgarden/react-tooltips'
-import { FC, memo } from 'react'
+import { FC, FormEvent, memo } from 'react'
 
 import { TargetTokenInfo } from '../../../../../interfaces'
 import toBiggestDenomination from '../../../../../utils/toBiggestDenomination'
+import InputWithSymbol from '../../../Common/InputWithSymbol'
+import { Separator } from '../../../Common/StyledComponents'
 import TokenInfoTooltip from '../TokenInfo'
-import { Description, StyledIcon, Text, Token } from './styles'
+import {
+  Container,
+  Description,
+  EndAt,
+  EndAtText,
+  StyledClock,
+  StyledIcon,
+  Text,
+  Token,
+} from './styles'
 
 type Props = {
+  endsAt: string | undefined
   sellAmount: string | undefined
   minimumBidAmount: string | undefined
   sellToken: TargetTokenInfo | undefined
   bidToken: TargetTokenInfo | undefined
   loading: boolean
   description: string | undefined
+  label: string
+  value: string
+  onChange: (e: FormEvent<HTMLInputElement>) => void
+  error?: string
+  bidding: boolean
+  bidError: boolean
+  onSubmit: () => void
 }
 
 const Details: FC<Props> = (props) => {
   const {
+    endsAt,
     sellToken,
     bidToken,
     sellAmount,
     minimumBidAmount,
     loading,
     description,
+    label,
+    value,
+    onChange,
+    error,
+    bidding,
+    bidError,
+    onSubmit,
   } = props
 
   return (
-    <>
+    <Container>
+      <EndAt>
+        {!loading ? (
+          <>
+            <StyledClock name="clock" />
+            <EndAtText>{endsAt}</EndAtText>
+          </>
+        ) : (
+          <Skeleton height="16px" width="200px" />
+        )}
+      </EndAt>
       <Token>
         {!loading ? (
           <>
@@ -82,7 +120,24 @@ const Details: FC<Props> = (props) => {
           <Description>{description}</Description>
         </>
       )}
-    </>
+      <Separator lg />
+      <InputWithSymbol
+        label={label}
+        value={value}
+        onChange={onChange}
+        symbol={bidToken?.token_info.symbol}
+        error={error}
+      />
+      <Separator md />
+      <Button
+        isPrimary
+        isStretched
+        disabled={loading || !!error || bidding}
+        onClick={onSubmit}
+      >
+        {bidding ? <Dots size="20" /> : 'Place Bid'}
+      </Button>
+    </Container>
   )
 }
 
