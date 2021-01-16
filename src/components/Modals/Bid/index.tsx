@@ -12,6 +12,7 @@ import toSmallestDenomination from '../../../../utils/toSmallestDenomination'
 import validator from '../../../../utils/validators/bid'
 import Details from './Details'
 import { Header, StyledModal, Title } from './styles'
+import Success from './Success'
 
 const BidModal = () => {
   const router = useRouter()
@@ -110,22 +111,30 @@ const BidModal = () => {
         <Title>Bid</Title>
         <Close />
       </Header>
-      <Details
-        endsAt={data?.ends_at}
-        sellAmount={data?.sell_amount}
-        minimumBidAmount={data?.minimum_bid}
-        sellToken={data?.sell_token}
-        bidToken={data?.bid_token}
-        loading={loadingAuctionInfo}
-        description={data?.description}
-        label="Amount"
-        value={amount}
-        onChange={onChangeAmount}
-        error={bidAmountError}
-        bidding={loading}
-        bidError={!!error}
-        onSubmit={onSubmit}
-      />
+      {!success ? (
+        <Details
+          endsAt={data?.ends_at}
+          sellAmount={data?.sell_amount}
+          minimumBidAmount={data?.minimum_bid}
+          sellToken={data?.sell_token}
+          bidToken={data?.bid_token}
+          loading={loadingAuctionInfo}
+          description={data?.description}
+          label="Amount"
+          value={amount}
+          onChange={onChangeAmount}
+          error={bidAmountError}
+          bidding={loading}
+          bidError={!!error}
+          onSubmit={onSubmit}
+        />
+      ) : (
+        <Success
+          amount={amount}
+          symbol={data?.bid_token.token_info.symbol}
+          onClick={() => toggleModal()}
+        />
+      )}
     </StyledModal>
   )
 }
