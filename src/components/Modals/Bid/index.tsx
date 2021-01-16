@@ -3,11 +3,13 @@ import { useRouter } from 'next/router'
 import { FormEvent, useState } from 'react'
 
 import { BidRouterQuery } from '../../../../interfaces'
+import { AlertType } from '../../../../store/controls/controls.models'
 import addPadding from '../../../../utils/addPadding'
 import { useStoreActions } from '../../../../utils/hooks/storeHooks'
 import useConnectToKeplr from '../../../../utils/hooks/useConnectToKeplr'
 import useGetAuction from '../../../../utils/hooks/useGetAuction'
 import keplr from '../../../../utils/keplr'
+import parseErrorMessage from '../../../../utils/parseErrorMessage'
 import toSmallestDenomination from '../../../../utils/toSmallestDenomination'
 import validator from '../../../../utils/validators/bid'
 import Details from './Details'
@@ -26,6 +28,7 @@ const BidModal = () => {
   const toggleModal = useStoreActions(
     (actions) => actions.controls.toggleBidModal
   )
+  const setAlert = useStoreActions((actions) => actions.controls.setAlertInfo)
 
   // component state
   const [amount, setAmount] = useState('0')
@@ -98,6 +101,12 @@ const BidModal = () => {
       setSuccess(true)
     } catch (error) {
       console.log('Error placing bid:', error.message)
+      const text = parseErrorMessage(error.message)
+      setAlert({
+        title: 'Error',
+        text,
+        type: AlertType.error,
+      })
       setLoading(false)
     }
 
@@ -106,36 +115,38 @@ const BidModal = () => {
 
   console.log(loadingAuctionInfo, data, error)
   return (
-    <StyledModal onClose={onClose}>
-      <Header>
-        <Title>Bid</Title>
-        <Close />
-      </Header>
-      {!success ? (
-        <Details
-          endsAt={data?.ends_at}
-          sellAmount={data?.sell_amount}
-          minimumBidAmount={data?.minimum_bid}
-          sellToken={data?.sell_token}
-          bidToken={data?.bid_token}
-          loading={loadingAuctionInfo}
-          description={data?.description}
-          label="Amount"
-          value={amount}
-          onChange={onChangeAmount}
-          error={bidAmountError}
-          bidding={loading}
-          bidError={!!error}
-          onSubmit={onSubmit}
-        />
-      ) : (
-        <Success
-          amount={amount}
-          symbol={data?.bid_token.token_info.symbol}
-          onClick={() => toggleModal()}
-        />
-      )}
-    </StyledModal>
+    <>
+      <StyledModal onClose={onClose}>
+        <Header>
+          <Title>Bid</Title>
+          <Close />
+        </Header>
+        {!success ? (
+          <Details
+            endsAt={data?.ends_at}
+            sellAmount={data?.sell_amount}
+            minimumBidAmount={data?.minimum_bid}
+            sellToken={data?.sell_token}
+            bidToken={data?.bid_token}
+            loading={loadingAuctionInfo}
+            description={data?.description}
+            label="Amount"
+            value={amount}
+            onChange={onChangeAmount}
+            error={bidAmountError}
+            bidding={loading}
+            bidError={!!error}
+            onSubmit={onSubmit}
+          />
+        ) : (
+          <Success
+            amount={amount}
+            symbol={data?.bid_token.token_info.symbol}
+            onClick={onClose}
+          />
+        )}
+      </StyledModal>
+    </>
   )
 }
 
