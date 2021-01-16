@@ -30,7 +30,7 @@ const MAP_ROUTE_AND_COLOR: MapRouteAndColor = {
   },
 }
 
-const CHAIN_EXPLORER = 'https://puzzle.report/secret/chains/holodeck-2'
+const CHAIN_EXPLORER = 'https://secretnodes.com/secret/chains/holodeck-2'
 
 const KEPLR_CHROME_STORE_URL =
   'https://chrome.google.com/webstore/detail/keplr/dmkamcknogkgcdfhhbddcghachkejeap?hl=en'
