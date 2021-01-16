@@ -2,6 +2,7 @@ import { useEffect, useMemo } from 'react'
 
 import { useStoreActions, useStoreState } from '../../../utils/hooks/storeHooks'
 import useGetAccounts from '../../../utils/hooks/useGetAccounts'
+import Alert from '../Alert'
 import Footer from '../Footer'
 import Header from '../Header'
 import BidModal from '../Modals/Bid'
@@ -23,6 +24,7 @@ const Layout = ({ children }: Props) => {
     (state) => state.controls.isGetKeplrModalOpen
   )
   const isBidModalOpen = useStoreState((state) => state.controls.isBidModalOpen)
+  const showAlert = useStoreState((state) => state.controls.showAlert)
 
   // custom hooks
   const { loading, accounts } = useGetAccounts()
@@ -44,6 +46,9 @@ const Layout = ({ children }: Props) => {
       {/* modals */}
       {isGetKeplrModalOpen && <GetKeplrModal />}
       {isBidModalOpen && <BidModal />}
+
+      {/* alerts */}
+      {showAlert && <Alert />}
     </>
   )
 }
