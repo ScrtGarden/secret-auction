@@ -1,12 +1,13 @@
-import { Close, Title } from '@zendeskgarden/react-notifications'
-import { Code } from '@zendeskgarden/react-typography'
 import { getUnixTime } from 'date-fns'
 import { endOfDay } from 'date-fns'
 import { FC, useContext, useReducer, useState } from 'react'
 
+import { AlertType } from '../../../store/controls/controls.models'
 import { FACTORY_CONTRACT_ADDRESS } from '../../../utils/constants'
-import { useStoreActions, useStoreState } from '../../../utils/hooks/storeHooks'
+import { useStoreActions } from '../../../utils/hooks/storeHooks'
+import useConnectToKeplr from '../../../utils/hooks/useConnectToKeplr'
 import keplr from '../../../utils/keplr'
+import parseErrorMessage from '../../../utils/parseErrorMessage'
 import reducer from '../../../utils/reducer'
 import { SecretJsContext } from '../../../utils/secretjs'
 import toSmallestDenomination from '../../../utils/toSmallestDenomination'
@@ -18,7 +19,7 @@ import {
 } from '../Common/StyledComponents'
 import CreateForm from './CreateForm'
 import ProgressStepper from './ProgressStepper'
-import { Grid, StyledAlert } from './styles'
+import { Grid } from './styles'
 
 export type Contract = {
   address: string
@@ -52,13 +53,10 @@ const CreatePage: FC = () => {
   const { secretjs: client } = useContext(SecretJsContext)
 
   // store actions
-  const setAccounts = useStoreActions((actions) => actions.auth.setAccounts)
-  const toggleModal = useStoreActions(
-    (actions) => actions.controls.toggleGetKeplrModal
-  )
+  const setAlert = useStoreActions((actions) => actions.controls.setAlertInfo)
 
-  // store states
-  const isConnected = useStoreState((state) => state.auth.isWalletConnected)
+  // custom hooks
+  const [connectToKeplr] = useConnectToKeplr()
 
   // component states
   const [sellContract, setSellContract] = useReducer(
@@ -75,26 +73,25 @@ const CreatePage: FC = () => {
     reducer,
     initContractErrors
   )
-  const [exchangeForContractErrors, setExchangeForContractErorrs] = useReducer(
+  const [exchangeForContractErrors, setExchangeForContractErrors] = useReducer(
     reducer,
     initContractErrors
   )
   const [loading, setLoading] = useState(false)
-  const [auctionContractAddress, setAuctionContractAddress] = useState('')
-
-  const [failed, setFailed] = useState('')
+  const [txInfo, setTxInfo] = useState({
+    address: '',
+    txHash: '',
+  })
   const [step, setStep] = useState(-1)
 
   const onSubmit = async () => {
-    setFailed('')
-
     const { hasError, sell, want } = validate({
       sell: sellContract,
       want: exchangeForContract,
     })
 
     setSellContractErrors(sell)
-    setExchangeForContractErorrs(want)
+    setExchangeForContractErrors(want)
 
     if (hasError) {
       return
@@ -102,62 +99,10 @@ const CreatePage: FC = () => {
 
     setLoading(true)
 
-    // if not connected, trigger keplr pop up
-    if (!isConnected) {
-      // promise does not get resolved when user is shown screen to unlock wallet
-      // and then closes keplr pop up
-      const connect = await keplr.connect()
+    // try to connect to keplr
+    const { error: connectionError } = await connectToKeplr()
 
-      if (connect.success) {
-        const accountsResponse = await keplr.getAccounts()
-        if (accountsResponse.accounts) {
-          setAccounts(accountsResponse.accounts)
-        }
-      } else if (connect.error?.message === 'Kelpr not installed.') {
-        console.log('Kelpr not installed.')
-        setLoading(false)
-        toggleModal()
-        return
-      } else {
-        console.log('Did not accept approval from Keplr.')
-        setAccounts([])
-        setLoading(false)
-        return
-      }
-    }
-
-    // get code hash from supplied snip-20 contract addresses
-    let sellCodeHash
-    let exchangeForCodeHash
-
-    try {
-      sellCodeHash = await client?.getCodeHashByContractAddr(
-        sellContract.address
-      )
-    } catch (error) {
-      console.log(
-        'Cannot find code hash with sell token contract address',
-        error
-      )
-      setSellContractErrors({
-        address: 'Cannot find code hash with this address.',
-      })
-      setLoading(false)
-      return
-    }
-
-    try {
-      exchangeForCodeHash = await client?.getCodeHashByContractAddr(
-        exchangeForContract.address
-      )
-    } catch (error) {
-      console.log(
-        'Cannot find code hash with exchange for token contract address',
-        error
-      )
-      setExchangeForContractErorrs({
-        address: 'Cannot find code hash with this address.',
-      })
+    if (connectionError) {
       setLoading(false)
       return
     }
@@ -167,17 +112,16 @@ const CreatePage: FC = () => {
     const { secretjs: signingClientOne } = await keplr.createSigningClient({
       maxGas: '150000',
     })
-    const sellAmountAtSmallestDenomination = toSmallestDenomination(
+    const sellAmountInSmallestDenomination = toSmallestDenomination(
       sellContract.amount,
       sellContract.decimals
     )
     const handleMsgIncreaseAllowance = {
       increase_allowance: {
         spender: FACTORY_CONTRACT_ADDRESS,
-        amount: sellAmountAtSmallestDenomination,
+        amount: sellAmountInSmallestDenomination,
       },
     }
-    // console.log(handleMsgIncreaseAllowance)
 
     try {
       const response = await signingClientOne?.execute(
@@ -187,7 +131,12 @@ const CreatePage: FC = () => {
       // console.log(response)
     } catch (error) {
       console.log('Error giving allowance:', error.message)
-      setFailed(error.message)
+      const text = parseErrorMessage(error.message)
+      setAlert({
+        title: 'Error',
+        text,
+        type: AlertType.error,
+      })
       setStep(-1)
       setLoading(false)
       return
@@ -195,10 +144,67 @@ const CreatePage: FC = () => {
 
     // trigger create auction command
     setStep(1)
-    const { secretjs: signingClientTwo } = await keplr.createSigningClient({
-      maxGas: '600000',
-    })
-    const bidAmountAtSmallestDenomination = toSmallestDenomination(
+    const { error } = await createAuction()
+
+    if (!error) {
+      setStep(2)
+      resetForms()
+    }
+
+    setLoading(false)
+  }
+
+  const tryCreateAuctionAgain = async () => {
+    setLoading(true)
+
+    const { error } = await createAuction()
+
+    if (!error) {
+      setStep(2)
+      resetForms()
+    }
+
+    setLoading(false)
+  }
+
+  const getCodeHash = async (address: string) => {
+    try {
+      const codeHash = await client?.getCodeHashByContractAddr(address)
+      return { codeHash }
+    } catch (error) {
+      console.log(
+        'Cannot find code hash with sell token contract address',
+        error
+      )
+      return { error: { message: 'Cannot find code hash with this address.' } }
+    }
+  }
+
+  const createAuction = async () => {
+    // get code hash from sell snip-20 contract addresses
+    const {
+      error: sellCodeHashError,
+      codeHash: sellCodeHash,
+    } = await getCodeHash(sellContract.address)
+    if (sellCodeHashError) {
+      return { codeHashError: { sell: true } }
+    }
+
+    // get code hash from bid snip-20 contract addresses
+    const {
+      error: bidCodeHashError,
+      codeHash: bidCodeHash,
+    } = await getCodeHash(exchangeForContract.address)
+    if (bidCodeHashError) {
+      return { codeHashError: { bid: true } }
+    }
+
+    // set up data for auction creation
+    const sellAmountInSmallestDenomination = toSmallestDenomination(
+      sellContract.amount,
+      sellContract.decimals
+    )
+    const bidAmountInSmallestDenomination = toSmallestDenomination(
       exchangeForContract.amount,
       exchangeForContract.decimals
     )
@@ -207,40 +213,48 @@ const CreatePage: FC = () => {
       create_auction: {
         label,
         sell_contract: {
-          code_hash: sellCodeHash,
+          code_hash: sellCodeHash || '',
           address: sellContract.address,
         },
         bid_contract: {
-          code_hash: exchangeForCodeHash,
+          code_hash: bidCodeHash || '',
           address: exchangeForContract.address,
         },
-        sell_amount: sellAmountAtSmallestDenomination,
-        minimum_bid: bidAmountAtSmallestDenomination,
+        sell_amount: sellAmountInSmallestDenomination,
+        minimum_bid: bidAmountInSmallestDenomination,
         description: description,
         ends_at: getUnixTime(endOfDay(endDate)),
       },
     }
-    // console.log(handleMsg)
+    const { secretjs: signingClient } = await keplr.createSigningClient({
+      maxGas: '600000',
+    })
 
     try {
-      const response = await signingClientTwo?.execute(
+      const response = await signingClient?.execute(
         FACTORY_CONTRACT_ADDRESS,
         handleMsg
       )
-      // console.log(response)
-      // const result = decoder(response?.data)
-      // console.log(result)
+      const address =
+        response?.logs[0].events
+          .find((item) => item.type === 'wasm')
+          ?.attributes.concat()
+          .reverse()
+          .find((item) => item.key === 'contract_address')?.value || ''
+
+      setTxInfo({ address, txHash: response?.transactionHash || '' })
+      return { ...response }
     } catch (error) {
       console.log('Error creating:', error.message)
-      setFailed(error.message)
-      setLoading(false)
-      setStep(-1)
-      return
-    }
+      const text = parseErrorMessage(error.message)
+      setAlert({
+        title: 'Error',
+        text,
+        type: AlertType.error,
+      })
 
-    setLoading(false)
-    setStep(2)
-    resetForms()
+      return { error: { message: error.message } }
+    }
   }
 
   const resetForms = () => {
@@ -267,22 +281,22 @@ const CreatePage: FC = () => {
           sellContractErrors={sellContractErrors}
           bidContractErrors={exchangeForContractErrors}
           setSellContractErrors={setSellContractErrors}
-          setBidContractErrors={setExchangeForContractErorrs}
+          setBidContractErrors={setExchangeForContractErrors}
           loading={loading}
         />
         <Grid>
           <div />
           <div />
-          {step !== -1 && <ProgressStepper step={step} />}
+          {step !== -1 && (
+            <ProgressStepper
+              step={step}
+              loading={loading}
+              onClick={tryCreateAuctionAgain}
+              txInfo={txInfo}
+            />
+          )}
         </Grid>
       </InnerContainer>
-      {failed && (
-        <StyledAlert type="error">
-          <Title>Oopsie</Title>
-          <Code hue="red">{failed}</Code>
-          <Close aria-label="Close Alert" onClick={() => setFailed('')} />
-        </StyledAlert>
-      )}
     </Container>
   )
 }
