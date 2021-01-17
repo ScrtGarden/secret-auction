@@ -63,3 +63,21 @@ export interface ErrorResponse {
 export interface BidRouterQuery extends ParsedUrlQuery {
   address: string
 }
+
+export interface CreateAuctionHandleMsg {
+  create_auction: {
+    label: string
+    sell_contract: {
+      code_hash: string
+      address: string
+    }
+    bid_contract: {
+      code_hash: string
+      address: string
+    }
+    sell_amount: string
+    minimum_bid: string
+    description?: string
+    ends_at: number
+  }
+}
