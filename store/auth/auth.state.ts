@@ -2,7 +2,7 @@ import { AuthState } from './auth.models'
 
 const initialState: AuthState = {
   accounts: [],
-  viewingKey: '',
+  viewingKeys: {},
 }
 
 export default initialState

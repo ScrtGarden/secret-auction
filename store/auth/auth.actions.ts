@@ -7,7 +7,7 @@ const actions: AuthActions = {
     state.accounts = payload
   }),
   setViewingKey: action((state, payload) => {
-    state.viewingKey = payload
+    state.viewingKeys[state.connectedAddress] = payload
   }),
 }
 

@@ -6,9 +6,13 @@ export interface Account {
   pubkey: Uint8Array
 }
 
+interface ViewingKeys {
+  [address: string]: string
+}
+
 export interface AuthState {
   accounts: Account[]
-  viewingKey: string
+  viewingKeys: ViewingKeys
 }
 
 export interface AuthActions {
@@ -19,6 +23,7 @@ export interface AuthActions {
 export interface AuthComputators {
   isWalletConnected: Computed<AuthModel, boolean>
   connectedAddress: Computed<AuthModel, string>
+  connectedViewingKey: Computed<AuthModel, string>
 }
 
 export interface AuthModel extends AuthState, AuthActions, AuthComputators {}
