@@ -6,13 +6,8 @@ import { PALETTE } from '@zendeskgarden/react-theming'
 import { FC, memo } from 'react'
 
 import { CHAIN_EXPLORER } from '../../../../utils/constants'
-import {
-  Container,
-  StyledCode,
-  StyledStepperLabel,
-  Text,
-  Title,
-} from './styles'
+import { StyledCode } from '../../Common/StyledComponents'
+import { Container, StyledStepperLabel, Text, Title } from './styles'
 
 type Props = {
   step: number

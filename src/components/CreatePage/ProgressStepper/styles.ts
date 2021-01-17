@@ -1,5 +1,4 @@
 import { Stepper } from '@zendeskgarden/react-accordions'
-import { Code } from '@zendeskgarden/react-typography'
 import styled from 'styled-components'
 
 interface TextProps {
@@ -33,8 +32,4 @@ const Title = styled.h2`
   margin: 0 0 ${(props) => props.theme.space.xs} 0;
 `
 
-const StyledCode = styled(Code)`
-  word-break: break-all;
-`
-
-export { Container, Content, Text, Title, StyledStepperLabel, StyledCode }
+export { Container, Content, Text, Title, StyledStepperLabel }
