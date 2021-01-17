@@ -1,15 +1,16 @@
-import { useState } from 'react'
+import { useContext, useState } from 'react'
 
-import { AuctionStatus } from '../../../interfaces'
+import { ActiveAuctionInfo, ClosedAuctionInfo } from '../../../interfaces'
 import { FACTORY_CONTRACT_ADDRESS } from '../../../utils/constants'
 import { useStoreState } from '../../../utils/hooks/storeHooks'
-import useSecretJs from '../../../utils/hooks/useSecretJs'
+import { SecretJsContext } from '../../../utils/secretjs'
 import { Container, InnerContainer, Title } from '../Common/StyledComponents'
+import AuctionTable from '../Tables/User'
 import Filters from './Filters'
 import Header from './Header'
 
 const ProfilePage = () => {
-  const { loading, secretjs } = useSecretJs()
+  const { secretjs } = useContext(SecretJsContext)
 
   // store states
   const address = useStoreState((state) => state.auth.connectedAddress)
@@ -39,17 +40,18 @@ const ProfilePage = () => {
       let activeBidderAuctions = []
       let closedSellerAuctions = []
       let closedWonAuctions = []
+
       if (active) {
         const { as_seller, as_bidder } = active
         if (as_seller) {
-          activeSellerAuctions = as_seller.map((item: AuctionInfo) => ({
+          activeSellerAuctions = as_seller.map((item: ActiveAuctionInfo) => ({
             ...item,
             seller: true,
             active: true,
           }))
         }
         if (as_bidder) {
-          activeBidderAuctions = as_bidder.map((item: AuctionInfo) => ({
+          activeBidderAuctions = as_bidder.map((item: ActiveAuctionInfo) => ({
             ...item,
             bidder: true,
             active: true,
@@ -60,14 +62,16 @@ const ProfilePage = () => {
       if (closed) {
         const { as_seller: as_seller_closed, won } = closed
         if (as_seller_closed) {
-          closedSellerAuctions = as_seller_closed.map((item: AuctionInfo) => ({
-            ...item,
-            seller: true,
-            active: false,
-          }))
+          closedSellerAuctions = as_seller_closed.map(
+            (item: ClosedAuctionInfo) => ({
+              ...item,
+              seller: true,
+              active: false,
+            })
+          )
         }
         if (won) {
-          closedWonAuctions = won.map((item: AuctionInfo) => ({
+          closedWonAuctions = won.map((item: ClosedAuctionInfo) => ({
             ...item,
             seller: false,
             active: false,
@@ -98,20 +102,18 @@ const ProfilePage = () => {
     <Container>
       <InnerContainer>
         <Title>Profile</Title>
-        <Header address={address} viewingKey={viewingKey} secretjs={secretjs} />
+        <Header address={address} viewingKey={viewingKey} />
         <Filters
           search={search}
           onChange={(value) => setSearch(value.currentTarget.value)}
           filter={filter}
           onSelect={(value) => setFilter(value)}
         />
-        {/* <AuctionTable
+        <AuctionTable
           data={contracts}
           getContracts={getContracts}
-          secretjs={secretjs}
-          loading={loading}
-          type={AuctionStatus.both}
-        /> */}
+          viewingKey={viewingKey}
+        />
       </InnerContainer>
     </Container>
   )
