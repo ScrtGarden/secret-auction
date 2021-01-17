@@ -35,6 +35,7 @@ const BidModal = () => {
   const [bidAmountError, setBidAmountError] = useState('')
   const [loading, setLoading] = useState(false)
   const [success, setSuccess] = useState(false)
+  const [txHash, setTxHash] = useState<string | undefined>('')
 
   const onClose = () => {
     toggleModal()
@@ -98,6 +99,7 @@ const BidModal = () => {
         handleMsg
       )
       console.log(response)
+      setTxHash(response?.transactionHash)
       setSuccess(true)
     } catch (error) {
       console.log('Error placing bid:', error.message)
@@ -109,11 +111,8 @@ const BidModal = () => {
       })
       setLoading(false)
     }
-
-    console.log('*** FINISHED ***')
   }
 
-  console.log(loadingAuctionInfo, data, error)
   return (
     <>
       <StyledModal onClose={onClose}>
@@ -143,6 +142,7 @@ const BidModal = () => {
             amount={amount}
             symbol={data?.bid_token.token_info.symbol}
             onClick={onClose}
+            txHash={txHash}
           />
         )}
       </StyledModal>
