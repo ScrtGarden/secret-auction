@@ -1,3 +1,4 @@
+import Lottie from 'react-lottie-player'
 import styled from 'styled-components'
 
 const Container = styled.div`
@@ -20,4 +21,10 @@ const Text = styled.p`
   margin: 0;
 `
 
-export { Container, Title, Text }
+const StyledLottie = styled(Lottie)`
+  height: 150px;
+  margin: 0 auto;
+  width: 150px;
+`
+
+export { Container, Title, Text, StyledLottie }
