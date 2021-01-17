@@ -12,9 +12,13 @@ const Alert = () => {
   const info = useStoreState((state) => state.controls.alertInfo)
 
   useEffect(() => {
-    setTimeout(() => {
+    const timer = setTimeout(() => {
       toggleAlert()
-    }, 5000)
+    }, 10000)
+
+    return () => {
+      clearTimeout(timer)
+    }
   }, [])
 
   return (
