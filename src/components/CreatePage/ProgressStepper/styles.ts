@@ -1,9 +1,12 @@
 import { Stepper } from '@zendeskgarden/react-accordions'
+import { Code } from '@zendeskgarden/react-typography'
 import styled from 'styled-components'
 
-const Container = styled.div`
-  /* max-width: 600px; */
-`
+interface TextProps {
+  readonly marginbottom?: boolean
+}
+
+const Container = styled.div``
 
 const StyledStepperLabel = styled(Stepper.Label)`
   font-size: ${(props) => props.theme.fontSizes.md};
@@ -17,10 +20,12 @@ const Content = styled.div`
   max-width: 400px;
 `
 
-const Text = styled.p`
+const Text = styled.p<TextProps>`
   color: ${(props) => props.theme.palette.grey[800]};
   font-size: ${(props) => props.theme.fontSizes.md};
+  line-height: ${(props) => props.theme.lineHeights.md};
   margin: 0;
+  ${(props) => props.marginbottom && `margin-bottom: ${props.theme.space.sm}`};
 `
 
 const Title = styled.h2`
@@ -28,4 +33,8 @@ const Title = styled.h2`
   margin: 0 0 ${(props) => props.theme.space.xs} 0;
 `
 
-export { Container, Content, Text, Title, StyledStepperLabel }
+const StyledCode = styled(Code)`
+  word-break: break-all;
+`
+
+export { Container, Content, Text, Title, StyledStepperLabel, StyledCode }
