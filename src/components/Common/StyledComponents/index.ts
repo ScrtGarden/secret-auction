@@ -1,4 +1,5 @@
 import { Message } from '@zendeskgarden/react-forms'
+import { Code } from '@zendeskgarden/react-typography'
 import styled from 'styled-components'
 
 type SeparatorProps = {
@@ -40,4 +41,16 @@ const Separator = styled.div<SeparatorProps>`
   ${(props) => props.lg && `height: ${props.theme.space.lg}`};
 `
 
-export { Container, InnerContainer, Title, FieldGrid, StyledMessage, Separator }
+const StyledCode = styled(Code)`
+  word-break: break-all;
+`
+
+export {
+  Container,
+  InnerContainer,
+  Title,
+  FieldGrid,
+  StyledMessage,
+  Separator,
+  StyledCode,
+}
