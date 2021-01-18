@@ -7,15 +7,20 @@ import authStore from './auth/auth.store'
 import { ControlsModel, ControlsState } from './controls/controls.models'
 import controlsState from './controls/controls.state'
 import controlsStore from './controls/controls.store'
+import { ProfileModel, ProfileState } from './profile/profile.models'
+import profileState from './profile/profile.state'
+import profileStore from './profile/profile.store'
 
 export interface StoreModel {
   auth: AuthModel
   controls: ControlsModel
+  profile: ProfileModel
 }
 
 export interface StoreState {
   auth: AuthState
   controls: ControlsState
+  profile: ProfileState
 }
 
 let store: Store | undefined
@@ -23,11 +28,13 @@ let store: Store | undefined
 const initialStoreState: StoreState = {
   auth: authState,
   controls: controlsState,
+  profile: profileState,
 }
 
 const storeModel: StoreModel = {
   auth: authStore,
   controls: controlsStore,
+  profile: profileStore,
 }
 
 const storeConfig: PersistConfig<StoreModel> = {
