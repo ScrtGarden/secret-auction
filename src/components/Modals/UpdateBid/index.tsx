@@ -115,7 +115,7 @@ const UpdateBidModal = () => {
         <Text>{`Your current minimum bid is at ${toBiggestDenomination(
           minimum_bid,
           bid_decimals
-        )} ${bidTokenSymbol}`}</Text>
+        )} ${bidTokenSymbol}.`}</Text>
         <Separator lg />
         <InputWithSymbol
           label="Amount"
