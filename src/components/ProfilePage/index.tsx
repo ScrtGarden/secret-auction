@@ -2,7 +2,7 @@ import { useContext, useState } from 'react'
 
 import { ActiveAuctionInfo, ClosedAuctionInfo } from '../../../interfaces'
 import { FACTORY_CONTRACT_ADDRESS } from '../../../utils/constants'
-import { useStoreState } from '../../../utils/hooks/storeHooks'
+import { useStoreActions, useStoreState } from '../../../utils/hooks/storeHooks'
 import { SecretJsContext } from '../../../utils/secretjs'
 import { Container, InnerContainer, Title } from '../Common/StyledComponents'
 import AuctionTable from '../Tables/User'
@@ -12,13 +12,19 @@ import Header from './Header'
 const ProfilePage = () => {
   const { secretjs } = useContext(SecretJsContext)
 
+  // store actions
+  const setAuctions = useStoreActions((actions) => actions.profile.setAuctions)
+
+  const [search, setSearch] = useState('')
+
   // store states
+  const filteredAuctions = useStoreState((state) =>
+    state.profile.filterAuctions({ search })
+  )
   const address = useStoreState((state) => state.auth.connectedAddress)
-  const viewingKey = useStoreState((state) => state.auth.viewingKey)
+  const viewingKey = useStoreState((state) => state.auth.connectedViewingKey)
 
   // component states
-  const [contracts, setContracts] = useState([])
-  const [search, setSearch] = useState('')
   const [filter, setFilter] = useState('all')
 
   const getContracts = async () => {
@@ -73,7 +79,6 @@ const ProfilePage = () => {
         if (won) {
           closedWonAuctions = won.map((item: ClosedAuctionInfo) => ({
             ...item,
-            seller: false,
             active: false,
             winner: true,
           }))
@@ -86,7 +91,7 @@ const ProfilePage = () => {
         closedSellerAuctions,
         closedWonAuctions
       )
-      setContracts(
+      setAuctions(
         activeSellerAuctions.concat(
           activeBidderAuctions,
           closedSellerAuctions,
@@ -110,7 +115,7 @@ const ProfilePage = () => {
           onSelect={(value) => setFilter(value)}
         />
         <AuctionTable
-          data={contracts}
+          data={filteredAuctions}
           getContracts={getContracts}
           viewingKey={viewingKey}
         />

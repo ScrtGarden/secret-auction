@@ -1,10 +1,11 @@
 import { Dots } from '@zendeskgarden/react-loaders'
 import cryptoRandomString from 'crypto-random-string'
 import { FC, memo, useState } from 'react'
-import { SigningCosmWasmClient } from 'secretjs'
 
 import { FACTORY_CONTRACT_ADDRESS } from '../../../../utils/constants'
 import { useStoreActions } from '../../../../utils/hooks/storeHooks'
+import useConnectToKeplr from '../../../../utils/hooks/useConnectToKeplr'
+import keplr from '../../../../utils/keplr'
 import truncateAddress from '../../../../utils/truncateAddress'
 import CopyTooltip from './CopyTooltip'
 import {
@@ -20,29 +21,43 @@ import {
 type Props = {
   address: string
   viewingKey: string
-  secretjs: SigningCosmWasmClient | undefined
 }
 
 const Header: FC<Props> = (props) => {
-  const { address, viewingKey, secretjs } = props
+  const { address, viewingKey } = props
   const shortenAddress = truncateAddress(address)
 
   // store actions
   const setViewingKey = useStoreActions((actions) => actions.auth.setViewingKey)
 
+  // custom hooks
+  const [connectToKeplr] = useConnectToKeplr()
+
   // component states
   const [loading, setLoading] = useState(false)
 
   const getViewingKey = async () => {
+    setLoading(true)
+
+    const { error } = await connectToKeplr()
+
+    if (error) {
+      setLoading(false)
+      return
+    }
+
     const entropy = cryptoRandomString({ length: 20, type: 'base64' })
     const handleMsg = {
       create_viewing_key: {
         entropy,
       },
     }
-    setLoading(true)
+    const { secretjs: signingClient } = await keplr.createSigningClient({
+      maxGas: '120000',
+    })
+
     try {
-      const result = await secretjs?.execute(
+      const result = await signingClient?.execute(
         FACTORY_CONTRACT_ADDRESS,
         handleMsg
       )
