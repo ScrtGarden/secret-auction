@@ -9,6 +9,7 @@ const initialState: ControlsState = {
     text: '',
     type: AlertType.info,
   },
+  isUpdateBidModalOpen: false,
 }
 
 export default initialState

@@ -18,6 +18,7 @@ export interface ControlsState {
   isBidModalOpen: boolean
   showAlert: boolean
   alertInfo: AlertInfo
+  isUpdateBidModalOpen: boolean
 }
 
 export interface ControlsActions {
@@ -25,6 +26,7 @@ export interface ControlsActions {
   toggleBidModal: Action<ControlsModel>
   toggleAlert: Action<ControlsModel>
   setAlertInfo: Action<ControlsModel, AlertInfo>
+  toggleUpdateBidModal: Action<ControlsModel>
 }
 
 export interface ControlsListeners {
