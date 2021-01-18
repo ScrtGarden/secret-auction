@@ -12,8 +12,12 @@ import keplr from '../../../../utils/keplr'
 import parseErrorMessage from '../../../../utils/parseErrorMessage'
 import toSmallestDenomination from '../../../../utils/toSmallestDenomination'
 import validator from '../../../../utils/validators/bid'
+import {
+  ModalHeader,
+  ModalTitle,
+  StyledModal,
+} from '../../Common/StyledComponents'
 import Details from './Details'
-import { Header, StyledModal, Title } from './styles'
 import Success from './Success'
 
 const BidModal = () => {
@@ -114,39 +118,37 @@ const BidModal = () => {
   }
 
   return (
-    <>
-      <StyledModal onClose={onClose}>
-        <Header>
-          <Title>Bid</Title>
-          <Close />
-        </Header>
-        {!success ? (
-          <Details
-            endsAt={data?.ends_at}
-            sellAmount={data?.sell_amount}
-            minimumBidAmount={data?.minimum_bid}
-            sellToken={data?.sell_token}
-            bidToken={data?.bid_token}
-            loading={loadingAuctionInfo}
-            description={data?.description}
-            label="Amount"
-            value={amount}
-            onChange={onChangeAmount}
-            error={bidAmountError}
-            bidding={loading}
-            bidError={!!error}
-            onSubmit={onSubmit}
-          />
-        ) : (
-          <Success
-            amount={amount}
-            symbol={data?.bid_token.token_info.symbol}
-            onClick={onClose}
-            txHash={txHash}
-          />
-        )}
-      </StyledModal>
-    </>
+    <StyledModal onClose={onClose}>
+      <ModalHeader>
+        <ModalTitle>Bid</ModalTitle>
+        <Close />
+      </ModalHeader>
+      {!success ? (
+        <Details
+          endsAt={data?.ends_at}
+          sellAmount={data?.sell_amount}
+          minimumBidAmount={data?.minimum_bid}
+          sellToken={data?.sell_token}
+          bidToken={data?.bid_token}
+          loading={loadingAuctionInfo}
+          description={data?.description}
+          label="Amount"
+          value={amount}
+          onChange={onChangeAmount}
+          error={bidAmountError}
+          bidding={loading}
+          bidError={!!error}
+          onSubmit={onSubmit}
+        />
+      ) : (
+        <Success
+          amount={amount}
+          symbol={data?.bid_token.token_info.symbol}
+          onClick={onClose}
+          txHash={txHash}
+        />
+      )}
+    </StyledModal>
   )
 }
 
