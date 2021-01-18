@@ -41,7 +41,7 @@ const ItemRow: FC<Props> = (props) => {
               winning_bid,
               bid_decimals
             )} ${bidTokenSymbol}`
-          : ''}
+          : '-'}
       </Cell>
       <Cell>{format(timestamp * 1000, DATE_FORMAT)}</Cell>
     </Row>
