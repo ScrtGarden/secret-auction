@@ -7,8 +7,12 @@ import { Dropdown, Item, Menu, Trigger } from '@zendeskgarden/react-dropdowns'
 import styled from 'styled-components'
 
 const StyledSplitButton = styled(SplitButton)`
+  margin-top: 5px;
+  width: 100%;
+  z-index: unset;
+
   button {
-    height: 20px;
+    height: 30px;
   }
 `
 

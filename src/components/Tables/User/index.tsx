@@ -5,23 +5,37 @@ import {
   HeaderRow,
   Table,
 } from '@zendeskgarden/react-tables'
+import { useStoreRehydrated } from 'easy-peasy'
 import { useRouter } from 'next/router'
 import { FC, memo, useEffect, useState } from 'react'
 
-import { ActiveAuctionInfo } from '../../../../interfaces'
+import { CombinedAuctionInfo } from '../../../../interfaces'
+import { useStoreActions } from '../../../../utils/hooks/storeHooks'
 import SkeletonRows from '../SkeletonRows'
 import ItemRow from './ItemRow'
 
 type Props = {
-  data: readonly ActiveAuctionInfo[]
+  data: readonly CombinedAuctionInfo[]
   getContracts: () => void
   viewingKey?: string
 }
 
 const AuctionTable: FC<Props> = (props) => {
   const { data, getContracts, viewingKey } = props
-
   const router = useRouter()
+
+  // store state
+  const rehydrated = useStoreRehydrated()
+
+  // store actions
+  const toggleUpdateBid = useStoreActions(
+    (actions) => actions.controls.toggleUpdateBidModal
+  )
+  const toggleBid = useStoreActions(
+    (actions) => actions.controls.toggleBidModal
+  )
+
+  // component state
   const [fetching, setFetching] = useState(false)
 
   useEffect(() => {
@@ -31,8 +45,20 @@ const AuctionTable: FC<Props> = (props) => {
       setFetching(false)
     }
 
-    goGetContracts()
-  }, [viewingKey])
+    if (rehydrated) {
+      goGetContracts()
+    }
+  }, [viewingKey, rehydrated])
+
+  const onClickButton = (key: string, address: string) => {
+    if (key === 'edit') {
+      router.push(`${router.route}?address=${address}`, `${router.asPath}`, {
+        shallow: true,
+      })
+      toggleUpdateBid()
+    }
+    // console.log(key)
+  }
 
   return (
     <Table>
@@ -42,6 +68,9 @@ const AuctionTable: FC<Props> = (props) => {
           <HeaderCell>Trading</HeaderCell>
           <HeaderCell>Minimum</HeaderCell>
           <HeaderCell>End Date</HeaderCell>
+          <HeaderCell>Finalised</HeaderCell>
+          <HeaderCell>Winning Bid</HeaderCell>
+          <HeaderCell>Status</HeaderCell>
           <HeaderCell>Action</HeaderCell>
         </HeaderRow>
       </Head>
@@ -50,7 +79,7 @@ const AuctionTable: FC<Props> = (props) => {
           <SkeletonRows rows={4} columns={4} />
         ) : (
           data.map((item) => (
-            <ItemRow key={item.address} item={item} router={router} />
+            <ItemRow key={item.address} item={item} onClick={onClickButton} />
           ))
         )}
       </Body>
