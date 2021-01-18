@@ -132,7 +132,7 @@ const Details: FC<Props> = (props) => {
       <Button
         isPrimary
         isStretched
-        disabled={loading || !!error || bidding}
+        disabled={loading || bidding}
         onClick={onSubmit}
       >
         {bidding ? <Dots size="20" /> : 'Place Bid'}
