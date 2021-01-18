@@ -48,6 +48,15 @@ export interface ClosedAuctionInfo extends BaseAuctionInfo {
   timestamp: number
 }
 
+export interface CombinedAuctionInfo
+  extends ActiveAuctionInfo,
+    ClosedAuctionInfo {
+  seller?: boolean
+  bidder?: boolean
+  active?: boolean
+  winner?: boolean
+}
+
 export interface AuctionInfoUi extends BaseAuctionInfo {
   active?: boolean
   winner?: boolean
