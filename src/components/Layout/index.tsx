@@ -7,6 +7,7 @@ import Footer from '../Footer'
 import Header from '../Header'
 import BidModal from '../Modals/Bid'
 import GetKeplrModal from '../Modals/GetKeplr'
+import UpdateBidModal from '../Modals/UpdateBid'
 
 type Props = {
   children?: React.ReactElement
@@ -25,6 +26,9 @@ const Layout = ({ children }: Props) => {
   )
   const isBidModalOpen = useStoreState((state) => state.controls.isBidModalOpen)
   const showAlert = useStoreState((state) => state.controls.showAlert)
+  const isUpdateBidModalOpen = useStoreState(
+    (state) => state.controls.isUpdateBidModalOpen
+  )
 
   // custom hooks
   const { loading, accounts } = useGetAccounts()
@@ -46,6 +50,7 @@ const Layout = ({ children }: Props) => {
       {/* modals */}
       {isGetKeplrModalOpen && <GetKeplrModal />}
       {isBidModalOpen && <BidModal />}
+      {isUpdateBidModalOpen && <UpdateBidModal />}
 
       {/* alerts */}
       {showAlert && <Alert />}
