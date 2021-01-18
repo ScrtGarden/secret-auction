@@ -35,18 +35,23 @@ const CHAIN_EXPLORER = 'https://secretnodes.com/secret/chains/holodeck-2'
 const KEPLR_CHROME_STORE_URL =
   'https://chrome.google.com/webstore/detail/keplr/dmkamcknogkgcdfhhbddcghachkejeap?hl=en'
 
-const FACTORY_CONTRACT_ID = 220
-const FACTORY_CONTRACT_ADDRESS = 'secret1zzhwed94q894l4t3ckmdvs5twyeeg2nudmm3ar'
+const FACTORY_CONTRACT_ID = 253
+const FACTORY_CONTRACT_ADDRESS = 'secret1vwagf5g3uap6hx2jdhsnzdar44czkz3rr0xxyr'
 const AUCTION_CONTRACT_ID = 219
 
-const OPEN_OWNER_ACTIONS = {
-  consign: 'Consign',
-  finalise: 'Finalise & Close',
+const OPEN_SELLER_ACTIONS = {
+  finalise: 'Finalise',
+  edit: 'Edit',
 }
 
 const OPEN_BIDDER_ACTIONS = {
-  retract: 'Retract Bid',
   bid: 'Bid',
+  retract: 'Retract',
+}
+
+const OPEN_BIDDER_OVERDUE_ACTIONS = {
+  ...OPEN_BIDDER_ACTIONS,
+  finalise: 'Finalise',
 }
 
 const CLOSED_AUCTION_ACTIONS = {
@@ -61,8 +66,9 @@ export {
   AUCTION_CONTRACT_ID,
   FACTORY_CONTRACT_ID,
   FACTORY_CONTRACT_ADDRESS,
-  OPEN_OWNER_ACTIONS,
+  OPEN_SELLER_ACTIONS,
   OPEN_BIDDER_ACTIONS,
   DATE_FORMAT,
   KEPLR_CHROME_STORE_URL,
+  OPEN_BIDDER_OVERDUE_ACTIONS,
 }
