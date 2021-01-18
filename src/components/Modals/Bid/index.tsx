@@ -5,6 +5,7 @@ import { FormEvent, useState } from 'react'
 import { BidRouterQuery } from '../../../../interfaces'
 import { AlertType } from '../../../../store/controls/controls.models'
 import addPadding from '../../../../utils/addPadding'
+import { PLACE_BID_MAX_GAS } from '../../../../utils/constants'
 import { useStoreActions } from '../../../../utils/hooks/storeHooks'
 import useConnectToKeplr from '../../../../utils/hooks/useConnectToKeplr'
 import useGetAuction from '../../../../utils/hooks/useGetAuction'
@@ -94,7 +95,7 @@ const BidModal = () => {
     }
 
     const { secretjs: signingClientOne } = await keplr.createSigningClient({
-      maxGas: '300000',
+      maxGas: PLACE_BID_MAX_GAS,
     })
 
     try {

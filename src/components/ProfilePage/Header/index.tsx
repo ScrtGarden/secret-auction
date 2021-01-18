@@ -2,7 +2,10 @@ import { Dots } from '@zendeskgarden/react-loaders'
 import cryptoRandomString from 'crypto-random-string'
 import { FC, memo, useState } from 'react'
 
-import { FACTORY_CONTRACT_ADDRESS } from '../../../../utils/constants'
+import {
+  CREATE_VIEWING_KEY,
+  FACTORY_CONTRACT_ADDRESS,
+} from '../../../../utils/constants'
 import { useStoreActions } from '../../../../utils/hooks/storeHooks'
 import useConnectToKeplr from '../../../../utils/hooks/useConnectToKeplr'
 import keplr from '../../../../utils/keplr'
@@ -53,7 +56,7 @@ const Header: FC<Props> = (props) => {
       },
     }
     const { secretjs: signingClient } = await keplr.createSigningClient({
-      maxGas: '120000',
+      maxGas: CREATE_VIEWING_KEY,
     })
 
     try {

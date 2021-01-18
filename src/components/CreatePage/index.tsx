@@ -1,9 +1,12 @@
-import { getUnixTime } from 'date-fns'
-import { endOfDay } from 'date-fns'
+import { endOfDay, getUnixTime } from 'date-fns'
 import { FC, useContext, useReducer, useState } from 'react'
 
 import { AlertType } from '../../../store/controls/controls.models'
-import { FACTORY_CONTRACT_ADDRESS } from '../../../utils/constants'
+import {
+  CREATE_AUCTION_MAX_GAS,
+  FACTORY_CONTRACT_ADDRESS,
+  INCREASE_ALLOWANCE_MAX_GAS,
+} from '../../../utils/constants'
 import { useStoreActions } from '../../../utils/hooks/storeHooks'
 import useConnectToKeplr from '../../../utils/hooks/useConnectToKeplr'
 import keplr from '../../../utils/keplr'
@@ -110,7 +113,7 @@ const CreatePage: FC = () => {
     // trigger allowance command
     setStep(0)
     const { secretjs: signingClientOne } = await keplr.createSigningClient({
-      maxGas: '150000',
+      maxGas: INCREASE_ALLOWANCE_MAX_GAS,
     })
     const sellAmountInSmallestDenomination = toSmallestDenomination(
       sellContract.amount,
@@ -227,7 +230,7 @@ const CreatePage: FC = () => {
       },
     }
     const { secretjs: signingClient } = await keplr.createSigningClient({
-      maxGas: '600000',
+      maxGas: CREATE_AUCTION_MAX_GAS,
     })
 
     try {
