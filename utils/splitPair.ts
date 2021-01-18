@@ -3,7 +3,7 @@ export interface SplitPair {
   bidTokenSymbol: string
 }
 
-const splitPair = (pair: string): SplitPair => {
+const splitPair = (pair: string = ''): SplitPair => {
   const arr = pair.split('-')
 
   return {
