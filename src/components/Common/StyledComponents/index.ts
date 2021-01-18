@@ -1,4 +1,5 @@
 import { Message } from '@zendeskgarden/react-forms'
+import { Modal } from '@zendeskgarden/react-modals'
 import { Code } from '@zendeskgarden/react-typography'
 import styled from 'styled-components'
 
@@ -45,6 +46,28 @@ const StyledCode = styled(Code)`
   word-break: break-all;
 `
 
+const StyledModal = styled(Modal)`
+  align-items: center;
+  display: flex;
+  flex-direction: column;
+  && {
+    width: 400px;
+  }
+`
+
+const ModalHeader = styled.div`
+  flex: 1;
+  border-bottom: 1px solid ${(props) => props.theme.palette.grey[200]};
+  padding: ${(props) => props.theme.space.md} ${(props) => props.theme.space.lg};
+  width: 100%;
+`
+
+const ModalTitle = styled.h1`
+  color: ${(props) => props.theme.palette.grey[800]};
+  font-size: ${(props) => props.theme.fontSizes.md};
+  margin: 0;
+`
+
 export {
   Container,
   InnerContainer,
@@ -53,4 +76,7 @@ export {
   StyledMessage,
   Separator,
   StyledCode,
+  StyledModal,
+  ModalHeader,
+  ModalTitle,
 }
