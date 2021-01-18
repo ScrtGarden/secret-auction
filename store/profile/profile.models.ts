@@ -8,12 +8,17 @@ export interface ProfileState {
 
 export interface ProfileActions {
   setAuctions: Action<ProfileModel, CombinedAuctionInfo[]>
+  updateAuction: Action<ProfileModel, Partial<CombinedAuctionInfo>>
 }
 
 export interface ProfileComputators {
   filterAuctions: Computed<
     ProfileModel,
     (filters: any) => CombinedAuctionInfo[]
+  >
+  auctionById: Computed<
+    ProfileModel,
+    (address: string) => CombinedAuctionInfo | undefined
   >
 }
 

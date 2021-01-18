@@ -27,6 +27,9 @@ const computators: ProfileComputators = {
       return winnerMatch && typeMatch && activeMatch && searchMatch
     })
   }),
+  auctionById: computed((state) => (address) =>
+    state.auctions.find((auction) => auction.address === address)
+  ),
 }
 
 export default computators
