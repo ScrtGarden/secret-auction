@@ -90,3 +90,11 @@ export interface CreateAuctionHandleMsg {
     ends_at: number
   }
 }
+
+export interface ViewBidResponse {
+  status: string
+  amount: string
+  decimals: number
+  time_placed?: string
+  message?: string
+}
