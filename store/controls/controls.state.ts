@@ -10,6 +10,7 @@ const initialState: ControlsState = {
     type: AlertType.info,
   },
   isUpdateBidModalOpen: false,
+  isRetractBidModalOpen: false,
 }
 
 export default initialState
