@@ -61,22 +61,22 @@ const AuctionTable: FC<Props> = (props) => {
   }
 
   return (
-    <Table>
+    <Table size="large">
       <Head>
         <HeaderRow>
+          <HeaderCell width={50}></HeaderCell>
           <HeaderCell>Label</HeaderCell>
           <HeaderCell>Trading</HeaderCell>
           <HeaderCell>Minimum</HeaderCell>
           <HeaderCell>End Date</HeaderCell>
-          <HeaderCell>Finalised</HeaderCell>
           <HeaderCell>Winning Bid</HeaderCell>
           <HeaderCell>Status</HeaderCell>
-          <HeaderCell>Action</HeaderCell>
+          <HeaderCell width={130}>Action</HeaderCell>
         </HeaderRow>
       </Head>
       <Body>
         {fetching ? (
-          <SkeletonRows rows={4} columns={4} />
+          <SkeletonRows rows={4} columns={8} />
         ) : (
           data.map((item) => (
             <ItemRow key={item.address} item={item} onClick={onClickButton} />
