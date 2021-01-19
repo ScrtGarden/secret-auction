@@ -1,7 +1,5 @@
 import { Cell, Row } from '@zendeskgarden/react-tables'
-import { Tag } from '@zendeskgarden/react-tags'
 import { format, isPast } from 'date-fns'
-import { NextRouter } from 'next/router'
 import { FC, memo, useMemo } from 'react'
 
 import { CombinedAuctionInfo } from '../../../../../interfaces'
@@ -14,7 +12,9 @@ import {
 import splitPair, { SplitPair } from '../../../../../utils/splitPair'
 import toBiggestDenomination from '../../../../../utils/toBiggestDenomination'
 import MultiButton from './MultiButton'
-import { StyledTag } from './styles'
+import Owner from './Owner'
+import StatusTag from './StatusTag'
+import { ButtonWrapper } from './styles'
 
 type Props = {
   item: CombinedAuctionInfo
@@ -60,6 +60,7 @@ const ItemRow: FC<Props> = (props) => {
 
   return (
     <Row>
+      <Cell isMinimum>{seller && <Owner />}</Cell>
       <Cell>{label}</Cell>
       <Cell>{`${toBiggestDenomination(
         sell_amount,
@@ -72,9 +73,7 @@ const ItemRow: FC<Props> = (props) => {
         )} ${bidTokenSymbol}`}
       </Cell>
       <Cell>{format(ends_at * 1000, DATE_FORMAT)}</Cell>
-      <Cell>{timestamp ? format(timestamp * 1000, DATE_FORMAT) : '-'}</Cell>
       <Cell>
-        {' '}
         {winning_bid
           ? `${toBiggestDenomination(
               winning_bid,
@@ -83,37 +82,20 @@ const ItemRow: FC<Props> = (props) => {
           : '-'}
       </Cell>
       <Cell>
-        {active && isOverdue && (
-          <Tag hue="#f79a3e">
-            <span>Overdue</span>
-          </Tag>
-        )}
-        {active && !isOverdue && (
-          <Tag hue="mint">
-            <span>Open</span>
-          </Tag>
-        )}
-        {!active && !winner && (
-          <Tag hue="red">
-            <span>Closed</span>
-          </Tag>
-        )}
-        {!active && winner && (
-          <Tag hue="lemon">
-            <span>Winner</span>
-          </Tag>
-        )}
-        {seller && (
-          <StyledTag hue="kale">
-            <span>Owner</span>
-          </StyledTag>
-        )}
+        <StatusTag
+          active={active}
+          isOverdue={isOverdue}
+          winner={winner}
+          timestamp={timestamp}
+        />
       </Cell>
       <Cell hasOverflow>
-        <MultiButton
-          options={options}
-          onClick={(key) => onClick(key, address)}
-        />
+        <ButtonWrapper>
+          <MultiButton
+            options={options}
+            onClick={(key) => onClick(key, address)}
+          />
+        </ButtonWrapper>
       </Cell>
     </Row>
   )
