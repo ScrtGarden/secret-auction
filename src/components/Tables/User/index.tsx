@@ -31,8 +31,8 @@ const AuctionTable: FC<Props> = (props) => {
   const toggleUpdateBid = useStoreActions(
     (actions) => actions.controls.toggleUpdateBidModal
   )
-  const toggleBid = useStoreActions(
-    (actions) => actions.controls.toggleBidModal
+  const toggleRetractBid = useStoreActions(
+    (actions) => actions.controls.toggleRetractBidModal
   )
 
   // component state
@@ -56,6 +56,11 @@ const AuctionTable: FC<Props> = (props) => {
         shallow: true,
       })
       toggleUpdateBid()
+    } else if (key === 'retract') {
+      router.push(`${router.route}?address=${address}`, `${router.asPath}`, {
+        shallow: true,
+      })
+      toggleRetractBid()
     }
     // console.log(key)
   }
