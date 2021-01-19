@@ -68,6 +68,18 @@ const ModalTitle = styled.h1`
   margin: 0;
 `
 
+const ModalContent = styled.div`
+  padding: ${(props) => props.theme.space.md} ${(props) => props.theme.space.lg};
+  width: 100%;
+`
+
+const ModalText = styled.p`
+  color: ${(props) => props.theme.palette.grey[800]};
+  font-size: ${(props) => props.theme.fontSizes.md};
+  line-height: ${(props) => props.theme.lineHeights.md};
+  margin: 0;
+`
+
 export {
   Container,
   InnerContainer,
@@ -79,4 +91,6 @@ export {
   StyledModal,
   ModalHeader,
   ModalTitle,
+  ModalContent,
+  ModalText,
 }
