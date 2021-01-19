@@ -8,6 +8,7 @@ import Keplr from './Kelpr'
 import Search from './Search'
 import Seedling from './Seedling'
 import User from './User'
+import UserCircle from './UserCircle'
 import UserSecret from './UserSecret'
 
 type Props = {
@@ -21,6 +22,9 @@ const Icon = (props: Props) => {
   let SelectedIcon
 
   switch (name) {
+    case 'user-circle':
+      SelectedIcon = UserCircle
+      break
     case 'clock':
       SelectedIcon = Clock
       break
