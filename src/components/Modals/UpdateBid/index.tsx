@@ -18,12 +18,13 @@ import toBiggestDenomination from '../../../../utils/toBiggestDenomination'
 import toSmallestDenomination from '../../../../utils/toSmallestDenomination'
 import InputWithSymbol from '../../Common/InputWithSymbol'
 import {
+  ModalContent,
   ModalHeader,
+  ModalText,
   ModalTitle,
   Separator,
   StyledModal,
 } from '../../Common/StyledComponents'
-import { Content, Text } from './styles'
 
 const UpdateBidModal = () => {
   const router = useRouter()
@@ -111,11 +112,11 @@ const UpdateBidModal = () => {
         <ModalTitle>Update minimum bid</ModalTitle>
         <Close />
       </ModalHeader>
-      <Content>
-        <Text>{`Your current minimum bid is at ${toBiggestDenomination(
+      <ModalContent>
+        <ModalText>{`Your current minimum bid is at ${toBiggestDenomination(
           minimum_bid,
           bid_decimals
-        )} ${bidTokenSymbol}.`}</Text>
+        )} ${bidTokenSymbol}.`}</ModalText>
         <Separator lg />
         <InputWithSymbol
           label="Amount"
@@ -128,7 +129,7 @@ const UpdateBidModal = () => {
         <Button isPrimary isStretched onClick={onClick} disabled={loading}>
           {loading ? <Dots size="20" /> : 'Update Minimum Bid'}
         </Button>
-      </Content>
+      </ModalContent>
     </StyledModal>
   )
 }
