@@ -12,6 +12,9 @@ const actions: ProfileActions = {
       item.address === address ? { ...item, ...rest } : item
     )
   }),
+  removeAuction: action((state, payload) => {
+    state.auctions = state.auctions.filter((item) => item.address !== payload)
+  }),
 }
 
 export default actions

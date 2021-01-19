@@ -9,6 +9,7 @@ export interface ProfileState {
 export interface ProfileActions {
   setAuctions: Action<ProfileModel, CombinedAuctionInfo[]>
   updateAuction: Action<ProfileModel, Partial<CombinedAuctionInfo>>
+  removeAuction: Action<ProfileModel, string>
 }
 
 export interface ProfileComputators {

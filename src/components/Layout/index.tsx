@@ -7,6 +7,7 @@ import Footer from '../Footer'
 import Header from '../Header'
 import BidModal from '../Modals/Bid'
 import GetKeplrModal from '../Modals/GetKeplr'
+import RetractBidModal from '../Modals/RetractBid'
 import UpdateBidModal from '../Modals/UpdateBid'
 
 type Props = {
@@ -28,6 +29,9 @@ const Layout = ({ children }: Props) => {
   const showAlert = useStoreState((state) => state.controls.showAlert)
   const isUpdateBidModalOpen = useStoreState(
     (state) => state.controls.isUpdateBidModalOpen
+  )
+  const isRetractBidOpen = useStoreState(
+    (state) => state.controls.isRetractBidModalOpen
   )
 
   // custom hooks
@@ -51,6 +55,7 @@ const Layout = ({ children }: Props) => {
       {isGetKeplrModalOpen && <GetKeplrModal />}
       {isBidModalOpen && <BidModal />}
       {isUpdateBidModalOpen && <UpdateBidModal />}
+      {isRetractBidOpen && <RetractBidModal />}
 
       {/* alerts */}
       {showAlert && <Alert />}
