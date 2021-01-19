@@ -3,7 +3,7 @@ import cryptoRandomString from 'crypto-random-string'
 import { FC, memo, useState } from 'react'
 
 import {
-  CREATE_VIEWING_KEY,
+  CREATE_VIEWING_KEY_MAX_GAS,
   FACTORY_CONTRACT_ADDRESS,
 } from '../../../../utils/constants'
 import { useStoreActions } from '../../../../utils/hooks/storeHooks'
@@ -56,7 +56,7 @@ const Header: FC<Props> = (props) => {
       },
     }
     const { secretjs: signingClient } = await keplr.createSigningClient({
-      maxGas: CREATE_VIEWING_KEY,
+      maxGas: CREATE_VIEWING_KEY_MAX_GAS,
     })
 
     try {
