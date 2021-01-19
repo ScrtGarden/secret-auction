@@ -100,6 +100,7 @@ const ProfilePage = () => {
       )
     } catch (error) {
       console.log('Error query list_my_auction', error.message)
+      setAuctions([])
     }
   }
 
