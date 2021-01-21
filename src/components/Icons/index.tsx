@@ -5,6 +5,7 @@ import Dizzy from './Dizzy'
 import Farming from './Farming'
 import InfoCircle from './InfoCircle'
 import Keplr from './Kelpr'
+import KeySkeleton from './KeySkeleton'
 import Search from './Search'
 import Seedling from './Seedling'
 import User from './User'
@@ -22,6 +23,9 @@ const Icon = (props: Props) => {
   let SelectedIcon
 
   switch (name) {
+    case 'key-skeleton':
+      SelectedIcon = KeySkeleton
+      break
     case 'user-circle':
       SelectedIcon = UserCircle
       break
