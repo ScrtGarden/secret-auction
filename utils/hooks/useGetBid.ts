@@ -40,6 +40,7 @@ const useGetBid = (address: string) => {
           })
         }
       } catch (error) {
+        console.log(error)
         console.log('Could not get user bid details:', error.message)
       }
 
@@ -52,8 +53,10 @@ const useGetBid = (address: string) => {
       }
     }
 
-    getBidInfo()
-  }, [])
+    if (address) {
+      getBidInfo()
+    }
+  }, [address])
 
   return {
     loading,
