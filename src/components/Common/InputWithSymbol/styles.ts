@@ -12,4 +12,12 @@ const TokenLabel = styled.div`
   padding: 0 ${(props) => props.theme.space.sm};
 `
 
-export { TokenLabel }
+const Wrapper = styled.div`
+  align-items: center;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  margin-bottom: ${(props) => props.theme.space.xs};
+`
+
+export { TokenLabel, Wrapper }
