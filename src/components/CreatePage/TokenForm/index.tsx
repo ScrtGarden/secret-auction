@@ -15,7 +15,7 @@ import { SecretJsContext } from '../../../../utils/secretjs'
 import InputWithSymbol from '../../Common/InputWithSymbol'
 import { Separator, StyledMessage } from '../../Common/StyledComponents'
 import { SetContractState } from '../CreateForm'
-import { StyledButton, TokenLabel } from './styles'
+import { StyledButton } from './styles'
 import { Contract, ContractErrors } from '..'
 
 type Props = {
