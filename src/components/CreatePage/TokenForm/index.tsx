@@ -117,6 +117,9 @@ const TokenForm: FC<Props> = (props) => {
         disabled={!tokenInfo}
         symbol={tokenInfo?.symbol}
         error={errors.amount}
+        showBalance={!!tokenInfo}
+        tokenAddress={address}
+        decimals={tokenInfo?.decimals}
       />
     </>
   )
