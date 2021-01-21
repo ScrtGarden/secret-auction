@@ -135,6 +135,7 @@ const createSigningClient = async ({ maxGas = '300000' } = {}) => {
 }
 
 export default {
+  getKeplr,
   connect,
   getAccounts,
   createSigningClient,
