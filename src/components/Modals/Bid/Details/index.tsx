@@ -50,7 +50,6 @@ const Details: FC<Props> = (props) => {
     onChange,
     error,
     bidding,
-    bidError,
     onSubmit,
   } = props
 
@@ -127,6 +126,9 @@ const Details: FC<Props> = (props) => {
         onChange={onChange}
         symbol={bidToken?.token_info.symbol}
         error={error}
+        showBalance
+        tokenAddress={bidToken?.contract_address}
+        decimals={bidToken?.token_info.decimals}
       />
       <Separator md />
       <Button
