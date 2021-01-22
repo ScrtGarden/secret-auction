@@ -1,6 +1,9 @@
 import { useEffect, useRef } from 'react'
 
-const useUpdateEffect = (effect: Function, dependencies = []) => {
+const useUpdateEffect = (
+  effect: Function,
+  dependencies: (string | boolean | object)[] = []
+) => {
   const isInitialMount = useRef(true)
 
   useEffect(() => {
