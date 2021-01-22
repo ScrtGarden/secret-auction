@@ -107,7 +107,7 @@ const RetractBidModal = () => {
                   data?.decimals
                 )} ${bidTokenSymbol} on ${
                   data?.time_placed
-                }. Are you sure you want to pull out?`
+                }. Are you sure you want to remove your bid from this auction?`
               : data?.message}
           </ModalText>
         )}
