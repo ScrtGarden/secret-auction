@@ -54,10 +54,6 @@ const OPEN_BIDDER_OVERDUE_ACTIONS = {
   finalise: 'Finalise',
 }
 
-const CLOSED_AUCTION_ACTIONS = {
-  return: 'Return All',
-}
-
 const DATE_FORMAT = 'd/MM/yy'
 
 const CHANGE_MIN_BID_MAX_GAS = '190000'

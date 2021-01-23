@@ -20,6 +20,7 @@ export interface ControlsState {
   alertInfo: AlertInfo
   isUpdateMinBidModalOpen: boolean
   isRetractBidModalOpen: boolean
+  isUpdateBidModalOpen: boolean
 }
 
 export interface ControlsActions {
@@ -29,6 +30,7 @@ export interface ControlsActions {
   setAlertInfo: Action<ControlsModel, AlertInfo>
   toggleUpdateMinBidModal: Action<ControlsModel>
   toggleRetractBidModal: Action<ControlsModel>
+  toggleUpdateBidModal: Action<ControlsModel>
 }
 
 export interface ControlsListeners {

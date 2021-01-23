@@ -21,6 +21,9 @@ const actions: ControlsActions = {
   toggleRetractBidModal: action((state) => {
     state.isRetractBidModalOpen = !state.isRetractBidModalOpen
   }),
+  toggleUpdateBidModal: action((state) => {
+    state.isUpdateBidModalOpen = !state.isUpdateBidModalOpen
+  }),
 }
 
 export default actions
