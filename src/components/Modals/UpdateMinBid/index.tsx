@@ -94,7 +94,7 @@ const UpdateMinBidModal = () => {
         text: `Minimum bid updated to ${amount} ${bidTokenSymbol}`,
         type: AlertType.success,
       })
-      toggleModal()
+      onClose()
     } catch (error) {
       const text = parseErrorMessage(error.message)
       setAlert({
@@ -106,8 +106,13 @@ const UpdateMinBidModal = () => {
     }
   }
 
+  const onClose = () => {
+    router.push(`${router.route}`, `${router.asPath}`, { shallow: true })
+    toggleModal()
+  }
+
   return (
-    <StyledModal onClose={() => toggleModal()}>
+    <StyledModal onClose={onClose}>
       <ModalHeader>
         <ModalTitle>Update minimum bid</ModalTitle>
         <Close />

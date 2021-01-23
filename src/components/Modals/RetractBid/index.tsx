@@ -76,7 +76,7 @@ const RetractBidModal = () => {
         type: AlertType.success,
       })
       setLoading(false)
-      toggleModal()
+      onClose()
     } catch (error) {
       const text = parseErrorMessage(error.message)
       setAlert({
@@ -88,8 +88,13 @@ const RetractBidModal = () => {
     }
   }
 
+  const onClose = () => {
+    router.push(`${router.route}`, `${router.asPath}`, { shallow: true })
+    toggleModal()
+  }
+
   return (
-    <StyledModal onClose={() => toggleModal()}>
+    <StyledModal onClose={onClose}>
       <ModalHeader>
         <ModalTitle>Retract bid</ModalTitle>
         <Close />
@@ -113,12 +118,7 @@ const RetractBidModal = () => {
           </ModalText>
         )}
         <Buttons>
-          <Button
-            isStretched
-            isBasic
-            onClick={() => toggleModal()}
-            disabled={loading}
-          >
+          <Button isStretched isBasic onClick={onClose} disabled={loading}>
             Cancel
           </Button>
           <Button
