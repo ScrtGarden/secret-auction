@@ -28,5 +28,3 @@ export const StyledIcon = styled(Icon)`
     width: 14px;
   }
 `
-
-// export { Address, Title, Wrapper, StyledIcon }
