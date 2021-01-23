@@ -1,4 +1,5 @@
 import { Message } from '@zendeskgarden/react-forms'
+import { Skeleton } from '@zendeskgarden/react-loaders'
 import { Modal } from '@zendeskgarden/react-modals'
 import { Code } from '@zendeskgarden/react-typography'
 import styled from 'styled-components'
@@ -80,6 +81,14 @@ const ModalText = styled.p`
   margin: 0;
 `
 
+const StyledSkeleton = styled(Skeleton)`
+  margin-bottom: ${(props) => props.theme.space.xxs};
+
+  :last-child {
+    margin: 0;
+  }
+`
+
 export {
   Container,
   InnerContainer,
@@ -93,4 +102,5 @@ export {
   ModalTitle,
   ModalContent,
   ModalText,
+  StyledSkeleton,
 }
