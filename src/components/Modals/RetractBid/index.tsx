@@ -22,8 +22,9 @@ import {
   ModalText,
   ModalTitle,
   StyledModal,
+  StyledSkeleton,
 } from '../../Common/StyledComponents'
-import { Buttons, StyledSkeleton } from './styles'
+import { Buttons } from './styles'
 
 const RetractBidModal = () => {
   const router = useRouter()
