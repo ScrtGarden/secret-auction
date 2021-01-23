@@ -8,6 +8,7 @@ import Header from '../Header'
 import BidModal from '../Modals/Bid'
 import GetKeplrModal from '../Modals/GetKeplr'
 import RetractBidModal from '../Modals/RetractBid'
+import UpdateBidModal from '../Modals/UpdateBid'
 import UpdateMinBidModal from '../Modals/UpdateMinBid'
 
 type Props = {
@@ -33,6 +34,9 @@ const Layout = ({ children }: Props) => {
   const isRetractBidOpen = useStoreState(
     (state) => state.controls.isRetractBidModalOpen
   )
+  const isUpdateBidModalOpen = useStoreState(
+    (state) => state.controls.isUpdateBidModalOpen
+  )
 
   // custom hooks
   const { loading, accounts } = useGetAccounts()
@@ -56,6 +60,7 @@ const Layout = ({ children }: Props) => {
       {isBidModalOpen && <BidModal />}
       {isUpdateMinBidModalOpen && <UpdateMinBidModal />}
       {isRetractBidOpen && <RetractBidModal />}
+      {isUpdateBidModalOpen && <UpdateBidModal />}
 
       {/* alerts */}
       {showAlert && <Alert />}
