@@ -3,12 +3,7 @@ import { Dropdown, Item, Menu } from '@zendeskgarden/react-dropdowns'
 import { FC, memo, useState } from 'react'
 
 import useUpdateEffect from '../../../../../../utils/hooks/useUpdateEffect'
-import {
-  StyledButton,
-  StyledItem,
-  StyledSplitButton,
-  StyledTrigger,
-} from './styles'
+import { StyledButton, StyledSplitButton, StyledTrigger } from './styles'
 
 type Props = {
   options: {
