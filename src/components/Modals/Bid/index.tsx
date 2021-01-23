@@ -68,7 +68,7 @@ const BidModal = () => {
     )
     const amountError = validator(
       amountInSmallestDenomination,
-      data?.minimum_bid || '0'
+      data?.minimum_bid
     )
 
     if (amountError) {
