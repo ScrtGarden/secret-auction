@@ -15,8 +15,8 @@ const actions: ControlsActions = {
   setAlertInfo: action((state, payload) => {
     state.alertInfo = payload
   }),
-  toggleUpdateBidModal: action((state) => {
-    state.isUpdateBidModalOpen = !state.isUpdateBidModalOpen
+  toggleUpdateMinBidModal: action((state) => {
+    state.isUpdateMinBidModalOpen = !state.isUpdateMinBidModalOpen
   }),
   toggleRetractBidModal: action((state) => {
     state.isRetractBidModalOpen = !state.isRetractBidModalOpen

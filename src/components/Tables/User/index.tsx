@@ -28,8 +28,8 @@ const AuctionTable: FC<Props> = (props) => {
   const rehydrated = useStoreRehydrated()
 
   // store actions
-  const toggleUpdateBid = useStoreActions(
-    (actions) => actions.controls.toggleUpdateBidModal
+  const toggleUpdateMinBid = useStoreActions(
+    (actions) => actions.controls.toggleUpdateMinBidModal
   )
   const toggleRetractBid = useStoreActions(
     (actions) => actions.controls.toggleRetractBidModal
@@ -51,18 +51,14 @@ const AuctionTable: FC<Props> = (props) => {
   }, [viewingKey, rehydrated])
 
   const onClickButton = (key: string, address: string) => {
+    router.push(`${router.route}?address=${address}`, `${router.asPath}`, {
+      shallow: true,
+    })
     if (key === 'update-min-bid') {
-      router.push(`${router.route}?address=${address}`, `${router.asPath}`, {
-        shallow: true,
-      })
-      toggleUpdateBid()
+      toggleUpdateMinBid()
     } else if (key === 'retract') {
-      router.push(`${router.route}?address=${address}`, `${router.asPath}`, {
-        shallow: true,
-      })
       toggleRetractBid()
     }
-    // console.log(key)
   }
 
   return (

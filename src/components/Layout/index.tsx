@@ -8,7 +8,7 @@ import Header from '../Header'
 import BidModal from '../Modals/Bid'
 import GetKeplrModal from '../Modals/GetKeplr'
 import RetractBidModal from '../Modals/RetractBid'
-import UpdateBidModal from '../Modals/UpdateBid'
+import UpdateMinBidModal from '../Modals/UpdateMinBid'
 
 type Props = {
   children?: React.ReactElement
@@ -27,8 +27,8 @@ const Layout = ({ children }: Props) => {
   )
   const isBidModalOpen = useStoreState((state) => state.controls.isBidModalOpen)
   const showAlert = useStoreState((state) => state.controls.showAlert)
-  const isUpdateBidModalOpen = useStoreState(
-    (state) => state.controls.isUpdateBidModalOpen
+  const isUpdateMinBidModalOpen = useStoreState(
+    (state) => state.controls.isUpdateMinBidModalOpen
   )
   const isRetractBidOpen = useStoreState(
     (state) => state.controls.isRetractBidModalOpen
@@ -54,7 +54,7 @@ const Layout = ({ children }: Props) => {
       {/* modals */}
       {isGetKeplrModalOpen && <GetKeplrModal />}
       {isBidModalOpen && <BidModal />}
-      {isUpdateBidModalOpen && <UpdateBidModal />}
+      {isUpdateMinBidModalOpen && <UpdateMinBidModal />}
       {isRetractBidOpen && <RetractBidModal />}
 
       {/* alerts */}

@@ -26,7 +26,7 @@ import {
   StyledModal,
 } from '../../Common/StyledComponents'
 
-const UpdateBidModal = () => {
+const UpdateMinBidModal = () => {
   const router = useRouter()
   const { address } = router.query as BidRouterQuery
 
@@ -39,7 +39,7 @@ const UpdateBidModal = () => {
 
   // store actions
   const toggleModal = useStoreActions(
-    (actions) => actions.controls.toggleUpdateBidModal
+    (actions) => actions.controls.toggleUpdateMinBidModal
   )
   const setAlert = useStoreActions((actions) => actions.controls.setAlertInfo)
   const updateAuction = useStoreActions(
@@ -134,4 +134,4 @@ const UpdateBidModal = () => {
   )
 }
 
-export default memo(UpdateBidModal)
+export default memo(UpdateMinBidModal)

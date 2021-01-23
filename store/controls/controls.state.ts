@@ -9,7 +9,7 @@ const initialState: ControlsState = {
     text: '',
     type: AlertType.info,
   },
-  isUpdateBidModalOpen: false,
+  isUpdateMinBidModalOpen: false,
   isRetractBidModalOpen: false,
 }
 
