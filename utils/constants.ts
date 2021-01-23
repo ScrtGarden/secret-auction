@@ -41,11 +41,11 @@ const AUCTION_CONTRACT_ID = 219
 
 const OPEN_SELLER_ACTIONS = {
   finalise: 'Finalise',
-  edit: 'Edit',
+  'update-min-bid': 'Update',
 }
 
 const OPEN_BIDDER_ACTIONS = {
-  bid: 'Bid',
+  'update-bid': 'Update',
   retract: 'Retract',
 }
 

@@ -51,7 +51,7 @@ const AuctionTable: FC<Props> = (props) => {
   }, [viewingKey, rehydrated])
 
   const onClickButton = (key: string, address: string) => {
-    if (key === 'edit') {
+    if (key === 'update-min-bid') {
       router.push(`${router.route}?address=${address}`, `${router.asPath}`, {
         shallow: true,
       })
