@@ -40,7 +40,7 @@ const FACTORY_CONTRACT_ADDRESS = 'secret1af7gp8qk94q4en84zk7gukpr546j0zhpgkgj5w'
 const AUCTION_CONTRACT_ID = 764
 
 const OPEN_SELLER_ACTIONS = {
-  finalise: 'Finalise',
+  finalize: 'Finalize',
   'update-min-bid': 'Update',
 }
 
@@ -51,7 +51,7 @@ const OPEN_BIDDER_ACTIONS = {
 
 const OPEN_BIDDER_OVERDUE_ACTIONS = {
   ...OPEN_BIDDER_ACTIONS,
-  finalise: 'Finalise',
+  finalize: 'Finalize',
 }
 
 const DATE_FORMAT = 'd/MM/yy'
