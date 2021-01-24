@@ -24,6 +24,9 @@ const actions: ControlsActions = {
   toggleUpdateBidModal: action((state) => {
     state.isUpdateBidModalOpen = !state.isUpdateBidModalOpen
   }),
+  toggleFinalizeModal: action((state) => {
+    state.isFinalizeModalOpen = !state.isFinalizeModalOpen
+  }),
 }
 
 export default actions

@@ -21,6 +21,7 @@ export interface ControlsState {
   isUpdateMinBidModalOpen: boolean
   isRetractBidModalOpen: boolean
   isUpdateBidModalOpen: boolean
+  isFinalizeModalOpen: boolean
 }
 
 export interface ControlsActions {
@@ -31,6 +32,7 @@ export interface ControlsActions {
   toggleUpdateMinBidModal: Action<ControlsModel>
   toggleRetractBidModal: Action<ControlsModel>
   toggleUpdateBidModal: Action<ControlsModel>
+  toggleFinalizeModal: Action<ControlsModel>
 }
 
 export interface ControlsListeners {

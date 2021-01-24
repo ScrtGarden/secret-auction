@@ -37,6 +37,9 @@ const AuctionTable: FC<Props> = (props) => {
   const toggleUpdateBid = useStoreActions(
     (actions) => actions.controls.toggleUpdateBidModal
   )
+  const toggleFinalizeAuction = useStoreActions(
+    (actions) => actions.controls.toggleFinalizeModal
+  )
 
   // component state
   const [fetching, setFetching] = useState(false)
@@ -63,6 +66,8 @@ const AuctionTable: FC<Props> = (props) => {
       toggleRetractBid()
     } else if (key === 'update-bid') {
       toggleUpdateBid()
+    } else if (key === 'finalize') {
+      toggleFinalizeAuction()
     }
   }
 
