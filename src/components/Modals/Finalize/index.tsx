@@ -2,27 +2,25 @@ import { Button } from '@zendeskgarden/react-buttons'
 import { Dots } from '@zendeskgarden/react-loaders'
 import { Close } from '@zendeskgarden/react-modals'
 import { useRouter } from 'next/router'
-import { memo, useMemo, useState } from 'react'
+import { memo, useState } from 'react'
 
 import { BidRouterQuery } from '../../../../interfaces'
 import { AlertType } from '../../../../store/controls/controls.models'
-import { RETRACT_BID_MAX_GAS } from '../../../../utils/constants'
+import { FINALIZE_MAX_GAS } from '../../../../utils/constants'
+import decoder from '../../../../utils/decoder'
 import {
   useStoreActions,
   useStoreState,
 } from '../../../../utils/hooks/storeHooks'
-import useGetBid from '../../../../utils/hooks/useGetBid'
+import useGetAuction from '../../../../utils/hooks/useGetAuction'
 import keplr from '../../../../utils/keplr'
 import parseErrorMessage from '../../../../utils/parseErrorMessage'
-import splitPair from '../../../../utils/splitPair'
-import toBiggestDenomination from '../../../../utils/toBiggestDenomination'
 import {
   ModalContent,
   ModalHeader,
   ModalText,
   ModalTitle,
   StyledModal,
-  StyledSkeleton,
 } from '../../Common/StyledComponents'
 import { Buttons } from './styles'
 
@@ -30,62 +28,56 @@ const FinalizeAuctionModal = () => {
   const router = useRouter()
   const { address } = router.query as BidRouterQuery
 
-  // custom hook
-  const { loading: loadingBid, data } = useGetBid(address)
-
   // store actions
   const toggleModal = useStoreActions(
     (actions) => actions.controls.toggleFinalizeModal
   )
   const setAlert = useStoreActions((actions) => actions.controls.setAlertInfo)
-  const removeAuction = useStoreActions(
-    (actions) => actions.profile.removeAuction
-  )
-
-  // store state
-  const auctionInfo = useStoreState((state) =>
-    state.profile.auctionById(address)
+  const updateAuction = useStoreActions(
+    (actions) => actions.profile.updateAuction
   )
 
   // component state
   const [loading, setLoading] = useState(false)
 
-  const { bidTokenSymbol } = useMemo(() => splitPair(auctionInfo?.pair), [
-    auctionInfo,
-  ])
-
-  const onClickRetractBid = async () => {
+  const onClickFinalize = async () => {
     setLoading(true)
-    const { secretjs } = await keplr.createSigningClient({
-      maxGas: RETRACT_BID_MAX_GAS,
+
+    const { secretjs: signingClient } = await keplr.createSigningClient({
+      maxGas: FINALIZE_MAX_GAS,
     })
 
     try {
-      const handleMsg = {
-        retract_bid: {},
-      }
-      const response = await secretjs?.execute(address, handleMsg)
-      console.log(response)
-      removeAuction(address)
+      const response = await signingClient?.execute(address, { finalize: {} })
+      const { data } = response || {}
+      const decodedData = decoder(data)
+      const { winning_bid, message } = decodedData.close_auction
+      const winner = message.includes('Your bid won!')
+      updateAuction({
+        address,
+        active: false,
+        ends_at: undefined,
+        winning_bid,
+        minimum_bid: undefined,
+        winner,
+      })
       setAlert({
         title: 'Success',
-        text: `Your request to retract ${toBiggestDenomination(
-          data?.amount,
-          data?.decimals
-        )} ${bidTokenSymbol} has been placed.`,
+        text: message,
         type: AlertType.success,
       })
-      setLoading(false)
       onClose()
     } catch (error) {
+      console.log('Error finalizing auction:', error.message)
       const text = parseErrorMessage(error.message)
       setAlert({
         title: 'Error',
         text,
         type: AlertType.error,
       })
-      setLoading(false)
     }
+
+    setLoading(false)
   }
 
   const onClose = () => {
@@ -96,39 +88,24 @@ const FinalizeAuctionModal = () => {
   return (
     <StyledModal onClose={onClose}>
       <ModalHeader>
-        <ModalTitle>Retract bid</ModalTitle>
+        <ModalTitle>Finalize Auction</ModalTitle>
         <Close />
       </ModalHeader>
       <ModalContent>
-        {loadingBid ? (
-          <>
-            <StyledSkeleton width="100%" height="14px" />
-            <StyledSkeleton width="50%" height="14px" />
-          </>
-        ) : (
-          <ModalText>
-            {data?.status === 'Success'
-              ? `You've made a bid of ${toBiggestDenomination(
-                  data?.amount,
-                  data?.decimals
-                )} ${bidTokenSymbol} on ${
-                  data?.time_placed
-                }. Are you sure you want to remove your bid from this auction?`
-              : data?.message}
-          </ModalText>
-        )}
+        <ModalText>
+          Are you sure you want to close and finalize the auction?
+        </ModalText>
         <Buttons>
           <Button isStretched isBasic onClick={onClose} disabled={loading}>
             Cancel
           </Button>
           <Button
             isStretched
-            isDanger
             isPrimary
-            disabled={loadingBid || loading}
-            onClick={onClickRetractBid}
+            disabled={loading}
+            onClick={onClickFinalize}
           >
-            {loading ? <Dots size="20" /> : 'Retract Bid'}
+            {loading ? <Dots size="20" /> : 'Finalize'}
           </Button>
         </Buttons>
       </ModalContent>
