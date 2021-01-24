@@ -8,11 +8,7 @@ import { BidRouterQuery } from '../../../../interfaces'
 import { AlertType } from '../../../../store/controls/controls.models'
 import { FINALIZE_MAX_GAS } from '../../../../utils/constants'
 import decoder from '../../../../utils/decoder'
-import {
-  useStoreActions,
-  useStoreState,
-} from '../../../../utils/hooks/storeHooks'
-import useGetAuction from '../../../../utils/hooks/useGetAuction'
+import { useStoreActions } from '../../../../utils/hooks/storeHooks'
 import keplr from '../../../../utils/keplr'
 import parseErrorMessage from '../../../../utils/parseErrorMessage'
 import {
