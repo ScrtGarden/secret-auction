@@ -10,10 +10,11 @@ type Props = {
     [key: string]: string
   }
   onClick: (key: string) => void
+  disabled?: boolean
 }
 
 const MultiButton: FC<Props> = (props) => {
-  const { options, onClick } = props
+  const { options, onClick, disabled } = props
   const [rotated, setRotated] = useState<boolean>()
   const [selected, setSelected] = useState(Object.keys(options)[0])
 
@@ -23,7 +24,11 @@ const MultiButton: FC<Props> = (props) => {
 
   return (
     <StyledSplitButton>
-      <StyledButton isStretched onClick={() => onClick(selected)}>
+      <StyledButton
+        isStretched
+        onClick={() => onClick(selected)}
+        disabled={disabled}
+      >
         {options[selected]}
       </StyledButton>
       <Dropdown
@@ -34,7 +39,7 @@ const MultiButton: FC<Props> = (props) => {
         onSelect={(value) => setSelected(value)}
       >
         <StyledTrigger>
-          <ChevronButton isRotated={rotated} />
+          <ChevronButton isRotated={rotated} disabled={disabled} />
         </StyledTrigger>
         <Menu placement="bottom-end">
           {Object.entries(options).map(([key, value]) => (
