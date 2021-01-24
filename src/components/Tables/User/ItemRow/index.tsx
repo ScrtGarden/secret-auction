@@ -67,12 +67,14 @@ const ItemRow: FC<Props> = (props) => {
         sell_decimals
       )} ${sellTokenSymbol}`}</Cell>
       <Cell>
-        {`${toBiggestDenomination(
-          minimum_bid,
-          bid_decimals
-        )} ${bidTokenSymbol}`}
+        {minimum_bid
+          ? `${toBiggestDenomination(
+              minimum_bid,
+              bid_decimals
+            )} ${bidTokenSymbol}`
+          : '-'}
       </Cell>
-      <Cell>{format(ends_at * 1000, DATE_FORMAT)}</Cell>
+      <Cell>{ends_at ? format(ends_at * 1000, DATE_FORMAT) : '-'}</Cell>
       <Cell>
         {winning_bid
           ? `${toBiggestDenomination(
@@ -92,6 +94,7 @@ const ItemRow: FC<Props> = (props) => {
       <Cell hasOverflow>
         <ButtonWrapper>
           <MultiButton
+            disabled={!active}
             options={options}
             onClick={(key) => onClick(key, address)}
           />
