@@ -43,14 +43,12 @@ const useGetAuction = (address: string): UseGetAuction => {
       }
     }
 
-    if (address) {
-      fetchAuction()
-    }
+    fetchAuction()
 
     return () => {
       isMounted = false
     }
-  }, [address])
+  }, [])
 
   return {
     loading,
