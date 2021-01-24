@@ -36,8 +36,8 @@ const ItemRow: FC<Props> = (props) => {
     [pair]
   )
 
-  const onClick = () => {
-    router.push(
+  const onClick = async () => {
+    await router.push(
       `/auctions?address=${address}&from=accounts`,
       `/auctions/${address}`,
       {

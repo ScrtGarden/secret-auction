@@ -56,10 +56,14 @@ const AuctionTable: FC<Props> = (props) => {
     }
   }, [viewingKey, rehydrated])
 
-  const onClickButton = (key: string, address: string) => {
-    router.push(`${router.route}?address=${address}`, `${router.asPath}`, {
-      shallow: true,
-    })
+  const onClickButton = async (key: string, address: string) => {
+    await router.push(
+      `${router.route}?address=${address}`,
+      `${router.asPath}`,
+      {
+        shallow: true,
+      }
+    )
     if (key === 'update-min-bid') {
       toggleUpdateMinBid()
     } else if (key === 'retract') {
