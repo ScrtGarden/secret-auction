@@ -1,3 +1,4 @@
+import { Skeleton } from '@zendeskgarden/react-loaders'
 import { Cell, Row } from '@zendeskgarden/react-tables'
 import { format, isPast } from 'date-fns'
 import { FC, memo, useMemo } from 'react'
@@ -8,7 +9,9 @@ import {
   OPEN_BIDDER_ACTIONS,
   OPEN_BIDDER_OVERDUE_ACTIONS,
   OPEN_SELLER_ACTIONS,
+  OPEN_SELLER_NO_BIDS_ACTIONS,
 } from '../../../../../utils/constants'
+import useHasActiveBids from '../../../../../utils/hooks/useHasActiveBids'
 import splitPair, { SplitPair } from '../../../../../utils/splitPair'
 import toBiggestDenomination from '../../../../../utils/toBiggestDenomination'
 import MultiButton from './MultiButton'
@@ -39,6 +42,12 @@ const ItemRow: FC<Props> = (props) => {
     winning_bid,
   } = item
 
+  // custom hook
+  const { hasActiveBids, loading } =
+    seller && active
+      ? useHasActiveBids(address)
+      : { hasActiveBids: false, loading: false }
+
   const { bidTokenSymbol, sellTokenSymbol } = useMemo<SplitPair>(
     () => splitPair(pair),
     [pair]
@@ -50,6 +59,8 @@ const ItemRow: FC<Props> = (props) => {
   let options
   if (active && !seller && isOverdue) {
     options = OPEN_BIDDER_OVERDUE_ACTIONS
+  } else if (active && seller && !hasActiveBids) {
+    options = OPEN_SELLER_NO_BIDS_ACTIONS
   } else if (active && !seller) {
     options = OPEN_BIDDER_ACTIONS
   } else if (active && seller) {
@@ -93,11 +104,15 @@ const ItemRow: FC<Props> = (props) => {
       </Cell>
       <Cell hasOverflow>
         <ButtonWrapper>
-          <MultiButton
-            disabled={!active}
-            options={options}
-            onClick={(key) => onClick(key, address)}
-          />
+          {loading ? (
+            <Skeleton height="16px" width="100%" />
+          ) : (
+            <MultiButton
+              disabled={!active}
+              options={options}
+              onClick={(key) => onClick(key, address)}
+            />
+          )}
         </ButtonWrapper>
       </Cell>
     </Row>
