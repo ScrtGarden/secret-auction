@@ -56,12 +56,7 @@ const OPEN_BIDDER_OVERDUE_ACTIONS = {
   finalize: 'Finalize',
 }
 
-const OPEN_SELLER_NO_BIDS_ACTIONS = {
-  ...OPEN_SELLER_ACTIONS,
-  extend: 'Extend',
-}
-
-const DATE_FORMAT = 'd/MM/yy'
+const DATE_FORMAT = 'yyyy/MM/dd hh:mm a'
 
 const CHANGE_MIN_BID_MAX_GAS = '190000'
 const INCREASE_ALLOWANCE_MAX_GAS = '150000'
@@ -112,6 +107,5 @@ export {
   CREATE_VIEWING_KEY_MAX_GAS,
   RETRACT_BID_MAX_GAS,
   FINALIZE_MAX_GAS,
-  OPEN_SELLER_NO_BIDS_ACTIONS,
   TOKENS,
 }
