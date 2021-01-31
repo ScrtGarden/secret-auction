@@ -4,6 +4,7 @@ import { ThemeProvider } from '@zendeskgarden/react-theming'
 import { StoreProvider } from 'easy-peasy'
 import { AppProps } from 'next/app'
 
+import LoadingPage from '../src/components/LoadingPage'
 import GlobalStyle from '../src/styles/GlobalStyle'
 import { useStore } from '../store'
 import useDocumentReady from '../utils/hooks/useDocumentReady'
@@ -21,7 +22,7 @@ const MyApp = ({ Component, pageProps }: AppProps) => {
       <SecretJsContext.Provider value={{ secretjs: client }}>
         <ThemeProvider focusVisibleRef={null}>
           <GlobalStyle />
-          {ready ? <Component {...pageProps} /> : <div>Loading...</div>}
+          {ready ? <Component {...pageProps} /> : <LoadingPage />}
         </ThemeProvider>
       </SecretJsContext.Provider>
     </StoreProvider>
