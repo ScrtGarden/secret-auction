@@ -1,3 +1,5 @@
+import { SelectTokens } from '../interfaces'
+
 export interface RouteAndColor {
   color: string
   strength: number
@@ -69,6 +71,29 @@ const CREATE_VIEWING_KEY_MAX_GAS = '120000'
 const RETRACT_BID_MAX_GAS = '300000'
 const FINALIZE_MAX_GAS = '2000000'
 
+const TOKENS: SelectTokens = {
+  tsdai: {
+    symbol: 'TSDAI',
+    decimals: 18,
+    address: 'secret1r4z6fh6gzlqdf4gaqx29mr6340w9vastj4jhvv',
+  },
+  second: {
+    symbol: 'FIRST',
+    decimals: 1,
+    address: 'secret1wuw7n39uw306r8w8n32wcprclsv28k5lczfmsc',
+  },
+  third: {
+    symbol: 'THIRD',
+    decimals: 1,
+    address: 'secret14zgtx5nhn6x9vpuelxcczeuz4sf2w8td4zun8h',
+  },
+  custom: {
+    symbol: 'Custom',
+    decimals: 0,
+    address: '',
+  },
+}
+
 export {
   MAP_ROUTE_AND_COLOR,
   CHAIN_EXPLORER,
@@ -88,4 +113,5 @@ export {
   RETRACT_BID_MAX_GAS,
   FINALIZE_MAX_GAS,
   OPEN_SELLER_NO_BIDS_ACTIONS,
+  TOKENS,
 }
