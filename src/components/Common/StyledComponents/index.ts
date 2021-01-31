@@ -89,6 +89,13 @@ const StyledSkeleton = styled(Skeleton)`
   }
 `
 
+const BrandName = styled.h1`
+  color: ${(props) => props.theme.palette.kale[800]};
+  font-size: ${(props) => props.theme.fontSizes.xxl};
+  font-weight: ${(props) => props.theme.fontWeights.semibold};
+  margin: 0;
+`
+
 export {
   Container,
   InnerContainer,
@@ -103,4 +110,5 @@ export {
   ModalContent,
   ModalText,
   StyledSkeleton,
+  BrandName,
 }
