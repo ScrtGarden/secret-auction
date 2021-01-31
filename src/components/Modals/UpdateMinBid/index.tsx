@@ -11,6 +11,7 @@ import {
   useStoreActions,
   useStoreState,
 } from '../../../../utils/hooks/storeHooks'
+import useHasActiveBids from '../../../../utils/hooks/useHasActiveBids'
 import keplr from '../../../../utils/keplr'
 import parseErrorMessage from '../../../../utils/parseErrorMessage'
 import splitPair from '../../../../utils/splitPair'
@@ -24,11 +25,17 @@ import {
   ModalTitle,
   Separator,
   StyledModal,
+  StyledSkeleton,
 } from '../../Common/StyledComponents'
 
 const UpdateMinBidModal = () => {
   const router = useRouter()
   const { address } = router.query as BidRouterQuery
+
+  // custom hook
+  const { loading: fetchingActiveBids, hasActiveBids } = useHasActiveBids(
+    address
+  )
 
   // store state
   const auctionInfo = useStoreState((state) =>
@@ -118,13 +125,34 @@ const UpdateMinBidModal = () => {
         <Close />
       </ModalHeader>
       <ModalContent>
-        <ModalText>{`Your current minimum bid is at ${toBiggestDenomination(
-          minimum_bid,
-          bid_decimals
-        )} ${bidTokenSymbol}.`}</ModalText>
+        {fetchingActiveBids ? (
+          <>
+            <StyledSkeleton width="100%" height="14px" />
+            <StyledSkeleton width="50%" height="14px" />
+          </>
+        ) : (
+          <>
+            <ModalText>
+              {`Your current minimum bid is set at ${toBiggestDenomination(
+                minimum_bid,
+                bid_decimals
+              )} ${bidTokenSymbol}.`}
+            </ModalText>
+            {hasActiveBids && (
+              <>
+                <Separator sm />
+                <ModalText>
+                  Currently, there are active bid/s on this auction. Any bids
+                  that were validly placed will remain valid, however, future
+                  placed bids will meet the new minimum.
+                </ModalText>
+              </>
+            )}
+          </>
+        )}
         <Separator lg />
         <InputWithSymbol
-          label="Amount"
+          label="New Amount"
           symbol={bidTokenSymbol}
           value={amount}
           onChange={onChangeAmount}
