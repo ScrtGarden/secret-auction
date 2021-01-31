@@ -13,7 +13,7 @@ const useGetBalance = (
   // store state
   const walletAddress = useStoreState((state) => state.auth.connectedAddress)
 
-  const [loading, setLoading] = useState(false)
+  const [loading, setLoading] = useState(true)
   const [amount, setAmount] = useState('0')
   const [error, setError] = useState('')
 
@@ -75,14 +75,14 @@ const useGetBalance = (
       }
     }
 
-    if (tokenAddress) {
+    if (tokenAddress && walletAddress) {
       getBalance()
     }
 
     return () => {
       isMounted = false
     }
-  }, [tokenAddress, ...deps])
+  }, [tokenAddress, walletAddress, ...deps])
 
   return {
     loading,
