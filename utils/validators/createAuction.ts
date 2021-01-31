@@ -1,45 +1,74 @@
-import { Contract } from '../../src/components/CreatePage'
+import { SelectToken } from '../../interfaces'
+import { TargetTokenData } from '../../src/components/CreatePage'
 import validateAddress from '../validateAddress'
 
-type Data = {
-  sell: Contract
-  want: Contract
+interface TokenData extends TargetTokenData, SelectToken {}
+
+interface Data {
+  sell: TokenData
+  bid: TokenData
+  date: Date
 }
 
-const validator = (data: Data) => {
+export interface TokenError {
+  amount: string
+  address: string
+}
+
+export interface Result {
+  hasError?: boolean
+  sell: TokenError
+  bid: TokenError
+  date: string
+}
+
+const validator = (data: Data): Result => {
   let hasError = false
   const sellErrors = {
     amount: '',
     address: '',
   }
-  const forErrors = {
+  const bidErrors = {
     amount: '',
     address: '',
   }
-  const { sell, want } = data
+  let dateError = ''
+  const { sell, bid, date } = data
 
   if (!sell.amount || parseFloat(sell.amount) <= 0) {
     sellErrors.amount = 'Invalid amount.'
     hasError = true
   }
   if (!validateAddress(sell.address)) {
-    sellErrors.address = 'Invalid snip-20 contract address.'
+    sellErrors.address = 'Invalid token contract address.'
     hasError = true
   }
 
-  if (!want.amount || parseFloat(want.amount) <= 0) {
-    forErrors.amount = 'Invalid amount.'
+  if (!bid.amount || parseFloat(bid.amount) < 0) {
+    bidErrors.amount = 'Invalid amount.'
     hasError = true
   }
-  if (!validateAddress(want.address)) {
-    forErrors.address = 'Invalid snip-20 contract address.'
+  if (!validateAddress(bid.address)) {
+    bidErrors.address = 'Invalid token contract address.'
+    hasError = true
+  }
+
+  if (sell.address === bid.address) {
+    sellErrors.amount = 'Cannot sell and ask for the same token.'
+    bidErrors.amount = 'Cannot sell and ask for the same token.'
+    hasError = true
+  }
+
+  if (!date) {
+    dateError = 'Invalid date.'
     hasError = true
   }
 
   return {
     hasError,
     sell: sellErrors,
-    want: forErrors,
+    bid: bidErrors,
+    date: dateError,
   }
 }
 

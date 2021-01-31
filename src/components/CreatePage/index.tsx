@@ -1,4 +1,4 @@
-import { endOfDay, getUnixTime } from 'date-fns'
+import { getUnixTime } from 'date-fns'
 import { FC, useContext, useReducer, useState } from 'react'
 
 import { AlertType } from '../../../store/controls/controls.models'
@@ -6,6 +6,7 @@ import {
   CREATE_AUCTION_MAX_GAS,
   FACTORY_CONTRACT_ADDRESS,
   INCREASE_ALLOWANCE_MAX_GAS,
+  TOKENS,
 } from '../../../utils/constants'
 import { useStoreActions } from '../../../utils/hooks/storeHooks'
 import useConnectToKeplr from '../../../utils/hooks/useConnectToKeplr'
@@ -14,20 +15,25 @@ import parseErrorMessage from '../../../utils/parseErrorMessage'
 import reducer from '../../../utils/reducer'
 import { SecretJsContext } from '../../../utils/secretjs'
 import toSmallestDenomination from '../../../utils/toSmallestDenomination'
-import validate from '../../../utils/validators/createAuction'
 import {
   Container,
   InnerContainer,
   Title as StyledTitle,
 } from '../Common/StyledComponents'
-import CreateForm from './CreateForm'
+import Form from './Form'
 import ProgressStepper from './ProgressStepper'
 import { Grid } from './styles'
 
-export type Contract = {
-  address: string
+const defaultToken = 'tsdai'
+
+export interface TargetTokenData {
+  selected: string
   amount: string
-  decimals: number
+}
+
+const initialTokenState: TargetTokenData = {
+  selected: defaultToken,
+  amount: '',
 }
 
 export type ContractErrors = {
@@ -41,17 +47,6 @@ export type ConsignData = {
   amount: string
 }
 
-const initialContractState: Contract = {
-  address: '',
-  amount: '',
-  decimals: -1,
-}
-
-const initContractErrors: ContractErrors = {
-  address: '',
-  amount: '',
-}
-
 const CreatePage: FC = () => {
   const { secretjs: client } = useContext(SecretJsContext)
 
@@ -62,24 +57,11 @@ const CreatePage: FC = () => {
   const [connectToKeplr] = useConnectToKeplr()
 
   // component states
-  const [sellContract, setSellContract] = useReducer(
-    reducer,
-    initialContractState
-  )
-  const [exchangeForContract, setExchangeForContract] = useReducer(
-    reducer,
-    initialContractState
-  )
+  const [tokens, setTokens] = useReducer(reducer, TOKENS)
+  const [sellData, setSellData] = useReducer(reducer, initialTokenState)
+  const [bidData, setBidData] = useReducer(reducer, initialTokenState)
+  const [date, setDate] = useState(new Date())
   const [description, setDescription] = useState('')
-  const [endDate, setEndDate] = useState(endOfDay(new Date()))
-  const [sellContractErrors, setSellContractErrors] = useReducer(
-    reducer,
-    initContractErrors
-  )
-  const [exchangeForContractErrors, setExchangeForContractErrors] = useReducer(
-    reducer,
-    initContractErrors
-  )
   const [loading, setLoading] = useState(false)
   const [txInfo, setTxInfo] = useState({
     address: '',
@@ -88,18 +70,6 @@ const CreatePage: FC = () => {
   const [step, setStep] = useState(-1)
 
   const onSubmit = async () => {
-    const { hasError, sell, want } = validate({
-      sell: sellContract,
-      want: exchangeForContract,
-    })
-
-    setSellContractErrors(sell)
-    setExchangeForContractErrors(want)
-
-    if (hasError) {
-      return
-    }
-
     setLoading(true)
 
     // try to connect to keplr
@@ -116,8 +86,8 @@ const CreatePage: FC = () => {
       maxGas: INCREASE_ALLOWANCE_MAX_GAS,
     })
     const sellAmountInSmallestDenomination = toSmallestDenomination(
-      sellContract.amount,
-      sellContract.decimals
+      sellData.amount,
+      tokens[sellData.selected].decimals
     )
     const handleMsgIncreaseAllowance = {
       increase_allowance: {
@@ -128,7 +98,7 @@ const CreatePage: FC = () => {
 
     try {
       const response = await signingClientOne?.execute(
-        sellContract.address,
+        tokens[sellData.selected].address,
         handleMsgIncreaseAllowance
       )
       // console.log(response)
@@ -188,7 +158,7 @@ const CreatePage: FC = () => {
     const {
       error: sellCodeHashError,
       codeHash: sellCodeHash,
-    } = await getCodeHash(sellContract.address)
+    } = await getCodeHash(tokens[sellData.selected].address)
     if (sellCodeHashError) {
       return { codeHashError: { sell: true } }
     }
@@ -197,19 +167,19 @@ const CreatePage: FC = () => {
     const {
       error: bidCodeHashError,
       codeHash: bidCodeHash,
-    } = await getCodeHash(exchangeForContract.address)
+    } = await getCodeHash(tokens[bidData.selected].address)
     if (bidCodeHashError) {
       return { codeHashError: { bid: true } }
     }
 
     // set up data for auction creation
     const sellAmountInSmallestDenomination = toSmallestDenomination(
-      sellContract.amount,
-      sellContract.decimals
+      sellData.amount,
+      tokens[sellData.selected].decimals
     )
     const bidAmountInSmallestDenomination = toSmallestDenomination(
-      exchangeForContract.amount,
-      exchangeForContract.decimals
+      bidData.amount,
+      tokens[bidData.selected].decimals
     )
     const label = `test-auction-${Math.floor(Math.random() * 10000)}`
     const handleMsg = {
@@ -217,16 +187,16 @@ const CreatePage: FC = () => {
         label,
         sell_contract: {
           code_hash: sellCodeHash || '',
-          address: sellContract.address,
+          address: tokens[sellData.selected].address,
         },
         bid_contract: {
           code_hash: bidCodeHash || '',
-          address: exchangeForContract.address,
+          address: tokens[bidData.selected].address,
         },
         sell_amount: sellAmountInSmallestDenomination,
         minimum_bid: bidAmountInSmallestDenomination,
         description: description,
-        ends_at: getUnixTime(endOfDay(endDate)),
+        ends_at: getUnixTime(date),
       },
     }
     const { secretjs: signingClient } = await keplr.createSigningClient({
@@ -261,43 +231,38 @@ const CreatePage: FC = () => {
   }
 
   const resetForms = () => {
-    setSellContract(initialContractState)
-    setExchangeForContract(initialContractState)
+    setSellData(initialTokenState)
+    setBidData(initialTokenState)
     setDescription('')
-    setEndDate(endOfDay(new Date()))
+    setDate(new Date())
   }
 
   return (
     <Container>
       <InnerContainer>
         <StyledTitle>Create an auction</StyledTitle>
-        <CreateForm
-          sellData={sellContract}
-          onChangeSell={setSellContract}
-          bidData={exchangeForContract}
-          onChangeBid={setExchangeForContract}
-          date={endDate}
-          setDate={setEndDate}
-          description={description}
-          onChangeDescription={setDescription}
-          onSubmit={onSubmit}
-          sellContractErrors={sellContractErrors}
-          bidContractErrors={exchangeForContractErrors}
-          setSellContractErrors={setSellContractErrors}
-          setBidContractErrors={setExchangeForContractErrors}
-          loading={loading}
-        />
         <Grid>
-          <div />
-          <div />
-          {step !== -1 && (
-            <ProgressStepper
-              step={step}
-              loading={loading}
-              onClick={tryCreateAuctionAgain}
-              txInfo={txInfo}
-            />
-          )}
+          <Form
+            loading={loading}
+            onSubmit={onSubmit}
+            sellData={sellData}
+            setSellData={setSellData}
+            bidData={bidData}
+            setBidData={setBidData}
+            date={date}
+            setDate={setDate}
+            description={description}
+            setDescription={setDescription}
+            tokens={tokens}
+            setTokens={setTokens}
+            step={step}
+          />
+          <ProgressStepper
+            step={step}
+            loading={loading}
+            onClick={tryCreateAuctionAgain}
+            txInfo={txInfo}
+          />
         </Grid>
       </InnerContainer>
     </Container>
