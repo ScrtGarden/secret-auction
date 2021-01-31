@@ -292,6 +292,13 @@
   dependencies:
     "@cosmjs/utils" "^0.20.0"
 
+"@lottiefiles/react-lottie-player@^3.0.0":
+  version "3.0.0"
+  resolved "https://registry.yarnpkg.com/@lottiefiles/react-lottie-player/-/react-lottie-player-3.0.0.tgz#cbbd3a9dcc32ff006465e142fc2759cd8db0dd15"
+  integrity sha512-ON9kHEkZ8zjctg43ikoeJrKbNzHmayCxkF4PoyVYl0+DPKfG3h5knqKLtddCgQS7s2hS63H691t20HRIQ8OTTA==
+  dependencies:
+    lottie-web "^5.6.0"
+
 "@next/env@10.0.3":
   version "10.0.3"
   resolved "https://registry.yarnpkg.com/@next/env/-/env-10.0.3.tgz#ef1077d78bf500855576f83090d6fb1ec96272f8"
@@ -3064,10 +3071,10 @@ loose-envify@^1.0.0, loose-envify@^1.1.0, loose-envify@^1.4.0:
   dependencies:
     js-tokens "^3.0.0 || ^4.0.0"
 
-lottie-web@^5.7.5:
-  version "5.7.5"
-  resolved "https://registry.yarnpkg.com/lottie-web/-/lottie-web-5.7.5.tgz#92d72de9d94c733ac21ce613a5f3fc21ebe3f92c"
-  integrity sha512-jXgxG5od5F1QkTItb8wMej3aFEQ+tg95jma33GBDn1K3kRfy9zXXG+F62B440wphCdwY5sjg6h6664L5dvnuWw==
+lottie-web@^5.6.0:
+  version "5.7.6"
+  resolved "https://registry.yarnpkg.com/lottie-web/-/lottie-web-5.7.6.tgz#f20e5555ff120dc1e07ba53adb40061e822f3c48"
+  integrity sha512-qn/KYMI4QQvFDhtoxs0RPkn9uZKhDB9keE5BKgbJlSRfNEZpRiDlwBE9ibYz4nPhbyE+NUlt8IRIVR7g5OSX3w==
 
 lru-cache@6.0.0, lru-cache@^6.0.0:
   version "6.0.0"
@@ -3980,14 +3987,6 @@ react-is@^17.0.1:
   version "17.0.1"
   resolved "https://registry.yarnpkg.com/react-is/-/react-is-17.0.1.tgz#5b3531bd76a645a4c9fb6e693ed36419e3301339"
   integrity sha512-NAnt2iGDXohE5LI7uBnLnqvLQMtzhkiAOLXTmv+qnF9Ky7xAPcX8Up/xWIhxvLVGJvuLiNc4xQLtuqDRzb4fSA==
-
-react-lottie-player@^1.1.1:
-  version "1.1.1"
-  resolved "https://registry.yarnpkg.com/react-lottie-player/-/react-lottie-player-1.1.1.tgz#57b4fe21b8b3ec63aba78e46de2248f2c75ec96d"
-  integrity sha512-w6xrfMzh/pYGumEzhDBzB+2LPmAPAT1bWDb19NI338NAQHgAutaB4vIotjVxEsW8Az9olFFqieExV7JMp0Eadw==
-  dependencies:
-    lodash "^4.17.19"
-    lottie-web "^5.7.5"
 
 react-merge-refs@^1.1.0:
   version "1.1.0"
