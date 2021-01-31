@@ -98,3 +98,13 @@ export interface ViewBidResponse {
   time_placed?: string
   message?: string
 }
+
+export interface SelectToken {
+  symbol: string
+  decimals: number
+  address: string
+}
+
+export interface SelectTokens {
+  [key: string]: SelectToken
+}
