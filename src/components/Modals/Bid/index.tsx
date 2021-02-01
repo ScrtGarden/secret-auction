@@ -131,7 +131,7 @@ const BidModal = () => {
           minimumBidAmount={data?.minimum_bid}
           sellToken={data?.sell_token}
           bidToken={data?.bid_token}
-          loading={loadingAuctionInfo}
+          loadingData={loadingAuctionInfo}
           description={data?.description}
           label="Amount"
           value={amount}
@@ -140,6 +140,7 @@ const BidModal = () => {
           bidding={loading}
           bidError={!!error}
           onSubmit={onSubmit}
+          loading={loading}
         />
       ) : (
         <Success

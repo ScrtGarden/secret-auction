@@ -25,7 +25,7 @@ type Props = {
   minimumBidAmount: string | undefined
   sellToken: TargetTokenInfo | undefined
   bidToken: TargetTokenInfo | undefined
-  loading: boolean
+  loadingData: boolean
   description: string | undefined
   label: string
   value: string
@@ -34,6 +34,7 @@ type Props = {
   bidding: boolean
   bidError: boolean
   onSubmit: () => void
+  loading?: boolean
 }
 
 const Details: FC<Props> = (props) => {
@@ -43,7 +44,7 @@ const Details: FC<Props> = (props) => {
     bidToken,
     sellAmount,
     minimumBidAmount,
-    loading,
+    loadingData,
     description,
     label,
     value,
@@ -51,12 +52,13 @@ const Details: FC<Props> = (props) => {
     error,
     bidding,
     onSubmit,
+    loading,
   } = props
 
   return (
     <Container>
       <EndAt>
-        {!loading ? (
+        {!loadingData ? (
           <>
             <StyledClock name="clock" />
             <EndAtText>{endsAt}</EndAtText>
@@ -66,7 +68,7 @@ const Details: FC<Props> = (props) => {
         )}
       </EndAt>
       <Token>
-        {!loading ? (
+        {!loadingData ? (
           <>
             <Text>
               {`Bidding for: ${toBiggestDenomination(
@@ -90,7 +92,7 @@ const Details: FC<Props> = (props) => {
         )}
       </Token>
       <Token>
-        {!loading ? (
+        {!loadingData ? (
           <>
             <Text>
               {`Minimum bid: ${toBiggestDenomination(
@@ -129,12 +131,13 @@ const Details: FC<Props> = (props) => {
         showBalance
         tokenAddress={bidToken?.contract_address}
         decimals={bidToken?.token_info.decimals}
+        disabled={loading}
       />
       <Separator md />
       <Button
         isPrimary
         isStretched
-        disabled={loading || bidding}
+        disabled={loadingData || bidding || loading}
         onClick={onSubmit}
       >
         {bidding ? <Dots size="20" /> : 'Place Bid'}
