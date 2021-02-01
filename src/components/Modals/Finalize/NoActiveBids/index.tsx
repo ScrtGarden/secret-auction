@@ -14,6 +14,8 @@ type Props = {
   onChangeAmount: (value: string) => void
   decimals?: number
   symbol?: string
+  errors?: { date: string; amount: string }
+  loading?: boolean
 }
 
 const NoActiveBids: FC<Props> = (props) => {
@@ -26,6 +28,8 @@ const NoActiveBids: FC<Props> = (props) => {
     onChangeAmount,
     decimals,
     symbol,
+    errors,
+    loading,
   } = props
 
   const handleAmount = (e: FormEvent<HTMLInputElement>) => {
@@ -71,6 +75,8 @@ const NoActiveBids: FC<Props> = (props) => {
             label="New End Date"
             selected={date}
             onChange={(date) => onChangeDate(date)}
+            error={errors?.date}
+            disabled={loading}
           />
           <Separator sm />
           <InputWithSymbol
@@ -78,6 +84,8 @@ const NoActiveBids: FC<Props> = (props) => {
             value={amount}
             onChange={handleAmount}
             symbol={symbol}
+            error={errors?.amount}
+            disabled={loading}
           />
         </>
       )}

@@ -1,12 +1,13 @@
 import { Button } from '@zendeskgarden/react-buttons'
 import { Dots } from '@zendeskgarden/react-loaders'
 import { Close } from '@zendeskgarden/react-modals'
+import { format, getUnixTime } from 'date-fns'
 import { useRouter } from 'next/router'
 import { memo, useMemo, useState } from 'react'
 
 import { BidRouterQuery } from '../../../../interfaces'
 import { AlertType } from '../../../../store/controls/controls.models'
-import { FINALIZE_MAX_GAS } from '../../../../utils/constants'
+import { DATE_FORMAT, FINALIZE_MAX_GAS } from '../../../../utils/constants'
 import decoder from '../../../../utils/decoder'
 import {
   useStoreActions,
@@ -17,6 +18,8 @@ import keplr from '../../../../utils/keplr'
 import parseErrorMessage from '../../../../utils/parseErrorMessage'
 import splitPair from '../../../../utils/splitPair'
 import toBiggestDenomination from '../../../../utils/toBiggestDenomination'
+import toSmallestDenomination from '../../../../utils/toSmallestDenomination'
+import validate from '../../../../utils/validators/extend'
 import {
   ModalContent,
   ModalHeader,
@@ -60,6 +63,7 @@ const FinalizeAuctionModal = () => {
   const [amount, setAmount] = useState(
     toBiggestDenomination(minimum_bid, bid_decimals)
   )
+  const [errors, setErrors] = useState({ date: '', amount: '' })
 
   const onClickFinalize = async () => {
     setLoading(true)
@@ -96,9 +100,66 @@ const FinalizeAuctionModal = () => {
         text,
         type: AlertType.error,
       })
+      setLoading(false)
+    }
+  }
+
+  const onClickExtend = async () => {
+    setErrors({ date: '', amount: '' })
+    const { hasErrors, date: dateErr, amount: amountErr } = validate(
+      date,
+      amount
+    )
+
+    if (hasErrors) {
+      setErrors({ date: dateErr, amount: amountErr })
+      return
     }
 
-    setLoading(false)
+    setLoading(true)
+
+    const { secretjs: signingClient } = await keplr.createSigningClient({
+      maxGas: FINALIZE_MAX_GAS,
+    })
+
+    try {
+      const unixTime = getUnixTime(date)
+      const amountInSmallestDenomination = toSmallestDenomination(
+        amount,
+        bid_decimals
+      )
+      const handleMsg = {
+        finalize: {
+          new_ends_at: unixTime,
+          new_minimum_bid: amountInSmallestDenomination,
+        },
+      }
+
+      await signingClient?.execute(address, handleMsg)
+      updateAuction({
+        address,
+        ends_at: unixTime,
+        minimum_bid: amountInSmallestDenomination,
+      })
+      setAlert({
+        title: 'Success',
+        text: `Your auction has been extended with a new end date of ${format(
+          date,
+          DATE_FORMAT
+        )} and a minimum bid of ${amount} ${bidTokenSymbol}`,
+        type: AlertType.success,
+      })
+      onClose()
+    } catch (error) {
+      console.log('Error extending auction:', error.message)
+      const text = parseErrorMessage(error.message)
+      setAlert({
+        title: 'Error',
+        text,
+        type: AlertType.error,
+      })
+      setLoading(false)
+    }
   }
 
   const onClose = () => {
@@ -132,9 +193,10 @@ const FinalizeAuctionModal = () => {
             onChangeAmount={setAmount}
             symbol={bidTokenSymbol}
             decimals={bid_decimals}
+            errors={errors}
+            loading={loading}
           />
         )}
-
         <Buttons>
           <Button isStretched isBasic onClick={onClose} disabled={loading}>
             Cancel
@@ -143,7 +205,9 @@ const FinalizeAuctionModal = () => {
             isStretched
             isPrimary
             disabled={loading}
-            onClick={onClickFinalize}
+            onClick={
+              radioValue === 'finalize' ? onClickFinalize : onClickExtend
+            }
           >
             {loading ? (
               <Dots size="20" />
