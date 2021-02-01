@@ -12,6 +12,7 @@ const initialState: ControlsState = {
   isUpdateMinBidModalOpen: false,
   isRetractBidModalOpen: false,
   isUpdateBidModalOpen: false,
+  isFinalizeModalOpen: false,
 }
 
 export default initialState
