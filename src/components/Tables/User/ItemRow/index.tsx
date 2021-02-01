@@ -74,7 +74,6 @@ const ItemRow: FC<Props> = (props) => {
             )} ${bidTokenSymbol}`
           : '-'}
       </Cell>
-      <Cell>{ends_at ? format(ends_at * 1000, DATE_FORMAT) : '-'}</Cell>
       <Cell>
         {winning_bid
           ? `${toBiggestDenomination(
@@ -89,6 +88,7 @@ const ItemRow: FC<Props> = (props) => {
           isOverdue={isOverdue}
           winner={winner}
           timestamp={timestamp}
+          endsAt={ends_at}
         />
       </Cell>
       <Cell hasOverflow>

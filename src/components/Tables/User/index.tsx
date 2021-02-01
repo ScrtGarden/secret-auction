@@ -83,7 +83,6 @@ const AuctionTable: FC<Props> = (props) => {
           <HeaderCell>Label</HeaderCell>
           <HeaderCell>Trading</HeaderCell>
           <HeaderCell>Minimum</HeaderCell>
-          <HeaderCell>End Date</HeaderCell>
           <HeaderCell>Winning Bid</HeaderCell>
           <HeaderCell>Status</HeaderCell>
           <HeaderCell width={130}>Action</HeaderCell>
