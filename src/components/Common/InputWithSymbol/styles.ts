@@ -1,6 +1,10 @@
 import styled from 'styled-components'
 
-const TokenLabel = styled.div`
+interface TokenLabelProps {
+  readonly disabled?: boolean
+}
+
+const TokenLabel = styled.div<TokenLabelProps>`
   align-items: center;
   color: ${(props) => props.theme.palette.white};
   display: flex;
@@ -10,6 +14,13 @@ const TokenLabel = styled.div`
   font-size: ${(props) => props.theme.fontSizes.md};
   font-weight: ${(props) => props.theme.fontWeights.semibold};
   padding: 0 ${(props) => props.theme.space.sm};
+
+  ${(props) =>
+    props.disabled &&
+    `
+    color: ${props.theme.palette.grey[300]};
+    background-color: ${props.theme.palette.grey[200]};
+  `}
 `
 
 const Wrapper = styled.div`

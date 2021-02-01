@@ -49,7 +49,7 @@ const InputWithSymbol: FC<Props> = (props) => {
           validation={error ? 'error' : undefined}
           disabled={disabled}
         />
-        {symbol && <TokenLabel>{symbol}</TokenLabel>}
+        {symbol && <TokenLabel disabled={disabled}>{symbol}</TokenLabel>}
       </InputGroup>
       {error && <StyledMessage validation="error">{error}</StyledMessage>}
     </Field>
