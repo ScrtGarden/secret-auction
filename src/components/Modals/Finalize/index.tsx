@@ -7,7 +7,11 @@ import { memo, useMemo, useState } from 'react'
 
 import { BidRouterQuery } from '../../../../interfaces'
 import { AlertType } from '../../../../store/controls/controls.models'
-import { DATE_FORMAT, FINALIZE_MAX_GAS } from '../../../../utils/constants'
+import {
+  DATE_FORMAT,
+  EXTEND_MAX_GAS,
+  FINALIZE_MAX_GAS,
+} from '../../../../utils/constants'
 import decoder from '../../../../utils/decoder'
 import {
   useStoreActions,
@@ -119,7 +123,7 @@ const FinalizeAuctionModal = () => {
     setLoading(true)
 
     const { secretjs: signingClient } = await keplr.createSigningClient({
-      maxGas: FINALIZE_MAX_GAS,
+      maxGas: EXTEND_MAX_GAS,
     })
 
     try {

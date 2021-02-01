@@ -65,6 +65,7 @@ const PLACE_BID_MAX_GAS = '300000'
 const CREATE_VIEWING_KEY_MAX_GAS = '120000'
 const RETRACT_BID_MAX_GAS = '300000'
 const FINALIZE_MAX_GAS = '2000000'
+const EXTEND_MAX_GAS = '300000'
 
 const TOKENS: SelectTokens = {
   tsdai: {
@@ -108,4 +109,5 @@ export {
   RETRACT_BID_MAX_GAS,
   FINALIZE_MAX_GAS,
   TOKENS,
+  EXTEND_MAX_GAS,
 }
