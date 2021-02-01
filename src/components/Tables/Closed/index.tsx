@@ -32,7 +32,7 @@ const AuctionTable: FC<Props> = (props) => {
   }, [])
 
   return (
-    <Table>
+    <Table size="large">
       <Head>
         <HeaderRow>
           <HeaderCell>Label</HeaderCell>

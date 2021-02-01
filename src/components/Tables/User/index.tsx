@@ -90,7 +90,7 @@ const AuctionTable: FC<Props> = (props) => {
       </Head>
       <Body>
         {fetching ? (
-          <SkeletonRows rows={4} columns={8} />
+          <SkeletonRows rows={4} columns={7} />
         ) : (
           data.map((item) => (
             <ItemRow key={item.address} item={item} onClick={onClickButton} />
