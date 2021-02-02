@@ -28,7 +28,6 @@ const Layout = ({ children }: Props) => {
     (state) => state.controls.isGetKeplrModalOpen
   )
   const isBidModalOpen = useStoreState((state) => state.controls.isBidModalOpen)
-  const showAlert = useStoreState((state) => state.controls.showAlert)
   const isUpdateMinBidModalOpen = useStoreState(
     (state) => state.controls.isUpdateMinBidModalOpen
   )
@@ -68,7 +67,7 @@ const Layout = ({ children }: Props) => {
       {isFinalizeModalOpen && <FinalizeAuctionModal />}
 
       {/* alerts */}
-      {showAlert && <Alert />}
+      <Alert />
     </>
   )
 }
