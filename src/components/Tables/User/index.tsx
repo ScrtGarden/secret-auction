@@ -51,7 +51,7 @@ const AuctionTable: FC<Props> = (props) => {
       setFetching(false)
     }
 
-    if (rehydrated) {
+    if (viewingKey && rehydrated) {
       goGetContracts()
     }
   }, [viewingKey, rehydrated])
