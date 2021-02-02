@@ -1,7 +1,7 @@
-import { Alert } from '@zendeskgarden/react-notifications'
+import { animated } from 'react-spring'
 import styled from 'styled-components'
 
-const StyledAlert = styled(Alert)`
+const Animate = styled(animated.div)`
   position: fixed;
   right: ${(props) => props.theme.space.lg};
   top: ${(props) => props.theme.space.md};
@@ -9,4 +9,4 @@ const StyledAlert = styled(Alert)`
   z-index: 401;
 `
 
-export { StyledAlert }
+export { Animate }
