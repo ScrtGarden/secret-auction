@@ -1,6 +1,6 @@
 import { ChevronButton } from '@zendeskgarden/react-buttons'
 import { Dropdown, Item, Menu, Trigger } from '@zendeskgarden/react-dropdowns'
-import { Field, Input, Label } from '@zendeskgarden/react-forms'
+import { Field, Label } from '@zendeskgarden/react-forms'
 import { FC, FormEvent, memo, useState } from 'react'
 
 import { FilterToken } from '../../../../utils/constants'
