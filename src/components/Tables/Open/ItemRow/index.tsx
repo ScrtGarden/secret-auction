@@ -1,6 +1,6 @@
 import { Cell, Row } from '@zendeskgarden/react-tables'
-import { format } from 'date-fns'
-import { NextRouter, Router } from 'next/router'
+import { format, isPast } from 'date-fns'
+import { NextRouter } from 'next/router'
 import { FC, memo, useMemo } from 'react'
 
 import { ActiveAuctionInfo } from '../../../../../interfaces'
@@ -8,6 +8,7 @@ import { DATE_FORMAT } from '../../../../../utils/constants'
 import { useStoreActions } from '../../../../../utils/hooks/storeHooks'
 import splitPair, { SplitPair } from '../../../../../utils/splitPair'
 import toBiggestDenomination from '../../../../../utils/toBiggestDenomination'
+import StatusTag from './StatusTag'
 
 type Props = {
   item: ActiveAuctionInfo
@@ -36,6 +37,10 @@ const ItemRow: FC<Props> = (props) => {
     [pair]
   )
 
+  const isOverdue = useMemo<boolean>(() => isPast(new Date(ends_at * 1000)), [
+    ends_at,
+  ])
+
   const onClick = async () => {
     await router.push(
       `/auctions?address=${address}&from=accounts`,
@@ -61,6 +66,9 @@ const ItemRow: FC<Props> = (props) => {
         )} ${bidTokenSymbol}`}
       </Cell>
       <Cell>{format(ends_at * 1000, DATE_FORMAT)}</Cell>
+      <Cell>
+        <StatusTag isOverdue={isOverdue} />
+      </Cell>
     </Row>
   )
 }

@@ -26,14 +26,15 @@ const AuctionTable: FC<Props> = (props) => {
       <Head>
         <HeaderRow>
           <HeaderCell>Label</HeaderCell>
-          <HeaderCell>Trading</HeaderCell>
+          <HeaderCell>Selling</HeaderCell>
           <HeaderCell>Minimum</HeaderCell>
           <HeaderCell>End Date</HeaderCell>
+          <HeaderCell width="120">Status</HeaderCell>
         </HeaderRow>
       </Head>
       <Body>
         {loading ? (
-          <SkeletonRows rows={4} columns={4} />
+          <SkeletonRows rows={4} columns={5} />
         ) : (
           data.map((item) => (
             <ItemRow key={item.address} item={item} router={router} />
