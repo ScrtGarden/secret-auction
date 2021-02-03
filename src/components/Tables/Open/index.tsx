@@ -6,7 +6,7 @@ import {
   Table,
 } from '@zendeskgarden/react-tables'
 import { useRouter } from 'next/router'
-import { FC, memo, useEffect, useState } from 'react'
+import { FC, memo } from 'react'
 
 import { ActiveAuctionInfo } from '../../../../interfaces'
 import SkeletonRows from '../SkeletonRows'
@@ -14,24 +14,12 @@ import ItemRow from './ItemRow'
 
 type Props = {
   data: readonly ActiveAuctionInfo[]
-  getContracts: () => void
+  loading: boolean
 }
 
 const AuctionTable: FC<Props> = (props) => {
-  const { data, getContracts } = props
-
+  const { data, loading } = props
   const router = useRouter()
-  const [fetching, setFetching] = useState(false)
-
-  useEffect(() => {
-    const goGetContracts = async () => {
-      setFetching(true)
-      await getContracts()
-      setFetching(false)
-    }
-
-    goGetContracts()
-  }, [])
 
   return (
     <Table size="large">
@@ -44,7 +32,7 @@ const AuctionTable: FC<Props> = (props) => {
         </HeaderRow>
       </Head>
       <Body>
-        {fetching ? (
+        {loading ? (
           <SkeletonRows rows={4} columns={4} />
         ) : (
           data.map((item) => (
