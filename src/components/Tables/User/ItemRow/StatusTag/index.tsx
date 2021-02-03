@@ -1,8 +1,10 @@
+import { Player } from '@lottiefiles/react-lottie-player'
 import { Tag } from '@zendeskgarden/react-tags'
 import { Paragraph, Title, Tooltip } from '@zendeskgarden/react-tooltips'
 import { format } from 'date-fns'
 import { FC, memo } from 'react'
 
+import confetti from '../../../../../../public/lottie/confetti.json'
 import { DATE_FORMAT } from '../../../../../../utils/constants'
 
 type Props = {
@@ -71,9 +73,30 @@ const StatusTag: FC<Props> = (props) => {
         </Tooltip>
       )}
       {!active && winner && (
-        <Tag hue="lemon">
-          <span>Winner</span>
-        </Tag>
+        <Tooltip
+          size="large"
+          content={
+            <>
+              <Title>Congratulation!</Title>
+              <Player
+                autoplay
+                loop
+                src={confetti}
+                style={{
+                  height: '150px',
+                  width: '150px',
+                  position: 'absolute',
+                  left: 0,
+                  top: 0,
+                }}
+              />
+            </>
+          }
+        >
+          <Tag hue="lemon">
+            <span>Winner</span>
+          </Tag>
+        </Tooltip>
       )}
     </>
   )
