@@ -90,6 +90,17 @@ const TOKENS: SelectTokens = {
   },
 }
 
+export interface FilterToken {
+  value: string
+  label: string
+}
+
+const FILTER_TOKENS: FilterToken[] = [
+  { value: 'TSDAI', label: 'TSDAI' },
+  { value: 'FIRST', label: 'FIRST' },
+  { value: 'THIRD', label: 'THIRD' },
+]
+
 export {
   MAP_ROUTE_AND_COLOR,
   CHAIN_EXPLORER,
@@ -110,4 +121,5 @@ export {
   FINALIZE_MAX_GAS,
   TOKENS,
   EXTEND_MAX_GAS,
+  FILTER_TOKENS,
 }
