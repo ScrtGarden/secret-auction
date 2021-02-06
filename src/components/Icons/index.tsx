@@ -8,6 +8,7 @@ import Keplr from './Kelpr'
 import KeySkeleton from './KeySkeleton'
 import Search from './Search'
 import Seedling from './Seedling'
+import Shovel from './Shovel'
 import User from './User'
 import UserCircle from './UserCircle'
 import UserSecret from './UserSecret'
@@ -23,6 +24,9 @@ const Icon = (props: Props) => {
   let SelectedIcon
 
   switch (name) {
+    case 'shovel':
+      SelectedIcon = Shovel
+      break
     case 'key-skeleton':
       SelectedIcon = KeySkeleton
       break
