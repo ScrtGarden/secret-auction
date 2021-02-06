@@ -25,10 +25,10 @@ const AuctionTable: FC<Props> = (props) => {
     <Table size="large">
       <Head>
         <HeaderRow>
-          <HeaderCell>Label</HeaderCell>
-          <HeaderCell>Selling</HeaderCell>
-          <HeaderCell>Minimum</HeaderCell>
-          <HeaderCell>End Date</HeaderCell>
+          <HeaderCell>Pair</HeaderCell>
+          <HeaderCell>Sell</HeaderCell>
+          <HeaderCell>Min. Price</HeaderCell>
+          <HeaderCell>Expected Close</HeaderCell>
           <HeaderCell width="120">Status</HeaderCell>
         </HeaderRow>
       </Head>

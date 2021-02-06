@@ -8,6 +8,7 @@ import { DATE_FORMAT } from '../../../../../utils/constants'
 import { useStoreActions } from '../../../../../utils/hooks/storeHooks'
 import splitPair, { SplitPair } from '../../../../../utils/splitPair'
 import toBiggestDenomination from '../../../../../utils/toBiggestDenomination'
+import { Pair, Symbol } from '../../styles'
 import StatusTag from './StatusTag'
 
 type Props = {
@@ -54,7 +55,12 @@ const ItemRow: FC<Props> = (props) => {
 
   return (
     <Row onClick={() => onClick()}>
-      <Cell>{label}</Cell>
+      <Cell>
+        <Pair>
+          <Symbol>{sellTokenSymbol}</Symbol>
+          <Symbol bid>{`/${bidTokenSymbol}`}</Symbol>
+        </Pair>
+      </Cell>
       <Cell>{`${toBiggestDenomination(
         sell_amount,
         sell_decimals
