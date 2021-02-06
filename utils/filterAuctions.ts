@@ -10,6 +10,10 @@ interface Filters {
 const filter = (auctions: CombinedAuctionInfo[], filters: Filters) => {
   const { sellSymbol = '', bidSymbol = '', selectedBidSymbol } = filters
 
+  if (!sellSymbol && !bidSymbol && !selectedBidSymbol) {
+    return auctions
+  }
+
   return auctions.filter((item) => {
     const { bidTokenSymbol, sellTokenSymbol } = splitPair(item.pair)
 
