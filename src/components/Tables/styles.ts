@@ -1,3 +1,4 @@
+import { SortableCell } from '@zendeskgarden/react-tables'
 import styled from 'styled-components'
 
 interface SymbolProps {
@@ -22,6 +23,13 @@ const Symbol = styled.p<SymbolProps>`
     font-size: ${props.theme.fontSizes.md};
     font-weight: ${props.theme.fontWeights.regular};
   `}
+`
+
+export const StyledSortableCell = styled(SortableCell)`
+  && {
+    padding-bottom: 15px;
+    padding-top: 15px;
+  }
 `
 
 export { Pair, Symbol }
