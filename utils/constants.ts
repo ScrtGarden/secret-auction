@@ -37,8 +37,8 @@ const CHAIN_EXPLORER = 'https://secretnodes.com/secret/chains/holodeck-2'
 const KEPLR_CHROME_STORE_URL =
   'https://chrome.google.com/webstore/detail/keplr/dmkamcknogkgcdfhhbddcghachkejeap?hl=en'
 
-const FACTORY_CONTRACT_ID = 663
-const FACTORY_CONTRACT_ADDRESS = 'secret1af7gp8qk94q4en84zk7gukpr546j0zhpgkgj5w'
+const FACTORY_CONTRACT_ID = 811
+const FACTORY_CONTRACT_ADDRESS = 'secret1lqdx8va86f9cff5dsz28l97x20z67qv7d4npj8'
 const AUCTION_CONTRACT_ID = 764
 
 const OPEN_SELLER_ACTIONS = {
