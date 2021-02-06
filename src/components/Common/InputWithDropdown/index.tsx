@@ -8,13 +8,14 @@ import { StyledInput, StyledInputGroup } from './styles'
 
 type Props = {
   label?: string
+  placeholder?: string
   options: FilterToken[]
   value: string
   onChange: (value: string) => void
 }
 
 const InputWithDropdown: FC<Props> = (props) => {
-  const { label, options, value, onChange } = props
+  const { label, placeholder, options, value, onChange } = props
   const [rotated, setRotated] = useState<boolean>()
 
   const onChangeValue = (e: FormEvent<HTMLInputElement>) => {
@@ -26,12 +27,13 @@ const InputWithDropdown: FC<Props> = (props) => {
 
   return (
     <Field>
-      <Label>{label}</Label>
+      {label && <Label>{label}</Label>}
       <StyledInputGroup>
         <StyledInput
-          placeholder="Symbol"
+          placeholder={placeholder}
           value={value}
           onChange={onChangeValue}
+          onClick={(e) => e.currentTarget.select()}
         />
         <Dropdown
           selectedItem={options.find((item) => item.label === value)}
