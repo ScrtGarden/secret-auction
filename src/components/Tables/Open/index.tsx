@@ -10,6 +10,7 @@ import { FC, memo, useMemo, useState } from 'react'
 
 import { ActiveAuctionInfo } from '../../../../interfaces'
 import sortData from '../../../../utils/sortAuctions'
+import NoResults from '../NoResults'
 import SkeletonRows from '../SkeletonRows'
 import { StyledSortableCell } from '../styles'
 import ItemRow from './ItemRow'
@@ -89,8 +90,9 @@ const AuctionTable: FC<Props> = (props) => {
         </HeaderRow>
       </Head>
       <Body>
-        {loading ? (
-          <SkeletonRows rows={4} columns={5} />
+        {loading && <SkeletonRows rows={4} columns={5} />}
+        {!loading && sortedData.length === 0 ? (
+          <NoResults colSpan={5} />
         ) : (
           sortedData.map((item) => (
             <ItemRow key={item.address} item={item} router={router} />
