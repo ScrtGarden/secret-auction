@@ -1,10 +1,10 @@
 import { ChevronButton } from '@zendeskgarden/react-buttons'
 import { Dropdown, Item, Menu, Trigger } from '@zendeskgarden/react-dropdowns'
-import { Field, Label } from '@zendeskgarden/react-forms'
+import { Label } from '@zendeskgarden/react-forms'
 import { FC, FormEvent, memo, useState } from 'react'
 
 import { FilterToken } from '../../../../utils/constants'
-import { StyledInput, StyledInputGroup } from './styles'
+import { StyledField, StyledInput, StyledInputGroup } from './styles'
 
 type Props = {
   label?: string
@@ -26,7 +26,7 @@ const InputWithDropdown: FC<Props> = (props) => {
   }
 
   return (
-    <Field>
+    <StyledField>
       {label && <Label>{label}</Label>}
       <StyledInputGroup>
         <StyledInput
@@ -58,7 +58,7 @@ const InputWithDropdown: FC<Props> = (props) => {
           </Menu>
         </Dropdown>
       </StyledInputGroup>
-    </Field>
+    </StyledField>
   )
 }
 

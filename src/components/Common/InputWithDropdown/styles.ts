@@ -1,7 +1,11 @@
-import { Input, InputGroup } from '@zendeskgarden/react-forms'
+import { Field, Input, InputGroup } from '@zendeskgarden/react-forms'
 import styled from 'styled-components'
 
 import Icon from '../../Icons'
+
+const StyledField = styled(Field)`
+  z-index: 1;
+`
 
 const StyledIcon = styled(Icon)``
 
@@ -22,4 +26,4 @@ const StyledInput = styled(Input)`
   text-transform: uppercase;
 `
 
-export { StyledIcon, StyledInputGroup, StyledInput }
+export { StyledIcon, StyledInputGroup, StyledInput, StyledField }
