@@ -13,25 +13,24 @@ const OpenTableWithFilters = () => {
   const { loading, auctions } = useGetAuctions({ list_active_auctions: {} })
 
   // component state
-  const [search, setSearch] = useState('')
   const [sellSymbol, setSellSymbol] = useState('')
   const [bidSymbol, setBidSymbol] = useState('')
+  const [selectedBidSymbol, setSelectedBidSymbol] = useState('')
 
   // custom hooks
-  const debouncedSearch = useDebounce(search, 400)
   const debouncedSellSymbol = useDebounce(sellSymbol, 500)
   const debouncedBidSymbol = useDebounce(bidSymbol, 500)
 
   const filteredAuctions = useMemo(
-    () => filter(auctions, { search, sellSymbol, bidSymbol }),
-    [auctions, debouncedSearch, debouncedSellSymbol, debouncedBidSymbol]
+    () => filter(auctions, { sellSymbol, bidSymbol, selectedBidSymbol }),
+    [auctions, debouncedSellSymbol, debouncedBidSymbol, selectedBidSymbol]
   )
 
   return (
     <Container>
       <Filters
-        searchValue={search}
-        onChangeSearchValue={setSearch}
+        selectedBidSymbol={selectedBidSymbol}
+        onClickBidSymbol={setSelectedBidSymbol}
         options={FILTER_TOKENS}
         sellValue={sellSymbol}
         onChangeSellValue={setSellSymbol}

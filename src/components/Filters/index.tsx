@@ -1,13 +1,13 @@
-import { Field, Label, MediaInput } from '@zendeskgarden/react-forms'
+import { ToggleButton } from '@zendeskgarden/react-buttons'
 import { FC, memo } from 'react'
 
 import { FilterToken } from '../../../utils/constants'
 import InputWithDropdown from '../Common/InputWithDropdown'
-import { Container, StartIcon } from './styles'
+import { Container } from './styles'
 
 type Props = {
-  searchValue: string
-  onChangeSearchValue: (value: string) => void
+  selectedBidSymbol: string
+  onClickBidSymbol: (value: string) => void
   options: FilterToken[]
   sellValue: string
   onChangeSellValue: (value: string) => void
@@ -17,8 +17,8 @@ type Props = {
 
 const Filters: FC<Props> = (props) => {
   const {
-    searchValue,
-    onChangeSearchValue,
+    selectedBidSymbol,
+    onClickBidSymbol,
     options,
     sellValue,
     onChangeSellValue,
@@ -28,22 +28,36 @@ const Filters: FC<Props> = (props) => {
 
   return (
     <Container>
-      <Field>
-        <Label>Search</Label>
-        <MediaInput
-          start={<StartIcon name="search" />}
-          value={searchValue}
-          onChange={(e) => onChangeSearchValue(e.currentTarget.value)}
-        />
-      </Field>
+      <ToggleButton
+        isPressed={selectedBidSymbol === ''}
+        onClick={() => onClickBidSymbol('')}
+        size="small"
+      >
+        All
+      </ToggleButton>
+      <ToggleButton
+        isPressed={selectedBidSymbol === 'SSCRT'}
+        onClick={() => onClickBidSymbol('SSCRT')}
+        size="small"
+      >
+        SSCRT Auctions
+      </ToggleButton>
+      <ToggleButton
+        isPressed={selectedBidSymbol === 'SDAI'}
+        onClick={() => onClickBidSymbol('SDAI')}
+        size="small"
+      >
+        SDAI Auctions
+      </ToggleButton>
+      <div />
       <InputWithDropdown
-        label="Sell"
+        placeholder="Sell"
         options={options}
         value={sellValue}
         onChange={onChangeSellValue}
       />
       <InputWithDropdown
-        label="Bid"
+        placeholder="Bid"
         options={options}
         value={bidValue}
         onChange={onChangeBidValue}
