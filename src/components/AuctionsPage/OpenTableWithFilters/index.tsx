@@ -4,6 +4,7 @@ import { FILTER_TOKENS } from '../../../../utils/constants'
 import filter from '../../../../utils/filterAuctions'
 import useDebounce from '../../../../utils/hooks/useDebounce'
 import useGetAuctions from '../../../../utils/hooks/useGetAuctions'
+import { Separator } from '../../Common/StyledComponents'
 import Filters from '../../Filters'
 import Open from '../../Tables/Open'
 import { Container } from './styles'
@@ -37,6 +38,7 @@ const OpenTableWithFilters = () => {
         bidValue={bidSymbol}
         onChangeBidValue={setBidSymbol}
       />
+      <Separator md />
       <Open data={filteredAuctions} loading={loading} />
     </Container>
   )
