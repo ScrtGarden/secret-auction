@@ -2,27 +2,28 @@ import { CombinedAuctionInfo } from '../interfaces'
 import splitPair from './splitPair'
 
 interface Filters {
-  search?: string
   sellSymbol?: string
   bidSymbol?: string
+  selectedBidSymbol?: string
 }
 
 const filter = (auctions: CombinedAuctionInfo[], filters: Filters) => {
-  const { search = '', sellSymbol = '', bidSymbol = '' } = filters
+  const { sellSymbol = '', bidSymbol = '', selectedBidSymbol } = filters
 
   return auctions.filter((item) => {
     const { bidTokenSymbol, sellTokenSymbol } = splitPair(item.pair)
-    const searchMatch =
-      item.label.toLowerCase().includes(search.toLowerCase()) ||
-      item.pair.toLowerCase().includes(search.toLowerCase())
-    const sellSymbolMatch = sellTokenSymbol
-      ? sellTokenSymbol.includes(sellSymbol)
+
+    const selectedBidSymbolMatch = selectedBidSymbol
+      ? selectedBidSymbol === bidTokenSymbol
       : true
-    const bidSymbolMatch = bidTokenSymbol
-      ? bidTokenSymbol.includes(bidSymbol)
+    const sellSymbolMatch = sellSymbol
+      ? sellTokenSymbol.includes(sellSymbol.toUpperCase())
+      : true
+    const bidSymbolMatch = bidSymbol
+      ? bidTokenSymbol.includes(bidSymbol.toUpperCase())
       : true
 
-    return searchMatch && sellSymbolMatch && bidSymbolMatch
+    return selectedBidSymbolMatch && sellSymbolMatch && bidSymbolMatch
   })
 }
 
