@@ -1,16 +1,16 @@
 import { Cell, Row } from '@zendeskgarden/react-tables'
-import { format, isPast } from 'date-fns'
+import { isPast } from 'date-fns'
 import { FC, memo, useMemo } from 'react'
 
 import { CombinedAuctionInfo } from '../../../../../interfaces'
 import {
-  DATE_FORMAT,
   OPEN_BIDDER_ACTIONS,
   OPEN_BIDDER_OVERDUE_ACTIONS,
   OPEN_SELLER_ACTIONS,
 } from '../../../../../utils/constants'
 import splitPair, { SplitPair } from '../../../../../utils/splitPair'
 import toBiggestDenomination from '../../../../../utils/toBiggestDenomination'
+import { Pair, Symbol } from '../../styles'
 import MultiButton from './MultiButton'
 import Owner from './Owner'
 import StatusTag from './StatusTag'
@@ -61,7 +61,12 @@ const ItemRow: FC<Props> = (props) => {
   return (
     <Row>
       <Cell isMinimum>{seller && <Owner />}</Cell>
-      <Cell>{label}</Cell>
+      <Cell>
+        <Pair>
+          <Symbol>{sellTokenSymbol}</Symbol>
+          <Symbol bid>{`/${bidTokenSymbol}`}</Symbol>
+        </Pair>
+      </Cell>
       <Cell>{`${toBiggestDenomination(
         sell_amount,
         sell_decimals
