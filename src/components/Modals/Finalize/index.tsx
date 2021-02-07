@@ -25,6 +25,7 @@ import toBiggestDenomination from '../../../../utils/toBiggestDenomination'
 import toSmallestDenomination from '../../../../utils/toSmallestDenomination'
 import validate from '../../../../utils/validators/extend'
 import {
+  ModalButtons,
   ModalContent,
   ModalHeader,
   ModalText,
@@ -33,7 +34,6 @@ import {
   StyledSkeleton,
 } from '../../Common/StyledComponents'
 import NoActiveBids from './NoActiveBids'
-import { Buttons } from './styles'
 
 const FinalizeAuctionModal = () => {
   const router = useRouter()
@@ -201,7 +201,7 @@ const FinalizeAuctionModal = () => {
             loading={loading}
           />
         )}
-        <Buttons>
+        <ModalButtons>
           <Button isStretched isBasic onClick={onClose} disabled={loading}>
             Cancel
           </Button>
@@ -221,7 +221,7 @@ const FinalizeAuctionModal = () => {
               'Extend'
             )}
           </Button>
-        </Buttons>
+        </ModalButtons>
       </ModalContent>
     </StyledModal>
   )
