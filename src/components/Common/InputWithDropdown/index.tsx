@@ -30,6 +30,7 @@ const InputWithDropdown: FC<Props> = (props) => {
       {label && <Label>{label}</Label>}
       <StyledInputGroup>
         <StyledInput
+          isCompact
           placeholder={placeholder}
           value={value}
           onChange={onChangeValue}
@@ -47,7 +48,7 @@ const InputWithDropdown: FC<Props> = (props) => {
           }
         >
           <Trigger>
-            <ChevronButton isRotated={rotated} />
+            <ChevronButton isRotated={rotated} size="small" />
           </Trigger>
           <Menu placement="bottom-end">
             {options.map((option) => (
