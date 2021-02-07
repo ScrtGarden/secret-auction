@@ -1,13 +1,34 @@
-import { useContext, useState } from 'react'
+import { useContext, useReducer, useState } from 'react'
 
 import { ActiveAuctionInfo, ClosedAuctionInfo } from '../../../interfaces'
-import { FACTORY_CONTRACT_ADDRESS } from '../../../utils/constants'
+import {
+  FACTORY_CONTRACT_ADDRESS,
+  FILTER_TOKENS,
+} from '../../../utils/constants'
 import { useStoreActions, useStoreState } from '../../../utils/hooks/storeHooks'
+import useDebounce from '../../../utils/hooks/useDebounce'
+import reducer from '../../../utils/reducer'
 import { SecretJsContext } from '../../../utils/secretjs'
 import { Container, InnerContainer, Title } from '../Common/StyledComponents'
+import Filters from '../Filters/User'
 import AuctionTable from '../Tables/User'
-import Filters from './Filters'
 import Header from './Header'
+
+export interface ICheckboxes {
+  seller?: boolean
+  bidder?: boolean
+  open?: boolean
+  closed?: boolean
+  won?: boolean
+}
+
+export const initCheckboxes: ICheckboxes = {
+  seller: false,
+  bidder: false,
+  open: false,
+  closed: false,
+  won: false,
+}
 
 const ProfilePage = () => {
   const { secretjs } = useContext(SecretJsContext)
@@ -15,17 +36,29 @@ const ProfilePage = () => {
   // store actions
   const setAuctions = useStoreActions((actions) => actions.profile.setAuctions)
 
-  const [search, setSearch] = useState('')
+  // component state
+  const [sellSymbol, setSellSymbol] = useState('')
+  const [bidSymbol, setBidSymbol] = useState('')
+  const [checkboxes, setCheckboxes] = useReducer(reducer, initCheckboxes)
+
+  // custom hooks
+  const debouncedSellSymbol = useDebounce(sellSymbol, 500)
+  const debouncedBidSymbol = useDebounce(bidSymbol, 500)
 
   // store states
   const filteredAuctions = useStoreState((state) =>
-    state.profile.filterAuctions({ search })
+    state.profile.filterAuctions({
+      sellSymbol: debouncedSellSymbol,
+      bidSymbol: debouncedBidSymbol,
+      seller: checkboxes.seller,
+      bidder: checkboxes.bidder,
+      open: checkboxes.open,
+      closed: checkboxes.closed,
+      won: checkboxes.won,
+    })
   )
   const address = useStoreState((state) => state.auth.connectedAddress)
   const viewingKey = useStoreState((state) => state.auth.connectedViewingKey)
-
-  // component states
-  const [filter, setFilter] = useState('all')
 
   const getContracts = async () => {
     const queryMsg = {
@@ -110,10 +143,13 @@ const ProfilePage = () => {
         <Title>Profile</Title>
         <Header address={address} viewingKey={viewingKey} />
         <Filters
-          search={search}
-          onChange={(value) => setSearch(value.currentTarget.value)}
-          filter={filter}
-          onSelect={(value) => setFilter(value)}
+          selectedCheckboxes={checkboxes}
+          onChangeCheckbox={setCheckboxes}
+          options={FILTER_TOKENS}
+          sellValue={sellSymbol}
+          onChangeSellValue={setSellSymbol}
+          bidValue={bidSymbol}
+          onChangeBidValue={setBidSymbol}
         />
         <AuctionTable
           data={filteredAuctions}
