@@ -1,12 +1,32 @@
 import { computed } from 'easy-peasy'
 
+import splitPair from '../../utils/splitPair'
 import { ProfileComputators } from './profile.models'
 
 const computators: ProfileComputators = {
   filterAuctions: computed((state) => (filters) => {
-    const { win, seller, bidder, active, search = '' } = filters
+    const { seller, bidder, open, closed, won, sellSymbol, bidSymbol } = filters
+
+    if (
+      !seller &&
+      !bidder &&
+      !open &&
+      !closed &&
+      !won &&
+      !sellSymbol &&
+      !bidSymbol
+    ) {
+      return state.auctions
+    }
+
+    const sellPattern = `^${sellSymbol.toUpperCase()}`
+    const sellRegex = new RegExp(sellPattern)
+    const bidPattern = `^${bidSymbol.toUpperCase()}`
+    const bidRegex = new RegExp(bidPattern)
 
     return state.auctions.filter((item) => {
+      const { bidTokenSymbol, sellTokenSymbol } = splitPair(item.pair)
+
       let typeMatch
       if (seller && bidder) {
         typeMatch = item.seller || item.bidder
@@ -18,13 +38,30 @@ const computators: ProfileComputators = {
         typeMatch = true
       }
 
-      const winnerMatch = win ? item.winner : true
-      const activeMatch = active ? item.active : true
-      const searchMatch =
-        item.label.toLowerCase().includes(search.toLowerCase()) ||
-        item.pair.toLowerCase().includes(search.toLowerCase())
+      let statusMatch
+      if (open && closed) {
+        statusMatch = true
+      } else if (open) {
+        statusMatch = item.active
+      } else if (closed) {
+        statusMatch = !item.active
+      } else {
+        statusMatch = true
+      }
 
-      return winnerMatch && typeMatch && activeMatch && searchMatch
+      const winnerMatch = won ? item.winner : true
+      const sellSymbolMatch = sellSymbol
+        ? sellTokenSymbol.match(sellRegex)
+        : true
+      const bidSymbolMatch = bidSymbol ? bidTokenSymbol.match(bidRegex) : true
+
+      return (
+        sellSymbolMatch &&
+        bidSymbolMatch &&
+        typeMatch &&
+        statusMatch &&
+        winnerMatch
+      )
     })
   }),
   auctionById: computed((state) => (address) =>
