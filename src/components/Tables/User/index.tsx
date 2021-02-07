@@ -13,6 +13,7 @@ import { CombinedAuctionInfo } from '../../../../interfaces'
 import { useStoreActions } from '../../../../utils/hooks/storeHooks'
 import onClickSort from '../../../../utils/onClickSort'
 import sortData, { Direction } from '../../../../utils/sortAuctions'
+import NoResults from '../NoResults'
 import SkeletonRows from '../SkeletonRows'
 import { StyledSortableCell } from '../styles'
 import ItemRow from './ItemRow'
@@ -45,14 +46,14 @@ const AuctionTable: FC<Props> = (props) => {
   )
 
   // component state
-  const [fetching, setFetching] = useState(false)
+  const [fetching, setFetching] = useState(true)
   const [sellSort, setSellSort] = useState<Direction>()
   const [bidSort, setBidSort] = useState<Direction>()
   const [dateSort, setDateSort] = useState<Direction>()
 
   useEffect(() => {
     const goGetContracts = async () => {
-      setFetching(true)
+      // setFetching(true)
       await getContracts()
       setFetching(false)
     }
@@ -124,13 +125,13 @@ const AuctionTable: FC<Props> = (props) => {
         </HeaderRow>
       </Head>
       <Body>
-        {fetching ? (
-          <SkeletonRows rows={4} columns={7} />
-        ) : (
+        {fetching && <SkeletonRows rows={4} columns={7} />}
+        {!fetching && sortedData.length === 0 && <NoResults colSpan={7} />}
+        {!fetching &&
+          sortedData.length !== 0 &&
           sortedData.map((item) => (
             <ItemRow key={item.address} item={item} onClick={onClickButton} />
-          ))
-        )}
+          ))}
       </Body>
     </Table>
   )

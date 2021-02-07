@@ -9,7 +9,7 @@ const Container = styled.div`
   align-items: center;
   display: flex;
   justify-content: space-between;
-  margin-bottom: 40px;
+  margin-bottom: ${(props) => props.theme.space.xxl};
 `
 
 const Circle = styled.div`
