@@ -1,8 +1,8 @@
 import { ToggleButton } from '@zendeskgarden/react-buttons'
 import { FC, memo } from 'react'
 
-import { FilterToken } from '../../../utils/constants'
-import InputWithDropdown from '../Common/InputWithDropdown'
+import { FilterToken } from '../../../../utils/constants'
+import InputWithDropdown from '../../Common/InputWithDropdown'
 import { Container } from './styles'
 
 type Props = {
