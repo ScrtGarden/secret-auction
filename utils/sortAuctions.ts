@@ -1,14 +1,14 @@
-import { ActiveAuctionInfo } from '../interfaces'
+import { ActiveAuctionInfo, CombinedAuctionInfo } from '../interfaces'
 import toBiggestDenomination from './toBiggestDenomination'
 
-type Direction = 'asc' | 'desc' | undefined
+export type Direction = 'asc' | 'desc' | undefined
 
-const sortData = (
-  tableData: ActiveAuctionInfo[],
+const sortData = <T extends any[]>(
+  tableData: T,
   sellSort: Direction,
   bidSort: Direction,
   dateSort: Direction
-) => {
+): T => {
   if (!sellSort && !bidSort && !dateSort) {
     return tableData
   }
