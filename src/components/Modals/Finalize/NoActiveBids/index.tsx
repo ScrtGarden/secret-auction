@@ -63,8 +63,8 @@ const NoActiveBids: FC<Props> = (props) => {
         >
           <Label>Extend</Label>
           <Hint>
-            Keep the auction open, with a new end date and minimum bid
-            (optional).
+            Keep the auction open, with a new expected close date and minimum
+            bid (optional).
           </Hint>
         </Radio>
       </Field>
@@ -72,7 +72,7 @@ const NoActiveBids: FC<Props> = (props) => {
         <>
           <Separator lg />
           <DateTimePicker
-            label="New End Date"
+            label="New Close Date"
             selected={date}
             onChange={(date) => onChangeDate(date)}
             error={errors?.date}

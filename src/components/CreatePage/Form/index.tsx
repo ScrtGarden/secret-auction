@@ -91,7 +91,7 @@ const Form: FC<Props> = (props) => {
         disableSelect={loading}
       />
       <DateTimePicker
-        label="End Date"
+        label="Expected Close"
         selected={date}
         onChange={setDate}
         error={errors?.date}

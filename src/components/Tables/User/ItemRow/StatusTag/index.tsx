@@ -43,7 +43,7 @@ const StatusTag: FC<Props> = (props) => {
           size="large"
           content={
             <>
-              <Title>End Date</Title>
+              <Title>Expected Close</Title>
               <Paragraph>
                 {endsAt && format(endsAt * 1000, DATE_FORMAT)}
               </Paragraph>

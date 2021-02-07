@@ -147,7 +147,7 @@ const FinalizeAuctionModal = () => {
       })
       setAlert({
         title: 'Success',
-        text: `Your auction has been extended with a new end date of ${format(
+        text: `Your auction has been extended with a new expected close of ${format(
           date,
           DATE_FORMAT
         )} and a minimum bid of ${amount} ${bidTokenSymbol}`,
