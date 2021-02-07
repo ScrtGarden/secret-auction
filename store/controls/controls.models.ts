@@ -22,6 +22,7 @@ export interface ControlsState {
   isRetractBidModalOpen: boolean
   isUpdateBidModalOpen: boolean
   isFinalizeModalOpen: boolean
+  isImportKeyModalOpen: boolean
 }
 
 export interface ControlsActions {
@@ -33,6 +34,7 @@ export interface ControlsActions {
   toggleRetractBidModal: Action<ControlsModel>
   toggleUpdateBidModal: Action<ControlsModel>
   toggleFinalizeModal: Action<ControlsModel>
+  toggleImportKeyModal: Action<ControlsModel>
 }
 
 export interface ControlsListeners {

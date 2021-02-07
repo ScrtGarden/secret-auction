@@ -13,6 +13,7 @@ const initialState: ControlsState = {
   isRetractBidModalOpen: false,
   isUpdateBidModalOpen: false,
   isFinalizeModalOpen: false,
+  isImportKeyModalOpen: false,
 }
 
 export default initialState

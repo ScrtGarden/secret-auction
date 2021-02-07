@@ -27,6 +27,9 @@ const actions: ControlsActions = {
   toggleFinalizeModal: action((state) => {
     state.isFinalizeModalOpen = !state.isFinalizeModalOpen
   }),
+  toggleImportKeyModal: action((state) => {
+    state.isImportKeyModalOpen = !state.isImportKeyModalOpen
+  }),
 }
 
 export default actions
