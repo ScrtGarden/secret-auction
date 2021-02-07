@@ -7,11 +7,14 @@ import {
 } from '@zendeskgarden/react-tables'
 import { useStoreRehydrated } from 'easy-peasy'
 import { useRouter } from 'next/router'
-import { FC, memo, useEffect, useState } from 'react'
+import { FC, memo, useEffect, useMemo, useState } from 'react'
 
 import { CombinedAuctionInfo } from '../../../../interfaces'
 import { useStoreActions } from '../../../../utils/hooks/storeHooks'
+import onClickSort from '../../../../utils/onClickSort'
+import sortData, { Direction } from '../../../../utils/sortAuctions'
 import SkeletonRows from '../SkeletonRows'
+import { StyledSortableCell } from '../styles'
 import ItemRow from './ItemRow'
 
 type Props = {
@@ -43,6 +46,9 @@ const AuctionTable: FC<Props> = (props) => {
 
   // component state
   const [fetching, setFetching] = useState(false)
+  const [sellSort, setSellSort] = useState<Direction>()
+  const [bidSort, setBidSort] = useState<Direction>()
+  const [dateSort, setDateSort] = useState<Direction>()
 
   useEffect(() => {
     const goGetContracts = async () => {
@@ -75,16 +81,45 @@ const AuctionTable: FC<Props> = (props) => {
     }
   }
 
+  const sortedData = useMemo(
+    () =>
+      sortData<CombinedAuctionInfo[]>(
+        data.slice(),
+        sellSort,
+        bidSort,
+        dateSort
+      ),
+    [data, sellSort, bidSort, dateSort]
+  )
+
+  const onClickSellSort = () => {
+    onClickSort(sellSort, setSellSort, [setBidSort, setDateSort])
+  }
+
+  const onClickBidSort = () => {
+    onClickSort(bidSort, setBidSort, [setSellSort, setDateSort])
+  }
+
+  const onClickDateSort = () => {
+    onClickSort(dateSort, setDateSort, [setSellSort, setBidSort])
+  }
+
   return (
     <Table size="large">
       <Head>
         <HeaderRow>
           <HeaderCell width={50}></HeaderCell>
           <HeaderCell>Pair</HeaderCell>
-          <HeaderCell>Trading</HeaderCell>
-          <HeaderCell>Minimum</HeaderCell>
+          <StyledSortableCell sort={sellSort} onClick={onClickSellSort}>
+            Sell
+          </StyledSortableCell>
+          <StyledSortableCell sort={bidSort} onClick={onClickBidSort}>
+            Min. Price
+          </StyledSortableCell>
           <HeaderCell>Winning Bid</HeaderCell>
-          <HeaderCell>Status</HeaderCell>
+          <StyledSortableCell sort={dateSort} onClick={onClickDateSort}>
+            Status
+          </StyledSortableCell>
           <HeaderCell width={130}>Action</HeaderCell>
         </HeaderRow>
       </Head>
@@ -92,7 +127,7 @@ const AuctionTable: FC<Props> = (props) => {
         {fetching ? (
           <SkeletonRows rows={4} columns={7} />
         ) : (
-          data.map((item) => (
+          sortedData.map((item) => (
             <ItemRow key={item.address} item={item} onClick={onClickButton} />
           ))
         )}
