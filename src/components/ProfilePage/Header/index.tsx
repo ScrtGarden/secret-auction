@@ -1,3 +1,4 @@
+import { Button } from '@zendeskgarden/react-buttons'
 import { Dots } from '@zendeskgarden/react-loaders'
 import cryptoRandomString from 'crypto-random-string'
 import { FC, memo, useState } from 'react'
@@ -13,6 +14,7 @@ import truncateAddress from '../../../../utils/truncateAddress'
 import CopyTooltip from './CopyTooltip'
 import {
   Address,
+  Buttons,
   Circle,
   Container,
   CopyWrapper,
@@ -32,6 +34,9 @@ const Header: FC<Props> = (props) => {
 
   // store actions
   const setViewingKey = useStoreActions((actions) => actions.auth.setViewingKey)
+  const toggleImportKey = useStoreActions(
+    (actions) => actions.controls.toggleImportKeyModal
+  )
 
   // custom hooks
   const [connectToKeplr] = useConnectToKeplr()
@@ -90,19 +95,28 @@ const Header: FC<Props> = (props) => {
           </CopyWrapper>
         </div>
       </Wrapper>
-      <StyledButton
-        isLong={!!viewingKey}
-        isPrimary
-        size="small"
-        onClick={getViewingKey}
-        disabled={loading}
-      >
-        {loading ? (
-          <Dots size={20} />
-        ) : (
-          `${viewingKey ? 'Rotate' : 'Get'} Viewing Key`
-        )}
-      </StyledButton>
+      <Buttons>
+        <Button
+          size="small"
+          disabled={loading}
+          onClick={() => toggleImportKey()}
+        >
+          Import Key
+        </Button>
+        <StyledButton
+          isLong={!!viewingKey}
+          isPrimary
+          size="small"
+          onClick={getViewingKey}
+          disabled={loading}
+        >
+          {loading ? (
+            <Dots size={20} />
+          ) : (
+            `${viewingKey ? 'Rotate' : 'Get'} Viewing Key`
+          )}
+        </StyledButton>
+      </Buttons>
     </Container>
   )
 }

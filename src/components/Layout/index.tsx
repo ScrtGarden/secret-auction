@@ -8,6 +8,7 @@ import Header from '../Header'
 import BidModal from '../Modals/Bid'
 import FinalizeAuctionModal from '../Modals/Finalize'
 import GetKeplrModal from '../Modals/GetKeplr'
+import ImportKeyModal from '../Modals/ImportKey'
 import RetractBidModal from '../Modals/RetractBid'
 import UpdateBidModal from '../Modals/UpdateBid'
 import UpdateMinBidModal from '../Modals/UpdateMinBid'
@@ -40,6 +41,9 @@ const Layout = ({ children }: Props) => {
   const isFinalizeModalOpen = useStoreState(
     (state) => state.controls.isFinalizeModalOpen
   )
+  const isImportKeyModalOpen = useStoreState(
+    (state) => state.controls.isImportKeyModalOpen
+  )
 
   // custom hooks
   const { loading, accounts } = useGetAccounts()
@@ -65,6 +69,7 @@ const Layout = ({ children }: Props) => {
       {isRetractBidOpen && <RetractBidModal />}
       {isUpdateBidModalOpen && <UpdateBidModal />}
       {isFinalizeModalOpen && <FinalizeAuctionModal />}
+      {isImportKeyModalOpen && <ImportKeyModal />}
 
       {/* alerts */}
       <Alert />

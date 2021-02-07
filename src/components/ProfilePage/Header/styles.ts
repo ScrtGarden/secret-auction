@@ -2,7 +2,7 @@ import { Button } from '@zendeskgarden/react-buttons'
 import styled from 'styled-components'
 
 type ButtonProps = {
-  readonly isLong: boolean
+  readonly isLong?: boolean
 }
 
 const Container = styled.div`
@@ -33,7 +33,6 @@ const Address = styled.h1`
 `
 
 const StyledButton = styled(Button)<ButtonProps>`
-  /* width: 114px; */
   width: ${(props) => (props.isLong ? '134px' : '114px')};
 `
 
@@ -48,4 +47,18 @@ const Dot = styled.div`
   margin: 0 ${(props) => props.theme.space.xs};
 `
 
-export { Container, Circle, Address, Wrapper, StyledButton, CopyWrapper, Dot }
+const Buttons = styled.div`
+  column-gap: ${(props) => props.theme.space.md};
+  display: flex;
+`
+
+export {
+  Container,
+  Circle,
+  Address,
+  Wrapper,
+  StyledButton,
+  CopyWrapper,
+  Dot,
+  Buttons,
+}
