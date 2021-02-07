@@ -5,7 +5,7 @@ import filter from '../../../../utils/filterAuctions'
 import useDebounce from '../../../../utils/hooks/useDebounce'
 import useGetAuctions from '../../../../utils/hooks/useGetAuctions'
 import { Separator } from '../../Common/StyledComponents'
-import Filters from '../../Filters'
+import Filters from '../../Filters/Open'
 import Open from '../../Tables/Open'
 import { Container } from './styles'
 
