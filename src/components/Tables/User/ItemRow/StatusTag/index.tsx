@@ -22,6 +22,7 @@ const StatusTag: FC<Props> = (props) => {
     <>
       {active && isOverdue && (
         <Tooltip
+          zIndex={2}
           size="large"
           content={
             <>
