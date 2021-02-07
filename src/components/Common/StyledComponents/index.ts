@@ -81,6 +81,14 @@ const ModalText = styled.p`
   margin: 0;
 `
 
+const ModalButtons = styled.div`
+  align-items: center;
+  column-gap: ${(props) => props.theme.space.md};
+  display: flex;
+  margin-top: ${(props) => props.theme.space.lg};
+  width: 100%;
+`
+
 const StyledSkeleton = styled(Skeleton)`
   margin-bottom: ${(props) => props.theme.space.xxs};
 
@@ -111,4 +119,5 @@ export {
   ModalText,
   StyledSkeleton,
   BrandName,
+  ModalButtons,
 }
