@@ -1,7 +1,6 @@
-import { Button, ToggleButton } from '@zendeskgarden/react-buttons'
-import { Dropdown, Item, Menu, Trigger } from '@zendeskgarden/react-dropdowns'
-import { Checkbox, Field, Label, MediaInput } from '@zendeskgarden/react-forms'
-import { FC, FormEvent, memo, useState } from 'react'
+import { Button } from '@zendeskgarden/react-buttons'
+import { Checkbox, Field, Label } from '@zendeskgarden/react-forms'
+import { FC, memo } from 'react'
 
 import { FilterToken } from '../../../../utils/constants'
 import InputWithDropdown from '../../Common/InputWithDropdown'
