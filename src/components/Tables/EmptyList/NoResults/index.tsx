@@ -1,7 +1,7 @@
 import { Cell } from '@zendeskgarden/react-tables'
 import { FC, memo } from 'react'
 
-import { Content, StyledIcon, StyledRow, Text } from './styles'
+import { Content, StyledIcon, StyledRow, Text } from '../styles'
 
 type Props = {
   colSpan?: number

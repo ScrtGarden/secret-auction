@@ -13,14 +13,16 @@ import { CombinedAuctionInfo } from '../../../../interfaces'
 import { useStoreActions } from '../../../../utils/hooks/storeHooks'
 import onClickSort from '../../../../utils/onClickSort'
 import sortData, { Direction } from '../../../../utils/sortAuctions'
-import NoResults from '../NoResults'
+import ErrorKey from '../EmptyList/ErrorKey'
+import NoKey from '../EmptyList/NoKey'
+import NoResults from '../EmptyList/NoResults'
 import SkeletonRows from '../SkeletonRows'
 import { StyledSortableCell } from '../styles'
 import ItemRow from './ItemRow'
 
 type Props = {
   data: readonly CombinedAuctionInfo[]
-  getContracts: () => void
+  getContracts: () => Promise<{ error?: {}; data?: {} }>
   viewingKey?: string
 }
 
@@ -50,16 +52,25 @@ const AuctionTable: FC<Props> = (props) => {
   const [sellSort, setSellSort] = useState<Direction>()
   const [bidSort, setBidSort] = useState<Direction>()
   const [dateSort, setDateSort] = useState<Direction>()
+  const [pairSort, setPairSort] = useState<Direction>()
+  const [error, setError] = useState(false)
 
   useEffect(() => {
     const goGetContracts = async () => {
-      // setFetching(true)
-      await getContracts()
+      setFetching(true)
+      const response = await getContracts()
+      if (response.error) {
+        setError(true)
+      } else {
+        setError(false)
+      }
       setFetching(false)
     }
 
     if (viewingKey && rehydrated) {
       goGetContracts()
+    } else {
+      setFetching(false)
     }
   }, [viewingKey, rehydrated])
 
@@ -88,21 +99,26 @@ const AuctionTable: FC<Props> = (props) => {
         data.slice(),
         sellSort,
         bidSort,
-        dateSort
+        dateSort,
+        pairSort
       ),
-    [data, sellSort, bidSort, dateSort]
+    [data, sellSort, bidSort, dateSort, pairSort]
   )
 
+  const onClickPairSort = () => {
+    onClickSort(pairSort, setPairSort, [setSellSort, setBidSort, setDateSort])
+  }
+
   const onClickSellSort = () => {
-    onClickSort(sellSort, setSellSort, [setBidSort, setDateSort])
+    onClickSort(sellSort, setSellSort, [setBidSort, setDateSort, setPairSort])
   }
 
   const onClickBidSort = () => {
-    onClickSort(bidSort, setBidSort, [setSellSort, setDateSort])
+    onClickSort(bidSort, setBidSort, [setSellSort, setDateSort, setPairSort])
   }
 
   const onClickDateSort = () => {
-    onClickSort(dateSort, setDateSort, [setSellSort, setBidSort])
+    onClickSort(dateSort, setDateSort, [setSellSort, setBidSort, setPairSort])
   }
 
   return (
@@ -110,7 +126,9 @@ const AuctionTable: FC<Props> = (props) => {
       <Head>
         <HeaderRow>
           <HeaderCell width={50}></HeaderCell>
-          <HeaderCell>Pair</HeaderCell>
+          <StyledSortableCell sort={pairSort} onClick={onClickPairSort}>
+            Pair
+          </StyledSortableCell>
           <StyledSortableCell sort={sellSort} onClick={onClickSellSort}>
             Sell
           </StyledSortableCell>
@@ -126,8 +144,14 @@ const AuctionTable: FC<Props> = (props) => {
       </Head>
       <Body>
         {fetching && <SkeletonRows rows={4} columns={7} />}
-        {!fetching && sortedData.length === 0 && <NoResults colSpan={7} />}
+        {!fetching && !viewingKey && <NoKey colSpan={7} />}
+        {!fetching && viewingKey && error && <ErrorKey colSpan={7} />}
+        {!fetching && viewingKey && !error && sortedData.length === 0 && (
+          <NoResults colSpan={7} />
+        )}
         {!fetching &&
+          viewingKey &&
+          !error &&
           sortedData.length !== 0 &&
           sortedData.map((item) => (
             <ItemRow key={item.address} item={item} onClick={onClickButton} />
