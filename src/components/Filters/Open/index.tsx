@@ -3,6 +3,7 @@ import { FC, memo } from 'react'
 
 import { FilterToken } from '../../../../utils/constants'
 import InputWithDropdown from '../../Common/InputWithDropdown'
+import { StyledToggleButton } from '../styles'
 import { Container } from './styles'
 
 type Props = {
@@ -28,27 +29,27 @@ const Filters: FC<Props> = (props) => {
 
   return (
     <Container>
-      <ToggleButton
+      <StyledToggleButton
         isPressed={selectedBidSymbol === ''}
         onClick={() => onClickBidSymbol('')}
         size="small"
       >
         All
-      </ToggleButton>
-      <ToggleButton
+      </StyledToggleButton>
+      <StyledToggleButton
         isPressed={selectedBidSymbol === 'SSCRT'}
         onClick={() => onClickBidSymbol('SSCRT')}
         size="small"
       >
         SSCRT Auctions
-      </ToggleButton>
-      <ToggleButton
-        isPressed={selectedBidSymbol === 'SDAI'}
-        onClick={() => onClickBidSymbol('SDAI')}
+      </StyledToggleButton>
+      <StyledToggleButton
+        isPressed={selectedBidSymbol === 'TSDAI'}
+        onClick={() => onClickBidSymbol('TSDAI')}
         size="small"
       >
-        SDAI Auctions
-      </ToggleButton>
+        TSDAI Auctions
+      </StyledToggleButton>
       <div />
       <InputWithDropdown
         placeholder="Sell"
