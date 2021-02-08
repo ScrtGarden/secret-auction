@@ -26,33 +26,46 @@ const AuctionTable: FC<Props> = (props) => {
   const router = useRouter()
 
   // component state
+  const [pairSort, setPairSort] = useState<Direction>()
   const [sellSort, setSellSort] = useState<Direction>()
   const [bidSort, setBidSort] = useState<Direction>()
   const [dateSort, setDateSort] = useState<Direction>()
 
   const sortedData = useMemo(
     () =>
-      sortData<ActiveAuctionInfo[]>(data.slice(), sellSort, bidSort, dateSort),
-    [data, sellSort, bidSort, dateSort]
+      sortData<ActiveAuctionInfo[]>(
+        data.slice(),
+        sellSort,
+        bidSort,
+        dateSort,
+        pairSort
+      ),
+    [data, sellSort, bidSort, dateSort, pairSort]
   )
 
+  const onClickPairSort = () => {
+    onClickSort(pairSort, setPairSort, [setSellSort, setBidSort, setDateSort])
+  }
+
   const onClickSellSort = () => {
-    onClickSort(sellSort, setSellSort, [setBidSort, setDateSort])
+    onClickSort(sellSort, setSellSort, [setBidSort, setDateSort, setPairSort])
   }
 
   const onClickBidSort = () => {
-    onClickSort(bidSort, setBidSort, [setSellSort, setDateSort])
+    onClickSort(bidSort, setBidSort, [setSellSort, setDateSort, setPairSort])
   }
 
   const onClickDateSort = () => {
-    onClickSort(dateSort, setDateSort, [setSellSort, setBidSort])
+    onClickSort(dateSort, setDateSort, [setSellSort, setBidSort, setPairSort])
   }
 
   return (
     <Table size="large">
       <Head>
         <HeaderRow>
-          <HeaderCell>Pair</HeaderCell>
+          <StyledSortableCell sort={pairSort} onClick={onClickPairSort}>
+            Pair
+          </StyledSortableCell>
           <StyledSortableCell sort={sellSort} onClick={onClickSellSort}>
             Sell
           </StyledSortableCell>
