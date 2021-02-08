@@ -1,19 +1,19 @@
-import { ActiveAuctionInfo, CombinedAuctionInfo } from '../interfaces'
 import toBiggestDenomination from './toBiggestDenomination'
 
 export type Direction = 'asc' | 'desc' | undefined
 
 const sortData = <T extends any[]>(
   tableData: T,
-  sellSort: Direction,
-  bidSort: Direction,
-  dateSort: Direction
+  sellSort?: Direction,
+  bidSort?: Direction,
+  dateSort?: Direction,
+  pairSort?: Direction
 ): T => {
-  if (!sellSort && !bidSort && !dateSort) {
+  if (!sellSort && !bidSort && !dateSort && !pairSort) {
     return tableData
   }
 
-  let field: 'sell_amount' | 'minimum_bid' | 'ends_at'
+  let field: 'sell_amount' | 'minimum_bid' | 'ends_at' | 'pair'
   let sortValue: Direction
   let decimals: 'sell_decimals' | 'bid_decimals' | undefined
 
@@ -25,15 +25,17 @@ const sortData = <T extends any[]>(
     field = 'minimum_bid'
     sortValue = bidSort
     decimals = 'bid_decimals'
-  } else {
+  } else if (dateSort) {
     field = 'ends_at'
     sortValue = dateSort
-    decimals = undefined
+  } else {
+    field = 'pair'
+    sortValue = pairSort
   }
 
   return tableData.sort((a, b) => {
-    let aValue = 0
-    let bValue = 0
+    let aValue
+    let bValue
 
     if (decimals) {
       aValue = parseFloat(
@@ -43,13 +45,13 @@ const sortData = <T extends any[]>(
         toBiggestDenomination(b[field] as string, b[decimals])
       )
     } else {
-      aValue = a[field] as number
-      bValue = b[field] as number
+      aValue = a[field] as number | string
+      bValue = b[field] as number | string
     }
 
-    if (aValue < bValue) {
+    if (pairSort ? aValue > bValue : aValue < bValue) {
       return sortValue === 'asc' ? 1 : -1
-    } else if (aValue > bValue) {
+    } else if (pairSort ? aValue < bValue : aValue > bValue) {
       return sortValue === 'asc' ? -1 : 1
     }
 
