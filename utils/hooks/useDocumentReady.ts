@@ -1,3 +1,4 @@
+import { useStoreRehydrated } from 'easy-peasy'
 import { useEffect, useState } from 'react'
 
 const useDocumentReady = () => {
