@@ -1,6 +1,6 @@
-import { useEffect, useMemo } from 'react'
+import { useMemo } from 'react'
 
-import { useStoreActions, useStoreState } from '../../../utils/hooks/storeHooks'
+import { useStoreState } from '../../../utils/hooks/storeHooks'
 import useGetAccounts from '../../../utils/hooks/useGetAccounts'
 import Alert from '../Alert'
 import Footer from '../Footer'
@@ -20,9 +20,6 @@ type Props = {
 const Layout = ({ children }: Props) => {
   const store = useStoreState((state) => state)
   useMemo(() => console.log(store), [store])
-
-  // store actions
-  const setAccounts = useStoreActions((actions) => actions.auth.setAccounts)
 
   // store state
   const isGetKeplrModalOpen = useStoreState(
@@ -46,15 +43,7 @@ const Layout = ({ children }: Props) => {
   )
 
   // custom hooks
-  const { loading, accounts } = useGetAccounts()
-
-  useEffect(() => {
-    if (accounts.length > 0) {
-      setAccounts(accounts)
-    } else {
-      setAccounts([])
-    }
-  }, [loading])
+  useGetAccounts()
 
   return (
     <>
