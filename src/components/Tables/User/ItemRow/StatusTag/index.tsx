@@ -1,8 +1,8 @@
-import { Player } from '@lottiefiles/react-lottie-player'
 import { Tag } from '@zendeskgarden/react-tags'
 import { Paragraph, Title, Tooltip } from '@zendeskgarden/react-tooltips'
 import { format } from 'date-fns'
 import { FC, memo } from 'react'
+import Lottie from 'react-lottie-player'
 
 import confetti from '../../../../../../public/lottie/confetti.json'
 import { DATE_FORMAT } from '../../../../../../utils/constants'
@@ -79,10 +79,10 @@ const StatusTag: FC<Props> = (props) => {
           content={
             <>
               <Title>Congratulation!</Title>
-              <Player
-                autoplay
+              <Lottie
+                play
                 loop
-                src={confetti}
+                animationData={confetti}
                 style={{
                   height: '150px',
                   width: '150px',

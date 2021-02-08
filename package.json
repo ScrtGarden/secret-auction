@@ -8,7 +8,6 @@
     "start": "next start"
   },
   "dependencies": {
-    "@lottiefiles/react-lottie-player": "^3.0.0",
     "@zendeskgarden/react-accordions": "^8.29.1",
     "@zendeskgarden/react-avatars": "^8.29.0",
     "@zendeskgarden/react-buttons": "^8.28.2",
@@ -34,6 +33,7 @@
     "react": "17.0.1",
     "react-datepicker": "^3.4.1",
     "react-dom": "17.0.1",
+    "react-lottie-player": "^1.1.1",
     "react-spring": "^8.0.27",
     "secretjs": "^0.10.3",
     "styled-components": "^5.2.1",

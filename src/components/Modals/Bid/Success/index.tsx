@@ -1,6 +1,6 @@
-import { Player } from '@lottiefiles/react-lottie-player'
 import { Button } from '@zendeskgarden/react-buttons'
 import { FC, memo } from 'react'
+import Lottie from 'react-lottie-player'
 
 import LOTTIE_FILE from '../../../../../public/lottie/success-tick.json'
 import { Separator, StyledCode } from '../../../Common/StyledComponents'
@@ -17,9 +17,10 @@ const Success: FC<Props> = (props) => {
   const { amount, symbol, onClick, txHash } = props
   return (
     <Container>
-      <Player
-        autoplay
-        src={LOTTIE_FILE}
+      <Lottie
+        play
+        loop={false}
+        animationData={LOTTIE_FILE}
         style={{ width: '150px', height: '150px', margin: '0 auto' }}
       />
       <Title>Congratulation</Title>
