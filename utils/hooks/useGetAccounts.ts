@@ -1,35 +1,27 @@
-import { useEffect, useState } from 'react'
+import { useEffect } from 'react'
 
 import keplr from '../keplr'
-import { useStoreState } from './storeHooks'
-
-type ErrorResponse = {
-  message?: string
-}
+import { useStoreActions } from './storeHooks'
 
 const useGetAccounts = () => {
-  const storeAccounts = useStoreState((state) => state.auth.accounts)
-  const [accounts, setAccounts] = useState(storeAccounts)
-  const [error, setError] = useState<ErrorResponse | undefined>()
-  const [loading, setLoading] = useState<boolean>(true)
+  // store actions
+  const setStoreAccounts = useStoreActions(
+    (actions) => actions.auth.setAccounts
+  )
 
   useEffect(() => {
     let isMounted = true
     const getAccounts = async () => {
-      const { error: errorResponse, accounts } = await keplr.getAccounts()
+      const { accounts } = await keplr.getAccounts()
 
       if (accounts) {
         if (isMounted) {
-          setAccounts(accounts)
+          setStoreAccounts(accounts)
         }
       } else {
         if (isMounted) {
-          setError(errorResponse)
-          setAccounts([])
+          setStoreAccounts([])
         }
-      }
-      if (isMounted) {
-        setLoading(false)
       }
     }
 
@@ -39,8 +31,6 @@ const useGetAccounts = () => {
       isMounted = false
     }
   }, [])
-
-  return { error, accounts, loading }
 }
 
 export default useGetAccounts
