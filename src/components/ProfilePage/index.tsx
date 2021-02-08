@@ -118,12 +118,6 @@ const ProfilePage = () => {
         }
       }
 
-      console.log(
-        activeSellerAuctions,
-        activeBidderAuctions,
-        closedSellerAuctions,
-        closedWonAuctions
-      )
       const allAuctions = activeSellerAuctions.concat(
         activeBidderAuctions,
         closedSellerAuctions,
