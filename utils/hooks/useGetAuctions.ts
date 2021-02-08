@@ -27,13 +27,15 @@ const useGetAuctions = (queryMsg: Params) => {
           FACTORY_CONTRACT_ADDRESS,
           queryMsg
         )
-        const { list_active_auctions } = response
+        const { list_active_auctions, list_closed_auctions } = response
 
-        if (list_active_auctions.active && isMounted) {
+        if (list_active_auctions?.active && isMounted) {
           setAuctions(list_active_auctions.active)
+        } else if (list_closed_auctions?.closed && isMounted) {
+          setAuctions(list_closed_auctions.closed)
         }
       } catch (error) {
-        console.log('Fetching auctions', error.message)
+        console.log('Error fetching auctions', error.message)
       }
 
       if (isMounted) {
