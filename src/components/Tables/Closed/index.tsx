@@ -1,11 +1,5 @@
-import {
-  Body,
-  Head,
-  HeaderCell,
-  HeaderRow,
-  Table,
-} from '@zendeskgarden/react-tables'
-import { FC, memo, useEffect, useMemo, useState } from 'react'
+import { Body, Head, HeaderRow, Table } from '@zendeskgarden/react-tables'
+import { memo, useMemo, useState } from 'react'
 
 import { ClosedAuctionInfo } from '../../../../interfaces'
 import useGetAuctions from '../../../../utils/hooks/useGetAuctions'
