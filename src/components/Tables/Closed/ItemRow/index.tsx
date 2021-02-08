@@ -6,6 +6,7 @@ import { ClosedAuctionInfo } from '../../../../../interfaces'
 import { DATE_FORMAT } from '../../../../../utils/constants'
 import splitPair, { SplitPair } from '../../../../../utils/splitPair'
 import toBiggestDenomination from '../../../../../utils/toBiggestDenomination'
+import { Pair, Symbol } from '../../styles'
 
 type Props = {
   item: ClosedAuctionInfo
@@ -14,7 +15,6 @@ type Props = {
 const ItemRow: FC<Props> = (props) => {
   const { item } = props
   const {
-    label,
     sell_amount,
     pair,
     sell_decimals,
@@ -30,7 +30,12 @@ const ItemRow: FC<Props> = (props) => {
 
   return (
     <Row>
-      <Cell>{label}</Cell>
+      <Cell>
+        <Pair>
+          <Symbol>{sellTokenSymbol}</Symbol>
+          <Symbol bid>{`/${bidTokenSymbol}`}</Symbol>
+        </Pair>
+      </Cell>
       <Cell>{`${toBiggestDenomination(
         sell_amount,
         sell_decimals
