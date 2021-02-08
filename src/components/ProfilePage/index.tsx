@@ -124,16 +124,17 @@ const ProfilePage = () => {
         closedSellerAuctions,
         closedWonAuctions
       )
-      setAuctions(
-        activeSellerAuctions.concat(
-          activeBidderAuctions,
-          closedSellerAuctions,
-          closedWonAuctions
-        )
+      const allAuctions = activeSellerAuctions.concat(
+        activeBidderAuctions,
+        closedSellerAuctions,
+        closedWonAuctions
       )
+      setAuctions(allAuctions)
+      return { data: { auctions: allAuctions } }
     } catch (error) {
       console.log('Error query list_my_auction', error.message)
       setAuctions([])
+      return { error: { message: error.message } }
     }
   }
 
