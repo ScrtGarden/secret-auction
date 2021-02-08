@@ -13,27 +13,30 @@ const useGetAccounts = () => {
   const [error, setError] = useState<ErrorResponse | undefined>()
   const [loading, setLoading] = useState<boolean>(true)
 
-  const getAccounts = async () => {
-    const { error: errorResponse, accounts } = await keplr.getAccounts()
-
-    if (accounts) {
-      setAccounts(accounts)
-    } else {
-      setError(errorResponse)
-      setAccounts([])
-    }
-    setLoading(false)
-  }
-
   useEffect(() => {
-    if (document.readyState === 'complete') {
-      getAccounts()
-    } else {
-      window.addEventListener('load', async () => getAccounts())
+    let isMounted = true
+    const getAccounts = async () => {
+      const { error: errorResponse, accounts } = await keplr.getAccounts()
+
+      if (accounts) {
+        if (isMounted) {
+          setAccounts(accounts)
+        }
+      } else {
+        if (isMounted) {
+          setError(errorResponse)
+          setAccounts([])
+        }
+      }
+      if (isMounted) {
+        setLoading(false)
+      }
     }
 
-    if (document.readyState !== 'complete') {
-      return window.removeEventListener('load', async () => getAccounts())
+    getAccounts()
+
+    return () => {
+      isMounted = false
     }
   }, [])
 
