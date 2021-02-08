@@ -7,6 +7,7 @@ import {
   InnerContainer,
   Title as StyledTitle,
 } from '../Common/StyledComponents'
+import Closed from '../Tables/Closed'
 import OpenTableWithFilters from './OpenTableWithFilters'
 
 const AuctionsPage = () => {
@@ -39,7 +40,7 @@ const AuctionsPage = () => {
             <OpenTableWithFilters />
           </TabPanel>
           <TabPanel item="closed">
-            {/* <Closed data={closedContracts} getContracts={getClosedContracts} /> */}
+            <Closed />
           </TabPanel>
         </Tabs>
       </InnerContainer>
