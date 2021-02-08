@@ -2,18 +2,46 @@ import toBiggestDenomination from './toBiggestDenomination'
 
 export type Direction = 'asc' | 'desc' | undefined
 
+interface Sortables {
+  sellSort?: Direction
+  bidSort?: Direction
+  dateSort?: Direction
+  pairSort?: Direction
+  winBidSort?: Direction
+  finalizeSort?: Direction
+}
+
 const sortData = <T extends any[]>(
   tableData: T,
-  sellSort?: Direction,
-  bidSort?: Direction,
-  dateSort?: Direction,
-  pairSort?: Direction
+  sortables: Sortables = {}
 ): T => {
-  if (!sellSort && !bidSort && !dateSort && !pairSort) {
+  const {
+    sellSort,
+    bidSort,
+    dateSort,
+    pairSort,
+    winBidSort,
+    finalizeSort,
+  } = sortables
+
+  if (
+    !sellSort &&
+    !bidSort &&
+    !dateSort &&
+    !pairSort &&
+    !winBidSort &&
+    !finalizeSort
+  ) {
     return tableData
   }
 
-  let field: 'sell_amount' | 'minimum_bid' | 'ends_at' | 'pair'
+  let field:
+    | 'sell_amount'
+    | 'minimum_bid'
+    | 'ends_at'
+    | 'pair'
+    | 'winning_bid'
+    | 'timestamp'
   let sortValue: Direction
   let decimals: 'sell_decimals' | 'bid_decimals' | undefined
 
@@ -28,9 +56,16 @@ const sortData = <T extends any[]>(
   } else if (dateSort) {
     field = 'ends_at'
     sortValue = dateSort
-  } else {
+  } else if (pairSort) {
     field = 'pair'
     sortValue = pairSort
+  } else if (winBidSort) {
+    field = 'winning_bid'
+    sortValue = winBidSort
+    decimals = 'bid_decimals'
+  } else {
+    field = 'timestamp'
+    sortValue = finalizeSort
   }
 
   return tableData.sort((a, b) => {
