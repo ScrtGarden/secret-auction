@@ -5,47 +5,94 @@ import {
   HeaderRow,
   Table,
 } from '@zendeskgarden/react-tables'
-import { FC, memo, useEffect, useState } from 'react'
+import { FC, memo, useEffect, useMemo, useState } from 'react'
 
 import { ClosedAuctionInfo } from '../../../../interfaces'
+import useGetAuctions from '../../../../utils/hooks/useGetAuctions'
+import onClickSort from '../../../../utils/onClickSort'
+import sortData, { Direction } from '../../../../utils/sortAuctions'
 import SkeletonRows from '../SkeletonRows'
+import { StyledSortableCell } from '../styles'
 import ItemRow from './ItemRow'
 
-type Props = {
-  data: readonly ClosedAuctionInfo[]
-  getContracts: () => void
-}
+const AuctionTable = () => {
+  // custom hook
+  const { auctions, loading } = useGetAuctions({ list_closed_auctions: {} })
 
-const AuctionTable: FC<Props> = (props) => {
-  const { data, getContracts } = props
+  // component state
+  const [pairSort, setPairSort] = useState<Direction>()
+  const [sellSort, setSellSort] = useState<Direction>()
+  const [winBidSort, setWinBidSort] = useState<Direction>()
+  const [dateSort, setDateSort] = useState<Direction>()
 
-  const [fetching, setFetching] = useState(false)
+  const sortedData = useMemo(
+    () =>
+      sortData<ClosedAuctionInfo[]>(auctions.slice(), {
+        sellSort,
+        winBidSort,
+        finalizeSort: dateSort,
+        pairSort,
+      }),
+    [auctions, sellSort, winBidSort, dateSort, pairSort]
+  )
 
-  useEffect(() => {
-    const goGetContracts = async () => {
-      setFetching(true)
-      await getContracts()
-      setFetching(false)
-    }
+  const onClickPairSort = () => {
+    onClickSort(pairSort, setPairSort, [
+      setSellSort,
+      setWinBidSort,
+      setDateSort,
+    ])
+  }
 
-    goGetContracts()
-  }, [])
+  const onClickSellSort = () => {
+    onClickSort(sellSort, setSellSort, [
+      setWinBidSort,
+      setDateSort,
+      setPairSort,
+    ])
+  }
+
+  const onClickWinBidSort = () => {
+    onClickSort(winBidSort, setWinBidSort, [
+      setSellSort,
+      setDateSort,
+      setPairSort,
+    ])
+  }
+
+  const onClickDateSort = () => {
+    onClickSort(dateSort, setDateSort, [
+      setSellSort,
+      setWinBidSort,
+      setPairSort,
+    ])
+  }
 
   return (
     <Table size="large">
       <Head>
         <HeaderRow>
-          <HeaderCell>Label</HeaderCell>
-          <HeaderCell>Trading</HeaderCell>
-          <HeaderCell>Winning Bid</HeaderCell>
-          <HeaderCell>Finalized</HeaderCell>
+          <StyledSortableCell sort={pairSort} onClick={onClickPairSort}>
+            Pair
+          </StyledSortableCell>
+          <StyledSortableCell sort={sellSort} onClick={onClickSellSort}>
+            Sell
+          </StyledSortableCell>
+          <StyledSortableCell sort={winBidSort} onClick={onClickWinBidSort}>
+            Winning Bid
+          </StyledSortableCell>
+          <StyledSortableCell sort={dateSort} onClick={onClickDateSort}>
+            Finalized
+          </StyledSortableCell>
         </HeaderRow>
       </Head>
       <Body>
-        {fetching ? (
+        {loading ? (
           <SkeletonRows rows={4} columns={4} />
         ) : (
-          data.map((item) => <ItemRow key={item.address} item={item} />)
+          sortedData.map((item: ClosedAuctionInfo) => (
+            <ItemRow key={item.address} item={item} />
+          ))
         )}
       </Body>
     </Table>
