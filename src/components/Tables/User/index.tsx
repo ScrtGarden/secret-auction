@@ -95,13 +95,12 @@ const AuctionTable: FC<Props> = (props) => {
 
   const sortedData = useMemo(
     () =>
-      sortData<CombinedAuctionInfo[]>(
-        data.slice(),
+      sortData<CombinedAuctionInfo[]>(data.slice(), {
         sellSort,
         bidSort,
         dateSort,
-        pairSort
-      ),
+        pairSort,
+      }),
     [data, sellSort, bidSort, dateSort, pairSort]
   )
 
