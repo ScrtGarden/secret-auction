@@ -22,6 +22,7 @@ const Description = styled.p`
   font-size: ${(props) => props.theme.fontSizes.sm};
   line-height: ${(props) => props.theme.lineHeights.sm};
   margin: ${(props) => props.theme.space.xxs} 0 0 0;
+  word-break: break-all;
 `
 
 const Token = styled.div`
