@@ -11,6 +11,7 @@ import Search from './Search'
 import Seedling from './Seedling'
 import Shovel from './Shovel'
 import Telescope from './Telescope'
+import Tulip from './Tulip'
 import User from './User'
 import UserCircle from './UserCircle'
 import UserSecret from './UserSecret'
@@ -26,6 +27,9 @@ const Icon = (props: Props) => {
   let SelectedIcon
 
   switch (name) {
+    case 'tulip':
+      SelectedIcon = Tulip
+      break
     case 'mask':
       SelectedIcon = Mask
       break
