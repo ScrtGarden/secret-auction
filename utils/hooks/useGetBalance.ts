@@ -13,7 +13,7 @@ const useGetBalance = (
   // store state
   const walletAddress = useStoreState((state) => state.auth.connectedAddress)
 
-  const [loading, setLoading] = useState(true)
+  const [loading, setLoading] = useState(false)
   const [amount, setAmount] = useState('0')
   const [error, setError] = useState('')
 
@@ -77,6 +77,8 @@ const useGetBalance = (
 
     if (tokenAddress && walletAddress) {
       getBalance()
+    } else {
+      setError('Error getting balance: no token address or wallet address')
     }
 
     return () => {
