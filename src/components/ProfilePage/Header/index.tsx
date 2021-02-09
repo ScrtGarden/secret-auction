@@ -1,4 +1,3 @@
-import { Button } from '@zendeskgarden/react-buttons'
 import { Dots } from '@zendeskgarden/react-loaders'
 import cryptoRandomString from 'crypto-random-string'
 import { FC, memo, useState } from 'react'
@@ -20,6 +19,7 @@ import {
   CopyWrapper,
   Dot,
   StyledButton,
+  StyledIcon,
   Wrapper,
 } from './styles'
 
@@ -43,6 +43,7 @@ const Header: FC<Props> = (props) => {
 
   // component states
   const [loading, setLoading] = useState(false)
+  const [importing, setImporting] = useState(false)
 
   const getViewingKey = async () => {
     setLoading(true)
@@ -78,14 +79,25 @@ const Header: FC<Props> = (props) => {
     setLoading(false)
   }
 
+  const onImport = async () => {
+    setImporting(true)
+    const { success } = await connectToKeplr()
+    setImporting(false)
+    if (success) {
+      toggleImportKey()
+    }
+  }
+
   return (
     <Container>
       <Wrapper>
-        <Circle />
+        <Circle>
+          <StyledIcon name="mask" active={!!address} />
+        </Circle>
         <div>
           <Address>{shortenAddress}</Address>
           <CopyWrapper>
-            <CopyTooltip value={address} label="address" />
+            {address && <CopyTooltip value={address} label="address" />}
             {viewingKey && (
               <>
                 <Dot>•</Dot>
@@ -96,19 +108,20 @@ const Header: FC<Props> = (props) => {
         </div>
       </Wrapper>
       <Buttons>
-        <Button
-          size="small"
-          disabled={loading}
-          onClick={() => toggleImportKey()}
-        >
-          Import Key
-        </Button>
         <StyledButton
-          isLong={!!viewingKey}
+          length="short"
+          size="small"
+          disabled={importing || loading}
+          onClick={onImport}
+        >
+          {importing ? <Dots size={20} /> : 'Import Key'}
+        </StyledButton>
+        <StyledButton
+          length={viewingKey ? 'long' : 'regular'}
           isPrimary
           size="small"
           onClick={getViewingKey}
-          disabled={loading}
+          disabled={loading || importing}
         >
           {loading ? (
             <Dots size={20} />

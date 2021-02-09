@@ -1,8 +1,14 @@
 import { Button } from '@zendeskgarden/react-buttons'
 import styled from 'styled-components'
 
+import Icon from '../../Icons'
+
 type ButtonProps = {
-  readonly isLong?: boolean
+  readonly length?: 'short' | 'regular' | 'long'
+}
+
+type IconProps = {
+  readonly active?: boolean
 }
 
 const Container = styled.div`
@@ -12,10 +18,22 @@ const Container = styled.div`
   margin-bottom: ${(props) => props.theme.space.xxl};
 `
 
+const StyledIcon = styled(Icon)<IconProps>`
+  fill: ${(props) =>
+    props.active
+      ? props.theme.palette.purple[600]
+      : props.theme.palette.grey[600]};
+  height: 40px;
+  width: 40px;
+`
+
 const Circle = styled.div`
+  align-items: center;
+  display: flex;
   border-radius: 50%;
   background-color: ${(props) => props.theme.palette.grey[300]};
   height: 80px;
+  justify-content: center;
   margin-right: ${(props) => props.theme.space.md};
   width: 80px;
 `
@@ -33,7 +51,9 @@ const Address = styled.h1`
 `
 
 const StyledButton = styled(Button)<ButtonProps>`
-  width: ${(props) => (props.isLong ? '134px' : '114px')};
+  ${(props) => props.length === 'short' && 'width: 86px'};
+  ${(props) => props.length === 'regular' && 'width: 114px'};
+  ${(props) => props.length === 'long' && 'width: 134px'};
 `
 
 const CopyWrapper = styled.div`
@@ -61,4 +81,5 @@ export {
   CopyWrapper,
   Dot,
   Buttons,
+  StyledIcon,
 }
