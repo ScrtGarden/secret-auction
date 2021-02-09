@@ -21,6 +21,7 @@ import {
   StyledHeaderItem,
   StyledHeaderItemText,
   StyledIcon,
+  Text,
 } from './styles'
 
 const MainHeader: FC = () => {
@@ -68,9 +69,12 @@ const MainHeader: FC = () => {
         <Header isStandalone>
           <Link href="/">
             <StyledHeaderItem hasLogo>
-              <HeaderItemIcon>
-                <MainIcon name="seedling" />
-              </HeaderItemIcon>
+              <>
+                <HeaderItemIcon>
+                  <MainIcon name="tulip" />
+                </HeaderItemIcon>
+                <Text>tulip</Text>
+              </>
             </StyledHeaderItem>
           </Link>
           <Link href="/create">

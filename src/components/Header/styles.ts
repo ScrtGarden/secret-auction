@@ -11,6 +11,10 @@ import styled from 'styled-components'
 import { RouteAndColor } from '../../../utils/constants'
 import Icon from '../Icons'
 
+type HeaderItemProps = {
+  readonly hasLogo?: boolean
+}
+
 const StyledChrome = styled(Chrome)`
   && {
     height: 82px;
@@ -45,8 +49,9 @@ const StyledButton = styled(Button)`
   width: 64px;
 `
 
-const StyledHeaderItem = styled(HeaderItem)`
+const StyledHeaderItem = styled(HeaderItem)<HeaderItemProps>`
   cursor: pointer;
+  ${(props) => props.hasLogo && 'width: 120px'}
 `
 
 const StyledIcon = styled(Icon)`
@@ -59,6 +64,12 @@ const StyledAvatar = styled(Avatar)`
   cursor: pointer;
 `
 
+const Text = styled.h1`
+  color: ${(props) => props.theme.palette.grey[800]};
+  font-size: ${(props) => props.theme.fontSizes.xxl};
+  margin: 0 0 0 ${(props) => props.theme.space.xs};
+`
+
 export {
   Container,
   MainIcon,
@@ -69,4 +80,5 @@ export {
   StyledHeaderItemText,
   StyledIcon,
   StyledAvatar,
+  Text,
 }
