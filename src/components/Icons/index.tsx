@@ -6,6 +6,7 @@ import Farming from './Farming'
 import InfoCircle from './InfoCircle'
 import Keplr from './Kelpr'
 import KeySkeleton from './KeySkeleton'
+import Mask from './Mask'
 import Search from './Search'
 import Seedling from './Seedling'
 import Shovel from './Shovel'
@@ -25,6 +26,9 @@ const Icon = (props: Props) => {
   let SelectedIcon
 
   switch (name) {
+    case 'mask':
+      SelectedIcon = Mask
+      break
     case 'telescope':
       SelectedIcon = Telescope
       break
