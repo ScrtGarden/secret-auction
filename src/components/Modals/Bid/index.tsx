@@ -61,6 +61,15 @@ const BidModal = () => {
   }
 
   const onSubmit = async () => {
+    setLoading(true)
+
+    const { error: connectionError } = await connectToKeplr()
+
+    if (connectionError) {
+      setLoading(false)
+      return
+    }
+
     setBidAmountError('')
     const amountInSmallestDenomination = toSmallestDenomination(
       amount,
@@ -73,14 +82,6 @@ const BidModal = () => {
 
     if (amountError) {
       setBidAmountError(amountError)
-      return
-    }
-
-    setLoading(true)
-
-    const { error: connectionError } = await connectToKeplr()
-
-    if (connectionError) {
       setLoading(false)
       return
     }
