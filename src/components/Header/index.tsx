@@ -10,12 +10,13 @@ import { useStoreActions, useStoreState } from '../../../utils/hooks/storeHooks'
 import keplr from '../../../utils/keplr'
 import Brand from '../Brand'
 import {
+  NavButton,
   StyledAvatar,
   StyledBody,
   StyledButton,
   StyledChrome,
+  StyledHeader,
   StyledHeaderItem,
-  StyledHeaderItemText,
   StyledIcon,
 } from './styles'
 
@@ -61,30 +62,22 @@ const MainHeader: FC = () => {
   return (
     <StyledChrome isFluid>
       <StyledBody background={MAP_ROUTE_AND_COLOR[pathname]}>
-        <Header isStandalone>
+        <StyledHeader isStandalone>
           <Link href="/">
             <StyledHeaderItem hasLogo>
               <Brand
                 iconColor={PALETTE.green[600]}
-                iconSize={26}
-                fontSize={18}
+                iconSize={35}
+                fontSize={24}
                 fontColor={PALETTE.grey[800]}
               />
             </StyledHeaderItem>
           </Link>
           <Link href="/create">
-            <StyledHeaderItem>
-              <StyledHeaderItemText selected={pathname === '/create'}>
-                Create
-              </StyledHeaderItemText>
-            </StyledHeaderItem>
+            <NavButton active={pathname === '/create'}>Create</NavButton>
           </Link>
           <Link href="/auctions">
-            <StyledHeaderItem>
-              <StyledHeaderItemText selected={pathname === '/auctions'}>
-                Auctions
-              </StyledHeaderItemText>
-            </StyledHeaderItem>
+            <NavButton active={pathname === '/auctions'}>Auctions</NavButton>
           </Link>
           <HeaderItemWrapper>
             {!isConnected ? (
@@ -99,7 +92,7 @@ const MainHeader: FC = () => {
               </Link>
             )}
           </HeaderItemWrapper>
-        </Header>
+        </StyledHeader>
       </StyledBody>
     </StyledChrome>
   )

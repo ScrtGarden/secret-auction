@@ -13,7 +13,7 @@ type SeparatorProps = {
 const Container = styled.div`
   flex: 1;
   background-color: ${(props) => props.theme.palette.grey[100]};
-  padding-bottom: 30px;
+  padding-bottom: 50px;
 `
 
 const InnerContainer = styled.div`
