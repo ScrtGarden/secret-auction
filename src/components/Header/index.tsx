@@ -1,8 +1,4 @@
-import {
-  Header,
-  HeaderItemIcon,
-  HeaderItemWrapper,
-} from '@zendeskgarden/react-chrome'
+import { Header, HeaderItemWrapper } from '@zendeskgarden/react-chrome'
 import { Dots } from '@zendeskgarden/react-loaders'
 import { PALETTE } from '@zendeskgarden/react-theming'
 import Link from 'next/link'
@@ -12,8 +8,8 @@ import { FC, memo, useState } from 'react'
 import { MAP_ROUTE_AND_COLOR } from '../../../utils/constants'
 import { useStoreActions, useStoreState } from '../../../utils/hooks/storeHooks'
 import keplr from '../../../utils/keplr'
+import Brand from '../Brand'
 import {
-  MainIcon,
   StyledAvatar,
   StyledBody,
   StyledButton,
@@ -21,7 +17,6 @@ import {
   StyledHeaderItem,
   StyledHeaderItemText,
   StyledIcon,
-  Text,
 } from './styles'
 
 const MainHeader: FC = () => {
@@ -69,12 +64,12 @@ const MainHeader: FC = () => {
         <Header isStandalone>
           <Link href="/">
             <StyledHeaderItem hasLogo>
-              <>
-                <HeaderItemIcon>
-                  <MainIcon name="tulip" />
-                </HeaderItemIcon>
-                <Text>tulip</Text>
-              </>
+              <Brand
+                iconColor={PALETTE.green[600]}
+                iconSize={26}
+                fontSize={18}
+                fontColor={PALETTE.grey[800]}
+              />
             </StyledHeaderItem>
           </Link>
           <Link href="/create">

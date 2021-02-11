@@ -34,12 +34,6 @@ const Container = styled.div`
   padding: ${(props) => props.theme.space.md};
 `
 
-const MainIcon = styled(Icon)`
-  height: 3rem;
-  fill: ${(props) => props.theme.palette.green[600]};
-  width: 3rem;
-`
-
 const StyledHeaderItemText = styled(HeaderItemText)<{ selected: boolean }>`
   color: ${(props) => props.theme.palette.grey[props.selected ? 800 : 600]};
   font-weight: ${(props) => (props.selected ? 'bold' : 'normal')};
@@ -51,7 +45,7 @@ const StyledButton = styled(Button)`
 
 const StyledHeaderItem = styled(HeaderItem)<HeaderItemProps>`
   cursor: pointer;
-  ${(props) => props.hasLogo && 'width: 120px'}
+  ${(props) => props.hasLogo && `width: 105px; border-right: none;`}
 `
 
 const StyledIcon = styled(Icon)`
@@ -64,15 +58,8 @@ const StyledAvatar = styled(Avatar)`
   cursor: pointer;
 `
 
-const Text = styled.h1`
-  color: ${(props) => props.theme.palette.grey[800]};
-  font-size: ${(props) => props.theme.fontSizes.xxl};
-  margin: 0 0 0 ${(props) => props.theme.space.xs};
-`
-
 export {
   Container,
-  MainIcon,
   StyledButton,
   StyledHeaderItem,
   StyledChrome,
@@ -80,5 +67,4 @@ export {
   StyledHeaderItemText,
   StyledIcon,
   StyledAvatar,
-  Text,
 }
