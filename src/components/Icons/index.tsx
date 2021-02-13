@@ -1,3 +1,4 @@
+import ArrowRight from './ArrowRight'
 import ChevronDown from './ChevronDown'
 import Clock from './Clock'
 import Copy from './Copy'
@@ -10,6 +11,7 @@ import Mask from './Mask'
 import Search from './Search'
 import Seedling from './Seedling'
 import Shovel from './Shovel'
+import StatsMan from './StatsMan'
 import Telescope from './Telescope'
 import Tulip from './Tulip'
 import User from './User'
@@ -27,6 +29,12 @@ const Icon = (props: Props) => {
   let SelectedIcon
 
   switch (name) {
+    case 'stats-man':
+      SelectedIcon = StatsMan
+      break
+    case 'arrow-right':
+      SelectedIcon = ArrowRight
+      break
     case 'tulip':
       SelectedIcon = Tulip
       break
