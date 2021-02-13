@@ -103,6 +103,37 @@ const FILTER_TOKENS: FilterToken[] = [
   { value: 'THIRD', label: 'THIRD' },
 ]
 
+export interface Feature {
+  icon: string
+  title: string
+  description: string
+  link?: string
+}
+
+const FEATURES: Feature[] = [
+  {
+    icon: 'dream-world',
+    title: 'Create',
+    description:
+      'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.',
+    link: '',
+  },
+  {
+    icon: 'transfer-money',
+    title: 'Bid',
+    description:
+      'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.',
+    link: '',
+  },
+  {
+    icon: 'heatmap',
+    title: 'Interact',
+    description:
+      'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.',
+    link: '',
+  },
+]
+
 export {
   MAP_ROUTE_AND_COLOR,
   CHAIN_EXPLORER,
@@ -124,4 +155,5 @@ export {
   TOKENS,
   EXTEND_MAX_GAS,
   FILTER_TOKENS,
+  FEATURES,
 }
