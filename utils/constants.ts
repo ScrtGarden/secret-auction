@@ -3,6 +3,7 @@ import { SelectTokens } from '../interfaces'
 export interface RouteAndColor {
   color: string
   strength: number
+  custom?: string
 }
 
 interface MapRouteAndColor {
@@ -11,8 +12,9 @@ interface MapRouteAndColor {
 
 const MAP_ROUTE_AND_COLOR: MapRouteAndColor = {
   '/': {
-    color: 'kale',
-    strength: 500,
+    color: 'blue',
+    strength: 200,
+    custom: '#ede0cf',
   },
   '/create': {
     color: 'grey',
