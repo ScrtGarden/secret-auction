@@ -26,7 +26,7 @@ const Landing = () => {
               Powered by Secret Network.
             </Text>
             <StyledButton isPrimary>
-              Start Here
+              Explore
               <Button.EndIcon>
                 <StyledIcon name="arrow-right" />
               </Button.EndIcon>
