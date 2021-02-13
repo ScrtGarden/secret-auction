@@ -28,6 +28,7 @@ const StyledChrome = styled(Chrome)`
 
 const StyledBody = styled(Body)<{ background: RouteAndColor }>`
   background: ${(props) =>
+    props.background.custom ||
     props.theme.palette[props.background.color][props.background.strength]};
 `
 
@@ -56,6 +57,7 @@ const StyledAvatar = styled(Avatar)`
 `
 
 const StyledHeader = styled(Header)`
+  border-bottom: none;
   height: 70px;
 `
 
