@@ -14,7 +14,7 @@ const MAP_ROUTE_AND_COLOR: MapRouteAndColor = {
   '/': {
     color: 'blue',
     strength: 200,
-    custom: '#ede0cf',
+    // custom: '#ede0cf',
   },
   '/create': {
     color: 'grey',
