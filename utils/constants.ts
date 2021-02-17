@@ -134,6 +134,8 @@ const FEATURES: Feature[] = [
   },
 ]
 
+const GITHUB_LINK = 'https://github.com/ScrtGarden/secret-auction'
+
 export {
   MAP_ROUTE_AND_COLOR,
   CHAIN_EXPLORER,
@@ -156,4 +158,5 @@ export {
   EXTEND_MAX_GAS,
   FILTER_TOKENS,
   FEATURES,
+  GITHUB_LINK,
 }
