@@ -5,12 +5,26 @@ interface Filters {
   sellSymbol?: string
   bidSymbol?: string
   selectedBidSymbol?: string
+  include?: string[]
+  exclude?: string[]
 }
 
 const filter = (auctions: CombinedAuctionInfo[], filters: Filters) => {
-  const { sellSymbol = '', bidSymbol = '', selectedBidSymbol } = filters
+  const {
+    sellSymbol = '',
+    bidSymbol = '',
+    selectedBidSymbol,
+    include = [],
+    exclude = [],
+  } = filters
 
-  if (!sellSymbol && !bidSymbol && !selectedBidSymbol) {
+  if (
+    !sellSymbol &&
+    !bidSymbol &&
+    !selectedBidSymbol &&
+    include.length === 0 &&
+    exclude.length === 0
+  ) {
     return auctions
   }
 
@@ -27,8 +41,18 @@ const filter = (auctions: CombinedAuctionInfo[], filters: Filters) => {
       : true
     const sellSymbolMatch = sellSymbol ? sellTokenSymbol.match(sellRegex) : true
     const bidSymbolMatch = bidSymbol ? bidTokenSymbol.match(bidRegex) : true
+    const includeMatch =
+      include?.length > 0 ? include?.includes(bidTokenSymbol) : true
+    const excludeMatch =
+      exclude?.length > 0 ? !exclude?.includes(bidTokenSymbol) : true
 
-    return selectedBidSymbolMatch && sellSymbolMatch && bidSymbolMatch
+    return (
+      selectedBidSymbolMatch &&
+      sellSymbolMatch &&
+      bidSymbolMatch &&
+      includeMatch &&
+      excludeMatch
+    )
   })
 }
 
