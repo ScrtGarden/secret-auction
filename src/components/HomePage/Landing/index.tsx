@@ -1,4 +1,5 @@
 import { Button } from '@zendeskgarden/react-buttons'
+import Router from 'next/router'
 import { memo } from 'react'
 
 import { InnerContainer } from '../../Common/StyledComponents'
@@ -6,12 +7,9 @@ import {
   Container,
   Content,
   Heading,
-  Image,
-  ImageWrapper,
   StyledButton,
   StyledIcon,
   Text,
-  Wrapper,
 } from './styles'
 
 const Landing = () => {
@@ -19,22 +17,17 @@ const Landing = () => {
     <Container>
       <InnerContainer>
         <Content>
-          <Wrapper>
-            <Heading>Welcome to tulip</Heading>
-            <Text>
-              A place to create, bid and interact with sealed bid auctions.
-              Powered by Secret Network.
-            </Text>
-            <StyledButton isPrimary>
-              Explore
-              <Button.EndIcon>
-                <StyledIcon name="arrow-right" />
-              </Button.EndIcon>
-            </StyledButton>
-          </Wrapper>
-          <ImageWrapper>
-            <Image name="stats-man" />
-          </ImageWrapper>
+          <Heading>Look mom, no price slippage.</Heading>
+          <Text>
+            Bid, create and interact with sealed bid auctions. Powered by Secret
+            Network.
+          </Text>
+          <StyledButton isPrimary onClick={() => Router.push('/create')}>
+            Explore
+            <Button.EndIcon>
+              <StyledIcon name="arrow-right" />
+            </Button.EndIcon>
+          </StyledButton>
         </Content>
       </InnerContainer>
     </Container>
