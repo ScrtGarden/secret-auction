@@ -5,6 +5,8 @@ import { Code } from '@zendeskgarden/react-typography'
 import styled from 'styled-components'
 
 type SeparatorProps = {
+  readonly xxs?: boolean
+  readonly xs?: boolean
   readonly sm?: boolean
   readonly md?: boolean
   readonly lg?: boolean
@@ -38,6 +40,8 @@ const StyledMessage = styled(Message)`
 `
 
 const Separator = styled.div<SeparatorProps>`
+  ${(props) => props.xxs && `height: ${props.theme.space.xxs}`};
+  ${(props) => props.xs && `height: ${props.theme.space.xs}`};
   ${(props) => props.sm && `height: ${props.theme.space.sm}`};
   ${(props) => props.md && `height: ${props.theme.space.md}`};
   ${(props) => props.lg && `height: ${props.theme.space.lg}`};
