@@ -1,9 +1,11 @@
 import { Button } from '@zendeskgarden/react-buttons'
 import { Dots, Skeleton } from '@zendeskgarden/react-loaders'
 import { Tooltip } from '@zendeskgarden/react-tooltips'
-import { FC, FormEvent, memo } from 'react'
+import { format } from 'date-fns'
+import { FC, FormEvent, memo, useMemo } from 'react'
 
 import { TargetTokenInfo } from '../../../../../interfaces'
+import { DATE_FORMAT } from '../../../../../utils/constants'
 import toBiggestDenomination from '../../../../../utils/toBiggestDenomination'
 import InputWithSymbol from '../../../Common/InputWithSymbol'
 import { Separator } from '../../../Common/StyledComponents'
@@ -55,13 +57,18 @@ const Details: FC<Props> = (props) => {
     loading,
   } = props
 
+  const formattedDate = useMemo(
+    () => (endsAt ? format(new Date(endsAt), DATE_FORMAT) : ''),
+    [endsAt]
+  )
+
   return (
     <Container>
       <EndAt>
         {!loadingData ? (
           <>
             <StyledClock name="clock" />
-            <EndAtText>{endsAt}</EndAtText>
+            <EndAtText>{formattedDate}</EndAtText>
           </>
         ) : (
           <Skeleton height="16px" width="200px" />
