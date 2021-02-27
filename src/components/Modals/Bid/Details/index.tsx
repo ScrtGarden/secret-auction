@@ -123,6 +123,7 @@ const Details: FC<Props> = (props) => {
       )}
       <Separator lg />
       <InputWithSymbol
+        placeholder="Enter bid"
         label={label}
         value={value}
         onChange={onChange}

@@ -15,6 +15,7 @@ type Props = {
   showBalance?: boolean
   tokenAddress?: string
   decimals?: number
+  placeholder?: string
 }
 
 const InputWithSymbol: FC<Props> = (props) => {
@@ -28,6 +29,7 @@ const InputWithSymbol: FC<Props> = (props) => {
     showBalance,
     tokenAddress,
     decimals,
+    placeholder,
   } = props
 
   return (
@@ -44,6 +46,7 @@ const InputWithSymbol: FC<Props> = (props) => {
       </Wrapper>
       <InputGroup>
         <Input
+          placeholder={placeholder}
           value={value}
           onChange={onChange}
           validation={error ? 'error' : undefined}
