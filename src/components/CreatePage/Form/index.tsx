@@ -100,7 +100,7 @@ const Form: FC<Props> = (props) => {
       <Field>
         <Label>Description (optional)</Label>
         <Textarea
-          placeholder="The curves of your tulips rewite history."
+          placeholder="Pot It Like It's Hot!"
           minRows={4}
           maxRows={6}
           value={description}

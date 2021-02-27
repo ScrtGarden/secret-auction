@@ -132,7 +132,7 @@ const AuctionTable: FC<Props> = (props) => {
             Sell
           </StyledSortableCell>
           <StyledSortableCell sort={bidSort} onClick={onClickBidSort}>
-            Min. Price
+            Min. Bid
           </StyledSortableCell>
           <HeaderCell>Winning Bid</HeaderCell>
           <StyledSortableCell sort={dateSort} onClick={onClickDateSort}>
