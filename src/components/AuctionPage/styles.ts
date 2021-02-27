@@ -1,32 +1,17 @@
 import styled from 'styled-components'
 
-import Icon from '../Icons'
-
-const Title = styled.h1`
-  font-size: 3rem;
-  margin-bottom: ${(props) => props.theme.space.sm};
-  margin-top: 0;
-`
-
-const Wrapper = styled.div`
-  align-items: center;
+const Content = styled.div`
+  column-gap: ${(props) => props.theme.space.lg};
   display: flex;
   flex-direction: row;
+  margin-top: ${(props) => props.theme.space.xxl};
 `
 
-const Address = styled.h1`
-  color: ${(props) => props.theme.palette.grey[600]};
-  font-size: ${(props) => props.theme.fontSizes.xxl};
-  font-weight: ${(props) => props.theme.fontWeights.regular};
-  margin: 0 ${(props) => props.theme.space.sm} 0 0;
+const Cards = styled.div`
+  display: flex;
+  flex-direction: column;
+  row-gap: ${(props) => props.theme.space.lg};
+  flex: 1;
 `
 
-const StyledIcon = styled(Icon)`
-  fill: ${(props) => props.theme.palette.grey[600]};
-  && {
-    height: 14px;
-    width: 14px;
-  }
-`
-
-export { Address, Title, Wrapper, StyledIcon }
+export { Content, Cards }
