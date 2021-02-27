@@ -18,7 +18,7 @@ const Owner = () => {
       }}
     >
       <span>
-        <StyledIcon name="user-circle" />
+        <StyledIcon name="crown-duo" />
       </span>
     </Tooltip>
   )
