@@ -11,7 +11,7 @@ type Props = {
   symbol?: string
   onClick: () => void
   txHash: string | undefined
-  buttonText: string
+  buttonText?: string
 }
 
 const SuccessBid: FC<Props> = (props) => {
