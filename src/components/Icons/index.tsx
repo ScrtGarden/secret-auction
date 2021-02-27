@@ -2,6 +2,7 @@ import ArrowRight from './ArrowRight'
 import ChevronDown from './ChevronDown'
 import Clock from './Clock'
 import Copy from './Copy'
+import CrownDuo from './CrownDuo'
 import Dizzy from './Dizzy'
 import DreamWorld from './DreamWorld'
 import Farming from './Farming'
@@ -19,6 +20,7 @@ import TransferMoney from './TransferMoney'
 import Tulip from './Tulip'
 import User from './User'
 import UserCircle from './UserCircle'
+import UserDuo from './UserDuo'
 import UserSecret from './UserSecret'
 
 type Props = {
@@ -32,6 +34,12 @@ const Icon = (props: Props) => {
   let SelectedIcon
 
   switch (name) {
+    case 'crown-duo':
+      SelectedIcon = CrownDuo
+      break
+    case 'user-duo':
+      SelectedIcon = UserDuo
+      break
     case 'heatmap':
       SelectedIcon = Heatmap
       break
