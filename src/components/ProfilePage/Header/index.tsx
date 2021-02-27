@@ -92,7 +92,7 @@ const Header: FC<Props> = (props) => {
     <Container>
       <Wrapper>
         <Circle>
-          <StyledIcon name="mask" active={!!address} />
+          <StyledIcon name="user-duo" active={address ? 'true' : undefined} />
         </Circle>
         <div>
           <Address>{shortenAddress}</Address>

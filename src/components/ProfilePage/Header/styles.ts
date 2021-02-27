@@ -8,7 +8,7 @@ type ButtonProps = {
 }
 
 type IconProps = {
-  readonly active?: boolean
+  readonly active?: string
 }
 
 const Container = styled.div`
@@ -21,8 +21,8 @@ const Container = styled.div`
 const StyledIcon = styled(Icon)<IconProps>`
   fill: ${(props) =>
     props.active
-      ? props.theme.palette.purple[600]
-      : props.theme.palette.grey[600]};
+      ? props.theme.palette.kale[600]
+      : props.theme.palette.grey[500]};
   height: 40px;
   width: 40px;
 `
