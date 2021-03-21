@@ -1,10 +1,8 @@
 import Home from '../src/components/HomePage'
-import Layout from '../src/components/Layout'
+import { getLayout } from '../src/components/Layouts/SiteLayout'
 
-const Page = () => (
-  <Layout>
-    <Home />
-  </Layout>
-)
+const Page = () => <Home />
+
+Page.getLayout = getLayout
 
 export default Page

@@ -1,10 +1,8 @@
 import AuctionPage from '../../src/components/AuctionPage'
-import Layout from '../../src/components/Layout'
+import { getLayout } from '../../src/components/Layouts/SiteLayout'
 
-const Page = () => (
-  <Layout>
-    <AuctionPage />
-  </Layout>
-)
+const Page = () => <AuctionPage />
+
+Page.getLayout = getLayout
 
 export default Page

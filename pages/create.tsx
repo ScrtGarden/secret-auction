@@ -1,10 +1,8 @@
 import CreatePage from '../src/components/CreatePage'
-import Layout from '../src/components/Layout'
+import { getLayout } from '../src/components/Layouts/SiteLayout'
 
-const Page = () => (
-  <Layout>
-    <CreatePage />
-  </Layout>
-)
+const Page = () => <CreatePage />
+
+Page.getLayout = getLayout
 
 export default Page
