@@ -18,7 +18,7 @@ const Footer = () => {
               fontColor="#fff"
             />
             <Anchor href={GITHUB_LINK} target="_blank">
-              Github
+              GitHub
             </Anchor>
           </Row>
           <Row>
