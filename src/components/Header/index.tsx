@@ -1,4 +1,4 @@
-import { Header, HeaderItemWrapper } from '@zendeskgarden/react-chrome'
+import { HeaderItemWrapper } from '@zendeskgarden/react-chrome'
 import { Dots } from '@zendeskgarden/react-loaders'
 import { PALETTE } from '@zendeskgarden/react-theming'
 import Link from 'next/link'
