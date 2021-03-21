@@ -17,7 +17,7 @@ type Props = {
   children?: React.ReactElement
 }
 
-const Layout = ({ children }: Props) => {
+const SiteLayout = ({ children }: Props) => {
   const store = useStoreState((state) => state)
   useMemo(() => console.log(store), [store])
 
@@ -66,4 +66,6 @@ const Layout = ({ children }: Props) => {
   )
 }
 
-export default Layout
+const getLayout = (page: JSX.Element) => <SiteLayout>{page}</SiteLayout>
+
+export { SiteLayout as default, getLayout }
