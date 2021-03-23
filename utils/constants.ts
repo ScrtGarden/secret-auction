@@ -34,14 +34,13 @@ const MAP_ROUTE_AND_COLOR: MapRouteAndColor = {
   },
 }
 
-const CHAIN_EXPLORER = 'https://secretnodes.com/secret/chains/holodeck-2'
+const CHAIN_EXPLORER = process.env.NEXT_PUBLIC_CHAIN_EXPLORER
 
 const KEPLR_CHROME_STORE_URL =
   'https://chrome.google.com/webstore/detail/keplr/dmkamcknogkgcdfhhbddcghachkejeap?hl=en'
 
-const FACTORY_CONTRACT_ID = 811
-const FACTORY_CONTRACT_ADDRESS = 'secret1lqdx8va86f9cff5dsz28l97x20z67qv7d4npj8'
-const AUCTION_CONTRACT_ID = 764
+const FACTORY_CONTRACT_ADDRESS =
+  process.env.NEXT_PUBLIC_FACTORY_CONTRACT_ADDRESS
 
 const OPEN_SELLER_ACTIONS = {
   finalize: 'Finalize',
@@ -139,8 +138,6 @@ const GITHUB_LINK = 'https://github.com/ScrtGarden/secret-auction'
 export {
   MAP_ROUTE_AND_COLOR,
   CHAIN_EXPLORER,
-  AUCTION_CONTRACT_ID,
-  FACTORY_CONTRACT_ID,
   FACTORY_CONTRACT_ADDRESS,
   OPEN_SELLER_ACTIONS,
   OPEN_BIDDER_ACTIONS,
