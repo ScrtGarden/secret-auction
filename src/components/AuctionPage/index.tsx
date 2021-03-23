@@ -1,3 +1,4 @@
+import Head from 'next/head'
 import { useRouter } from 'next/router'
 
 import { BidRouterQuery } from '../../../interfaces'
@@ -19,45 +20,54 @@ const AuctionPage = () => {
     data || {}
 
   return (
-    <Container>
-      <InnerContainer>
-        <Header
-          loading={loading}
-          sellSymbol={sell_token?.token_info.symbol}
-          bidSymbol={bid_token?.token_info.symbol}
-          address={address}
-          endDate={ends_at}
-        />
-        <Content>
-          <Cards>
-            <TokenCard
-              loading={loading}
-              title="Sell Token"
-              tokenData={sell_token}
-              amount={sell_amount}
-              amountLabel="Amount"
-              warning
-            />
-            <TokenCard
-              loading={loading}
-              title="Bid Token"
-              tokenData={bid_token}
-              amount={minimum_bid}
-              amountLabel="Minimum Bid"
-            />
-          </Cards>
-          <Bid
-            auctionAddress={address}
+    <>
+      <Head>
+        <title>
+          {loading
+            ? 'Auction | tulip'
+            : `${sell_token?.token_info.symbol}-${bid_token?.token_info.symbol} | tulip`}
+        </title>
+      </Head>
+      <Container>
+        <InnerContainer>
+          <Header
             loading={loading}
-            sellAmount={sell_amount}
-            sellDecimals={sell_token?.token_info.decimals}
             sellSymbol={sell_token?.token_info.symbol}
-            bidData={bid_token}
-            minimumBid={minimum_bid}
+            bidSymbol={bid_token?.token_info.symbol}
+            address={address}
+            endDate={ends_at}
           />
-        </Content>
-      </InnerContainer>
-    </Container>
+          <Content>
+            <Cards>
+              <TokenCard
+                loading={loading}
+                title="Sell Token"
+                tokenData={sell_token}
+                amount={sell_amount}
+                amountLabel="Amount"
+                warning
+              />
+              <TokenCard
+                loading={loading}
+                title="Bid Token"
+                tokenData={bid_token}
+                amount={minimum_bid}
+                amountLabel="Minimum Bid"
+              />
+            </Cards>
+            <Bid
+              auctionAddress={address}
+              loading={loading}
+              sellAmount={sell_amount}
+              sellDecimals={sell_token?.token_info.decimals}
+              sellSymbol={sell_token?.token_info.symbol}
+              bidData={bid_token}
+              minimumBid={minimum_bid}
+            />
+          </Content>
+        </InnerContainer>
+      </Container>
+    </>
   )
 }
 
