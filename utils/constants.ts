@@ -34,7 +34,7 @@ const MAP_ROUTE_AND_COLOR: MapRouteAndColor = {
   },
 }
 
-const CHAIN_EXPLORER = process.env.NEXT_PUBLIC_CHAIN_EXPLORER as string
+const CHAIN_EXPLORER = `https://secretnodes.com/secret/chains/${process.env.NEXT_PUBLIC_CHAIN_ID}`
 
 const KEPLR_CHROME_STORE_URL =
   'https://chrome.google.com/webstore/detail/keplr/dmkamcknogkgcdfhhbddcghachkejeap?hl=en'
