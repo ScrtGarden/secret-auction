@@ -37,49 +37,51 @@ const connect = async (): Promise<Response> => {
     return { error: { message: 'Kelpr not installed.' } }
   }
 
-  await keplr.experimentalSuggestChain({
-    chainId: process.env.NEXT_PUBLIC_CHAIN_ID as string,
-    chainName: 'Local Secret Chain',
-    rpc: process.env.NEXT_PUBLIC_RPC_URL as string,
-    rest: process.env.NEXT_PUBLIC_REST_URL as string,
-    bip44: {
+  if (process.env.NEXT_PUBLIC_EXPERIMENTAL_CHAIN === 'true') {
+    await keplr.experimentalSuggestChain({
+      chainId: process.env.NEXT_PUBLIC_CHAIN_ID as string,
+      chainName: 'Local Secret Chain',
+      rpc: process.env.NEXT_PUBLIC_RPC_URL as string,
+      rest: process.env.NEXT_PUBLIC_REST_URL as string,
+      bip44: {
+        coinType: 529,
+      },
       coinType: 529,
-    },
-    coinType: 529,
-    stakeCurrency: {
-      coinDenom: 'SCRT',
-      coinMinimalDenom: 'uscrt',
-      coinDecimals: 6,
-    },
-    bech32Config: {
-      bech32PrefixAccAddr: 'secret',
-      bech32PrefixAccPub: 'secretpub',
-      bech32PrefixValAddr: 'secretvaloper',
-      bech32PrefixValPub: 'secretvaloperpub',
-      bech32PrefixConsAddr: 'secretvalcons',
-      bech32PrefixConsPub: 'secretvalconspub',
-    },
-    currencies: [
-      {
+      stakeCurrency: {
         coinDenom: 'SCRT',
         coinMinimalDenom: 'uscrt',
         coinDecimals: 6,
       },
-    ],
-    feeCurrencies: [
-      {
-        coinDenom: 'SCRT',
-        coinMinimalDenom: 'uscrt',
-        coinDecimals: 6,
+      bech32Config: {
+        bech32PrefixAccAddr: 'secret',
+        bech32PrefixAccPub: 'secretpub',
+        bech32PrefixValAddr: 'secretvaloper',
+        bech32PrefixValPub: 'secretvaloperpub',
+        bech32PrefixConsAddr: 'secretvalcons',
+        bech32PrefixConsPub: 'secretvalconspub',
       },
-    ],
-    gasPriceStep: {
-      low: 0.1,
-      average: 0.25,
-      high: 0.4,
-    },
-    features: ['secretwasm'],
-  })
+      currencies: [
+        {
+          coinDenom: 'SCRT',
+          coinMinimalDenom: 'uscrt',
+          coinDecimals: 6,
+        },
+      ],
+      feeCurrencies: [
+        {
+          coinDenom: 'SCRT',
+          coinMinimalDenom: 'uscrt',
+          coinDecimals: 6,
+        },
+      ],
+      gasPriceStep: {
+        low: 0.1,
+        average: 0.25,
+        high: 0.4,
+      },
+      features: ['secretwasm'],
+    })
+  }
 
   try {
     await keplr.enable(process.env.NEXT_PUBLIC_CHAIN_ID as string)
