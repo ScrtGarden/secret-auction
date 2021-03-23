@@ -34,13 +34,13 @@ const MAP_ROUTE_AND_COLOR: MapRouteAndColor = {
   },
 }
 
-const CHAIN_EXPLORER = process.env.NEXT_PUBLIC_CHAIN_EXPLORER
+const CHAIN_EXPLORER = process.env.NEXT_PUBLIC_CHAIN_EXPLORER as string
 
 const KEPLR_CHROME_STORE_URL =
   'https://chrome.google.com/webstore/detail/keplr/dmkamcknogkgcdfhhbddcghachkejeap?hl=en'
 
-const FACTORY_CONTRACT_ADDRESS =
-  process.env.NEXT_PUBLIC_FACTORY_CONTRACT_ADDRESS
+const FACTORY_CONTRACT_ADDRESS = process.env
+  .NEXT_PUBLIC_FACTORY_CONTRACT_ADDRESS as string
 
 const OPEN_SELLER_ACTIONS = {
   finalize: 'Finalize',
