@@ -28,7 +28,7 @@
     "big.js": "^6.0.3",
     "crypto-random-string": "^3.3.0",
     "date-fns": "^2.16.1",
-    "easy-peasy": "^4.0.1",
+    "easy-peasy": "^5.0.3",
     "next": "10.0.3",
     "react": "17.0.1",
     "react-datepicker": "^3.4.1",
