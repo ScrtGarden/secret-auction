@@ -13,7 +13,7 @@ const Footer = () => {
           <Row>
             <Brand
               iconColor="#fff"
-              iconSize={26}
+              iconSize={22}
               fontSize={18}
               fontColor="#fff"
             />
