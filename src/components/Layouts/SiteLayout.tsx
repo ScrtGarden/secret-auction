@@ -1,5 +1,3 @@
-import { useMemo } from 'react'
-
 import { useStoreState } from '../../../utils/hooks/storeHooks'
 import useGetAccounts from '../../../utils/hooks/useGetAccounts'
 import Alert from '../Alert'
@@ -18,9 +16,6 @@ type Props = {
 }
 
 const SiteLayout = ({ children }: Props) => {
-  const store = useStoreState((state) => state)
-  useMemo(() => console.log(store), [store])
-
   // store state
   const isGetKeplrModalOpen = useStoreState(
     (state) => state.controls.isGetKeplrModalOpen
