@@ -4,7 +4,6 @@ import { ThemeProvider } from '@zendeskgarden/react-theming'
 import { StoreProvider } from 'easy-peasy'
 import { AppProps } from 'next/app'
 
-import SiteLayout from '../src/components/Layouts/SiteLayout'
 import LoadingPage from '../src/components/LoadingPage'
 import GlobalStyle from '../src/styles/GlobalStyle'
 import { useStore } from '../store'
@@ -23,8 +22,7 @@ const MyApp = ({ Component, pageProps }: Props) => {
   // custom hook
   const { ready } = useDocumentReady()
 
-  const getLayout =
-    Component.getLayout || ((page) => <SiteLayout children={page} />)
+  const getLayout = Component.getLayout || ((page) => page)
 
   return (
     <StoreProvider store={store}>
