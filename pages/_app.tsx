@@ -28,6 +28,7 @@ const MyApp = ({ Component, pageProps }: Props) => {
   return (
     <>
       <Head>
+        <title>Sealed Bid Auctions | tulip</title>
         <link rel="icon" type="image/png" href="favicons/favicon-16x16.png" />
         <link rel="icon" type="image/png" href="favicons/favicon-32x32.png" />
         <link rel="icon" type="image/png" href="favicons/favicon-128x128.png" />
