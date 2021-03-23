@@ -66,8 +66,8 @@ const MainHeader: FC = () => {
           <Link href="/">
             <StyledHeaderItem hasLogo>
               <Brand
-                iconColor={PALETTE.green[600]}
-                iconSize={35}
+                iconColor={PALETTE.yellow[400]}
+                iconSize={30}
                 fontSize={24}
                 fontColor={PALETTE.grey[800]}
               />
