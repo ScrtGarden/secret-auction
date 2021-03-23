@@ -35,7 +35,7 @@ const MyApp = ({ Component, pageProps }: Props) => {
         <meta name="viewport" content="width=device-width, initial-scale=1" />
         <meta
           name="description"
-          content="Hate price slippage? Place bids on on auctions that are fully decentralized utilizing Secret Network."
+          content="Hate price slippage? Place bids on on auctions that are fully decentralized utilizing the Secret Network."
         />
       </Head>
       <StoreProvider store={store}>
