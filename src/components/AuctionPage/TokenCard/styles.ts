@@ -1,5 +1,7 @@
 import styled from 'styled-components'
 
+import { media } from '../../../styles/mediaQueries'
+
 interface TitleProps {
   readonly large?: boolean
 }
@@ -7,22 +9,35 @@ interface TitleProps {
 const Container = styled.div`
   background-color: ${(props) => props.theme.palette.white};
   border-radius: ${(props) => props.theme.borderRadii.md};
-  padding: ${(props) => props.theme.space.md} ${(props) => props.theme.space.lg};
+  padding: ${(props) => props.theme.space.sm} ${(props) => props.theme.space.md};
+
+  ${media.tablet} {
+    padding: ${(props) => `${props.theme.space.md} ${props.theme.space.lg}`};
+  }
 `
 
 const Title = styled.h2<TitleProps>`
   color: ${(props) => props.theme.palette.grey[800]};
   font-size: ${(props) =>
-    props.large ? props.theme.fontSizes.lg : props.theme.fontSizes.md};
+    props.large ? props.theme.fontSizes.md : props.theme.fontSizes.sm};
   font-weight: ${(props) => props.theme.fontWeights.semibold};
   margin: 0;
+
+  ${media.tablet} {
+    font-size: ${(props) =>
+      props.large ? props.theme.fontSizes.lg : props.theme.fontSizes.md};
+  }
 `
 
 const Warning = styled.p`
   color: ${(props) => props.theme.palette.yellow[700]};
-  font-size: ${(props) => props.theme.fontSizes.sm};
+  font-size: ${(props) => props.theme.fontSizes.xs};
   margin-bottom: 0;
   margin-top: ${(props) => props.theme.space.xxs};
+
+  ${media.tablet} {
+    font-size: ${(props) => props.theme.fontSizes.sm};
+  }
 `
 
 const Content = styled.div`
@@ -33,8 +48,12 @@ const Content = styled.div`
 const Details = styled.div`
   border-right: 1px solid ${(props) => props.theme.palette.grey[300]};
   flex: 1;
-  font-size: ${(props) => props.theme.fontSizes.md};
+  font-size: ${(props) => props.theme.fontSizes.sm};
   padding-right: ${(props) => props.theme.space.xs};
+
+  ${media.tablet} {
+    font-size: ${(props) => props.theme.fontSizes.md};
+  }
 `
 
 const Field = styled.div`

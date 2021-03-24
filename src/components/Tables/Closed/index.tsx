@@ -1,4 +1,4 @@
-import { Body, Head, HeaderRow, Table } from '@zendeskgarden/react-tables'
+import { Body, Head, HeaderRow } from '@zendeskgarden/react-tables'
 import { memo, useMemo, useState } from 'react'
 
 import { ClosedAuctionInfo } from '../../../../interfaces'
@@ -6,7 +6,7 @@ import useGetAuctions from '../../../../utils/hooks/useGetAuctions'
 import onClickSort from '../../../../utils/onClickSort'
 import sortData, { Direction } from '../../../../utils/sortAuctions'
 import SkeletonRows from '../SkeletonRows'
-import { StyledSortableCell } from '../styles'
+import { StyledSortableCell, StyledTable, TableWrapper } from '../styles'
 import ItemRow from './ItemRow'
 
 const AuctionTable = () => {
@@ -63,33 +63,35 @@ const AuctionTable = () => {
   }
 
   return (
-    <Table size="large">
-      <Head>
-        <HeaderRow>
-          <StyledSortableCell sort={pairSort} onClick={onClickPairSort}>
-            Pair
-          </StyledSortableCell>
-          <StyledSortableCell sort={sellSort} onClick={onClickSellSort}>
-            Sell
-          </StyledSortableCell>
-          <StyledSortableCell sort={winBidSort} onClick={onClickWinBidSort}>
-            Winning Bid
-          </StyledSortableCell>
-          <StyledSortableCell sort={dateSort} onClick={onClickDateSort}>
-            Finalized
-          </StyledSortableCell>
-        </HeaderRow>
-      </Head>
-      <Body>
-        {loading ? (
-          <SkeletonRows rows={4} columns={4} />
-        ) : (
-          sortedData.map((item: ClosedAuctionInfo) => (
-            <ItemRow key={item.address} item={item} />
-          ))
-        )}
-      </Body>
-    </Table>
+    <TableWrapper>
+      <StyledTable size="large">
+        <Head>
+          <HeaderRow>
+            <StyledSortableCell sort={pairSort} onClick={onClickPairSort}>
+              Pair
+            </StyledSortableCell>
+            <StyledSortableCell sort={sellSort} onClick={onClickSellSort}>
+              Sell
+            </StyledSortableCell>
+            <StyledSortableCell sort={winBidSort} onClick={onClickWinBidSort}>
+              Winning Bid
+            </StyledSortableCell>
+            <StyledSortableCell sort={dateSort} onClick={onClickDateSort}>
+              Finalized
+            </StyledSortableCell>
+          </HeaderRow>
+        </Head>
+        <Body>
+          {loading ? (
+            <SkeletonRows rows={4} columns={4} />
+          ) : (
+            sortedData.map((item: ClosedAuctionInfo) => (
+              <ItemRow key={item.address} item={item} />
+            ))
+          )}
+        </Body>
+      </StyledTable>
+    </TableWrapper>
   )
 }
 

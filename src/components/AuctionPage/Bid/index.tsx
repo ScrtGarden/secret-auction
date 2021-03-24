@@ -130,7 +130,9 @@ const Bid: FC<Props> = (props) => {
             {!loading && (
               <Field>
                 <Text>Your bid:</Text>
-                <Text>{`${amount || '__'} ${bidData?.token_info.symbol}`}</Text>
+                <Text>
+                  {amount ? `${amount} ${bidData?.token_info.symbol}` : '--'}
+                </Text>
               </Field>
             )}
           </Details>

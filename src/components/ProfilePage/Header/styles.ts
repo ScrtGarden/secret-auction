@@ -1,6 +1,7 @@
 import { Button } from '@zendeskgarden/react-buttons'
 import styled from 'styled-components'
 
+import { media } from '../../../styles/mediaQueries'
 import Icon from '../../Icons'
 
 type ButtonProps = {
@@ -12,10 +13,16 @@ type IconProps = {
 }
 
 const Container = styled.div`
-  align-items: center;
   display: flex;
-  justify-content: space-between;
+  flex-direction: column;
   margin-bottom: ${(props) => props.theme.space.xxl};
+  row-gap: ${(props) => props.theme.space.md};
+
+  ${media.tablet} {
+    align-items: center;
+    flex-direction: row;
+    justify-content: space-between;
+  }
 `
 
 const StyledIcon = styled(Icon)<IconProps>`
@@ -23,8 +30,13 @@ const StyledIcon = styled(Icon)<IconProps>`
     props.active
       ? props.theme.palette.kale[600]
       : props.theme.palette.grey[500]};
-  height: 40px;
-  width: 40px;
+  height: 25px;
+  width: 25px;
+
+  ${media.tablet} {
+    height: 40px;
+    width: 40px;
+  }
 `
 
 const Circle = styled.div`
@@ -32,10 +44,15 @@ const Circle = styled.div`
   display: flex;
   border-radius: 50%;
   background-color: ${(props) => props.theme.palette.grey[300]};
-  height: 80px;
+  height: 50px;
   justify-content: center;
   margin-right: ${(props) => props.theme.space.md};
-  width: 80px;
+  width: 50px;
+
+  ${media.tablet} {
+    height: 80px;
+    width: 80px;
+  }
 `
 
 const Wrapper = styled.div`
@@ -45,9 +62,13 @@ const Wrapper = styled.div`
 `
 
 const Address = styled.h1`
-  font-size: ${(props) => props.theme.fontSizes.xl};
+  font-size: ${(props) => props.theme.fontSizes.lg};
   font-weight: ${(props) => props.theme.fontWeights.semibold};
   margin: 0 0 ${(props) => props.theme.space.xs} 0;
+
+  ${media.tablet} {
+    font-size: ${(props) => props.theme.fontSizes.xl};
+  }
 `
 
 const StyledButton = styled(Button)<ButtonProps>`

@@ -1,5 +1,7 @@
 import styled from 'styled-components'
 
+import { media } from '../../styles/mediaQueries'
+
 const Container = styled.div`
   background-color: ${(props) => props.theme.palette.kale[700]};
 `
@@ -34,6 +36,10 @@ const Text = styled.h1`
   font-size: ${(props) => props.theme.fontSizes.sm};
   font-weight: ${(props) => props.theme.fontWeights.semibold};
   margin: 0;
+
+  :last-child {
+    text-align: right;
+  }
 `
 
 export { Container, Content, Row, Anchor, Text }

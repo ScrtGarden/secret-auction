@@ -5,6 +5,7 @@ import { memo, useMemo } from 'react'
 
 import filter from '../../../../utils/filterAuctions'
 import useGetAuctions from '../../../../utils/hooks/useGetAuctions'
+import useWindowSize from '../../../../utils/hooks/useWindowSize'
 import { InnerContainer } from '../../Common/StyledComponents'
 import Card from './Card'
 import SkeletonCard from './SkeletonCard'
@@ -15,6 +16,7 @@ const SKELETON_ARRAY = Array.from(Array(6))
 const Auctions = () => {
   // custom hooks
   const { loading, auctions } = useGetAuctions({ list_active_auctions: {} })
+  const { width = 0 } = useWindowSize()
 
   const filteredAuctions = useMemo(() => {
     const tsdaiAuctions = filter(auctions, {
@@ -42,9 +44,11 @@ const Auctions = () => {
       <Content>
         {loading
           ? SKELETON_ARRAY.map((_, index) => <SkeletonCard key={index} />)
-          : filteredAuctions.map((item) => (
-              <Card key={item.address} item={item} onClick={onClick} />
-            ))}
+          : filteredAuctions
+              .slice(0, width < 768 ? 3 : filteredAuctions.length)
+              .map((item) => (
+                <Card key={item.address} item={item} onClick={onClick} />
+              ))}
         <Footer>
           <Link href="/auctions">
             <Anchor>View more auctions</Anchor>
