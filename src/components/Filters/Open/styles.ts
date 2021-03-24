@@ -2,15 +2,39 @@ import styled from 'styled-components'
 
 import { media } from '../../../styles/mediaQueries'
 
+interface WrapperProps {
+  readonly inputs?: boolean
+}
+
 const Container = styled.div`
-  align-items: center;
-  display: grid;
-  row-gap: ${(props) => props.theme.space.md};
+  display: flex;
+  flex-direction: column;
+  row-gap: ${(props) => props.theme.space.sm};
 
   ${media.tablet} {
     column-gap: ${(props) => props.theme.space.md};
-    grid-template-columns: 50px 120px 110px 1fr 150px 150px;
+    flex-direction: row;
+    justify-content: space-between;
   }
 `
 
-export { Container }
+const Wrapper = styled.div<WrapperProps>`
+  align-items: center;
+  column-gap: ${(props) => props.theme.space.sm};
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  row-gap: ${(props) => props.theme.space.sm};
+
+  ${media.tablet} {
+    column-gap: ${(props) => props.theme.space.md};
+    ${(props) =>
+      props.inputs &&
+      `
+      align-items: flex-start;
+      flex-shrink: 0;
+    `}
+  }
+`
+
+export { Container, Wrapper }
