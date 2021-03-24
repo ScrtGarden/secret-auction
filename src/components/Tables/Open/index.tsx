@@ -1,10 +1,4 @@
-import {
-  Body,
-  Head,
-  HeaderCell,
-  HeaderRow,
-  Table,
-} from '@zendeskgarden/react-tables'
+import { Body, Head, HeaderCell, HeaderRow } from '@zendeskgarden/react-tables'
 import { useRouter } from 'next/router'
 import { FC, memo, useMemo, useState } from 'react'
 
@@ -13,7 +7,7 @@ import onClickSort from '../../../../utils/onClickSort'
 import sortData, { Direction } from '../../../../utils/sortAuctions'
 import NoResults from '../EmptyList/NoResults'
 import SkeletonRows from '../SkeletonRows'
-import { StyledSortableCell } from '../styles'
+import { StyledSortableCell, StyledTable, TableWrapper } from '../styles'
 import ItemRow from './ItemRow'
 
 type Props = {
@@ -59,35 +53,39 @@ const AuctionTable: FC<Props> = (props) => {
   }
 
   return (
-    <Table size="large">
-      <Head>
-        <HeaderRow>
-          <StyledSortableCell sort={pairSort} onClick={onClickPairSort}>
-            Pair
-          </StyledSortableCell>
-          <StyledSortableCell sort={sellSort} onClick={onClickSellSort}>
-            Sell
-          </StyledSortableCell>
-          <StyledSortableCell sort={bidSort} onClick={onClickBidSort}>
-            Min. Bid
-          </StyledSortableCell>
-          <StyledSortableCell sort={dateSort} onClick={onClickDateSort}>
-            Expected Close
-          </StyledSortableCell>
-          <HeaderCell width="120">Status</HeaderCell>
-        </HeaderRow>
-      </Head>
-      <Body>
-        {loading && <SkeletonRows rows={4} columns={5} />}
-        {!loading && sortedData.length === 0 ? (
-          <NoResults colSpan={5} />
-        ) : (
-          sortedData.map((item) => (
-            <ItemRow key={item.address} item={item} router={router} />
-          ))
-        )}
-      </Body>
-    </Table>
+    <TableWrapper>
+      <StyledTable size="large">
+        <Head>
+          <HeaderRow>
+            <StyledSortableCell sort={pairSort} onClick={onClickPairSort}>
+              Pair
+            </StyledSortableCell>
+            <StyledSortableCell sort={sellSort} onClick={onClickSellSort}>
+              Sell
+            </StyledSortableCell>
+            <StyledSortableCell sort={bidSort} onClick={onClickBidSort}>
+              Min. Bid
+            </StyledSortableCell>
+
+            <StyledSortableCell sort={dateSort} onClick={onClickDateSort}>
+              Expected Close
+            </StyledSortableCell>
+
+            <HeaderCell width="120">Status</HeaderCell>
+          </HeaderRow>
+        </Head>
+        <Body style={{ maxWidth: '500px' }}>
+          {loading && <SkeletonRows rows={4} columns={5} />}
+          {!loading && sortedData.length === 0 ? (
+            <NoResults colSpan={5} />
+          ) : (
+            sortedData.map((item) => (
+              <ItemRow key={item.address} item={item} router={router} />
+            ))
+          )}
+        </Body>
+      </StyledTable>
+    </TableWrapper>
   )
 }
 

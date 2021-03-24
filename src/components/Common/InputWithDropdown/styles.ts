@@ -5,6 +5,10 @@ import Icon from '../../Icons'
 
 const StyledField = styled(Field)`
   z-index: 1;
+
+  :first-child {
+    z-index: 2;
+  }
 `
 
 const StyledIcon = styled(Icon)``

@@ -12,10 +12,11 @@ type Props = {
   options: FilterToken[]
   value: string
   onChange: (value: string) => void
+  className?: string
 }
 
 const InputWithDropdown: FC<Props> = (props) => {
-  const { label, placeholder, options, value, onChange } = props
+  const { label, placeholder, options, value, onChange, className } = props
   const [rotated, setRotated] = useState<boolean>()
 
   const onChangeValue = (e: FormEvent<HTMLInputElement>) => {
@@ -26,7 +27,7 @@ const InputWithDropdown: FC<Props> = (props) => {
   }
 
   return (
-    <StyledField>
+    <StyledField className={className}>
       {label && <Label>{label}</Label>}
       <StyledInputGroup>
         <StyledInput

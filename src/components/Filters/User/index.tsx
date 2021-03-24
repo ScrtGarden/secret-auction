@@ -3,9 +3,8 @@ import { Checkbox, Field, Label } from '@zendeskgarden/react-forms'
 import { FC, memo } from 'react'
 
 import { FilterToken } from '../../../../utils/constants'
-import InputWithDropdown from '../../Common/InputWithDropdown'
 import { ICheckboxes, initCheckboxes } from '../../ProfilePage'
-import { Container } from './styles'
+import { Container, StyledInputWithDropdown, Wrapper } from './styles'
 
 type Props = {
   selectedCheckboxes: ICheckboxes
@@ -29,68 +28,49 @@ const Filters: FC<Props> = (props) => {
   } = props
   const { seller, bidder, open, closed, won } = selectedCheckboxes
 
+  const DATA = [
+    { label: 'Owner', key: 'seller', value: seller },
+    { label: 'Bidder', key: 'bidder', value: bidder },
+    { label: 'Open', key: 'open', value: open },
+    { label: 'Closed', key: 'closed', value: closed },
+    { label: 'Won', key: 'won', value: won },
+  ]
+
   return (
     <Container>
-      <Field>
-        <Checkbox
-          checked={seller}
-          onChange={() => onChangeCheckbox({ seller: !seller })}
+      <Wrapper>
+        {DATA.map((item) => (
+          <Field key={item.key}>
+            <Checkbox
+              checked={item.value}
+              onChange={() => onChangeCheckbox({ [item.key]: !item.value })}
+            >
+              <Label>{item.label}</Label>
+            </Checkbox>
+          </Field>
+        ))}
+        <Button
+          isBasic
+          size="small"
+          onClick={() => onChangeCheckbox(initCheckboxes)}
         >
-          <Label>Owner</Label>
-        </Checkbox>
-      </Field>
-      <Field>
-        <Checkbox
-          checked={bidder}
-          onChange={() => onChangeCheckbox({ bidder: !bidder })}
-        >
-          <Label>Bidder</Label>
-        </Checkbox>
-      </Field>
-      <Field>
-        <Checkbox
-          checked={open}
-          onChange={() => onChangeCheckbox({ open: !open })}
-        >
-          <Label>Open</Label>
-        </Checkbox>
-      </Field>
-      <Field>
-        <Checkbox
-          checked={closed}
-          onChange={() => onChangeCheckbox({ closed: !closed })}
-        >
-          <Label>Closed</Label>
-        </Checkbox>
-      </Field>
-      <Field>
-        <Checkbox
-          checked={won}
-          onChange={() => onChangeCheckbox({ won: !won })}
-        >
-          <Label>Won</Label>
-        </Checkbox>
-      </Field>
-      <Button
-        isBasic
-        size="small"
-        onClick={() => onChangeCheckbox(initCheckboxes)}
-      >
-        Clear
-      </Button>
-      <div />
-      <InputWithDropdown
-        placeholder="Sell"
-        options={options}
-        value={sellValue}
-        onChange={onChangeSellValue}
-      />
-      <InputWithDropdown
-        placeholder="Bid"
-        options={options}
-        value={bidValue}
-        onChange={onChangeBidValue}
-      />
+          Clear
+        </Button>
+      </Wrapper>
+      <Wrapper>
+        <StyledInputWithDropdown
+          placeholder="Sell"
+          options={options}
+          value={sellValue}
+          onChange={onChangeSellValue}
+        />
+        <StyledInputWithDropdown
+          placeholder="Bid"
+          options={options}
+          value={bidValue}
+          onChange={onChangeBidValue}
+        />
+      </Wrapper>
     </Container>
   )
 }

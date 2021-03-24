@@ -4,6 +4,8 @@ import { Modal } from '@zendeskgarden/react-modals'
 import { Code } from '@zendeskgarden/react-typography'
 import styled from 'styled-components'
 
+import { media } from '../../../styles/mediaQueries'
+
 type SeparatorProps = {
   readonly xxs?: boolean
   readonly xs?: boolean
@@ -22,6 +24,7 @@ const InnerContainer = styled.div`
   margin: 0 auto;
   max-width: 1200px;
   height: 100%;
+  width: 90%;
 `
 
 const Title = styled.h1`
@@ -55,7 +58,10 @@ const StyledModal = styled(Modal)`
   align-items: center;
   display: flex;
   flex-direction: column;
-  && {
+  left: unset;
+  width: 90%;
+
+  ${media.mobileL} {
     width: 400px;
   }
 `

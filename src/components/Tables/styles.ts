@@ -1,4 +1,4 @@
-import { SortableCell } from '@zendeskgarden/react-tables'
+import { SortableCell, Table } from '@zendeskgarden/react-tables'
 import styled from 'styled-components'
 
 interface SymbolProps {
@@ -25,11 +25,19 @@ const Symbol = styled.p<SymbolProps>`
   `}
 `
 
-export const StyledSortableCell = styled(SortableCell)`
+const StyledSortableCell = styled(SortableCell)`
   && {
     padding-bottom: 15px;
     padding-top: 15px;
   }
 `
 
-export { Pair, Symbol }
+const StyledTable = styled(Table)`
+  min-width: 700px;
+`
+
+const TableWrapper = styled.div`
+  overflow-y: auto;
+`
+
+export { Pair, Symbol, StyledSortableCell, StyledTable, TableWrapper }

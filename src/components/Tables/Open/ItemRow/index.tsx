@@ -14,13 +14,13 @@ import StatusTag from './StatusTag'
 type Props = {
   item: ActiveAuctionInfo
   router: NextRouter
+  isAtLeastTablet?: boolean
 }
 
 const ItemRow: FC<Props> = (props) => {
   const { item, router } = props
   const {
     address,
-    label,
     minimum_bid,
     sell_amount,
     pair,

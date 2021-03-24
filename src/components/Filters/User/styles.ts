@@ -1,10 +1,32 @@
 import styled from 'styled-components'
 
+import { media } from '../../../styles/mediaQueries'
+import InputWithDropdown from '../../Common/InputWithDropdown'
+
 const Container = styled.div`
-  column-gap: ${(props) => props.theme.space.md};
-  display: grid;
-  grid-template-columns: 70px 69px 61px 69px 50px 55px 1fr 150px 150px;
-  align-items: center;
+  align-items: flex-start;
+  display: flex;
+  justify-content: space-between;
+
+  ${media.tablet} {
+    align-items: center;
+  }
 `
 
-export { Container }
+const Wrapper = styled.div`
+  display: flex;
+  flex-direction: column;
+  row-gap: ${(props) => props.theme.space.xs};
+
+  ${media.tablet} {
+    align-items: center;
+    column-gap: ${(props) => props.theme.space.sm};
+    flex-direction: row;
+  }
+`
+
+const StyledInputWithDropdown = styled(InputWithDropdown)`
+  width: 120px;
+`
+
+export { Container, Wrapper, StyledInputWithDropdown }

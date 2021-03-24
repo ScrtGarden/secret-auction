@@ -17,7 +17,7 @@ import ErrorKey from '../EmptyList/ErrorKey'
 import NoKey from '../EmptyList/NoKey'
 import NoResults from '../EmptyList/NoResults'
 import SkeletonRows from '../SkeletonRows'
-import { StyledSortableCell } from '../styles'
+import { StyledSortableCell, StyledTable, TableWrapper } from '../styles'
 import ItemRow from './ItemRow'
 
 type Props = {
@@ -121,42 +121,44 @@ const AuctionTable: FC<Props> = (props) => {
   }
 
   return (
-    <Table size="large">
-      <Head>
-        <HeaderRow>
-          <HeaderCell width={50}></HeaderCell>
-          <StyledSortableCell sort={pairSort} onClick={onClickPairSort}>
-            Pair
-          </StyledSortableCell>
-          <StyledSortableCell sort={sellSort} onClick={onClickSellSort}>
-            Sell
-          </StyledSortableCell>
-          <StyledSortableCell sort={bidSort} onClick={onClickBidSort}>
-            Min. Bid
-          </StyledSortableCell>
-          <HeaderCell>Winning Bid</HeaderCell>
-          <StyledSortableCell sort={dateSort} onClick={onClickDateSort}>
-            Status
-          </StyledSortableCell>
-          <HeaderCell width={130}>Action</HeaderCell>
-        </HeaderRow>
-      </Head>
-      <Body>
-        {fetching && <SkeletonRows rows={4} columns={7} />}
-        {!fetching && !viewingKey && <NoKey colSpan={7} />}
-        {!fetching && viewingKey && error && <ErrorKey colSpan={7} />}
-        {!fetching && viewingKey && !error && sortedData.length === 0 && (
-          <NoResults colSpan={7} />
-        )}
-        {!fetching &&
-          viewingKey &&
-          !error &&
-          sortedData.length !== 0 &&
-          sortedData.map((item) => (
-            <ItemRow key={item.address} item={item} onClick={onClickButton} />
-          ))}
-      </Body>
-    </Table>
+    <TableWrapper>
+      <StyledTable size="large">
+        <Head>
+          <HeaderRow>
+            <HeaderCell width={50}></HeaderCell>
+            <StyledSortableCell sort={pairSort} onClick={onClickPairSort}>
+              Pair
+            </StyledSortableCell>
+            <StyledSortableCell sort={sellSort} onClick={onClickSellSort}>
+              Sell
+            </StyledSortableCell>
+            <StyledSortableCell sort={bidSort} onClick={onClickBidSort}>
+              Min. Bid
+            </StyledSortableCell>
+            <HeaderCell>Winning Bid</HeaderCell>
+            <StyledSortableCell sort={dateSort} onClick={onClickDateSort}>
+              Status
+            </StyledSortableCell>
+            <HeaderCell width={130}>Action</HeaderCell>
+          </HeaderRow>
+        </Head>
+        <Body>
+          {fetching && <SkeletonRows rows={4} columns={7} />}
+          {!fetching && !viewingKey && <NoKey colSpan={7} />}
+          {!fetching && viewingKey && error && <ErrorKey colSpan={7} />}
+          {!fetching && viewingKey && !error && sortedData.length === 0 && (
+            <NoResults colSpan={7} />
+          )}
+          {!fetching &&
+            viewingKey &&
+            !error &&
+            sortedData.length !== 0 &&
+            sortedData.map((item) => (
+              <ItemRow key={item.address} item={item} onClick={onClickButton} />
+            ))}
+        </Body>
+      </StyledTable>
+    </TableWrapper>
   )
 }
 
