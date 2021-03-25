@@ -3,6 +3,7 @@ import Link from 'next/link'
 import Router from 'next/router'
 import { memo, useMemo } from 'react'
 
+import { PREVIEW_AUCTIONS_FILTER } from '../../../../utils/constants'
 import filter from '../../../../utils/filterAuctions'
 import useGetAuctions from '../../../../utils/hooks/useGetAuctions'
 import useWindowSize from '../../../../utils/hooks/useWindowSize'
@@ -20,14 +21,14 @@ const Auctions = () => {
 
   const filteredAuctions = useMemo(() => {
     const tsdaiAuctions = filter(auctions, {
-      include: ['SSCRT', 'TSDAI', 'TSUSDT'],
+      include: PREVIEW_AUCTIONS_FILTER,
     }).slice(0, 6)
 
     if (tsdaiAuctions.length === 6) {
       return tsdaiAuctions
     } else {
       const restAuctions = filter(auctions, {
-        exclude: ['SSCRT', 'TSDAI', 'TSUSDT'],
+        exclude: PREVIEW_AUCTIONS_FILTER,
       })
       return tsdaiAuctions.concat(restAuctions).slice(0, 6)
     }
