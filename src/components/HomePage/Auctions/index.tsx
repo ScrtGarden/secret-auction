@@ -7,6 +7,7 @@ import { PREVIEW_AUCTIONS_FILTER } from '../../../../utils/constants'
 import filter from '../../../../utils/filterAuctions'
 import useGetAuctions from '../../../../utils/hooks/useGetAuctions'
 import useWindowSize from '../../../../utils/hooks/useWindowSize'
+import shuffleArray from '../../../../utils/shuffleArray'
 import { InnerContainer } from '../../Common/StyledComponents'
 import Card from './Card'
 import SkeletonCard from './SkeletonCard'
@@ -20,17 +21,17 @@ const Auctions = () => {
   const { width = 0 } = useWindowSize()
 
   const filteredAuctions = useMemo(() => {
-    const tsdaiAuctions = filter(auctions, {
+    const previewAuctions = filter(auctions, {
       include: PREVIEW_AUCTIONS_FILTER,
-    }).slice(0, 6)
+    })
 
-    if (tsdaiAuctions.length === 6) {
-      return tsdaiAuctions
+    if (previewAuctions.length >= 6) {
+      return shuffleArray(previewAuctions).slice(0, 6)
     } else {
       const restAuctions = filter(auctions, {
         exclude: PREVIEW_AUCTIONS_FILTER,
       })
-      return tsdaiAuctions.concat(restAuctions).slice(0, 6)
+      return previewAuctions.concat(restAuctions).slice(0, 6)
     }
   }, [auctions])
 
