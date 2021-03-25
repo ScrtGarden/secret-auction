@@ -4,6 +4,7 @@ import { FC, useContext, useReducer, useState } from 'react'
 import { AlertType } from '../../../store/controls/controls.models'
 import {
   CREATE_AUCTION_MAX_GAS,
+  DEFAULT_SELECTED_TOKEN,
   FACTORY_CONTRACT_ADDRESS,
   INCREASE_ALLOWANCE_MAX_GAS,
   TOKENS,
@@ -24,15 +25,13 @@ import Form from './Form'
 import ProgressStepper from './ProgressStepper'
 import { Grid } from './styles'
 
-const defaultToken = 'tsdai'
-
 export interface TargetTokenData {
   selected: string
   amount: string
 }
 
 const initialTokenState: TargetTokenData = {
-  selected: defaultToken,
+  selected: DEFAULT_SELECTED_TOKEN,
   amount: '',
 }
 

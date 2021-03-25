@@ -4,7 +4,8 @@ import { FC, memo } from 'react'
 
 import { FilterToken } from '../../../../utils/constants'
 import { ICheckboxes, initCheckboxes } from '../../ProfilePage'
-import { Container, StyledInputWithDropdown, Wrapper } from './styles'
+import { StyledInputWithDropdown } from '../styles'
+import { Container, Wrapper } from './styles'
 
 type Props = {
   selectedCheckboxes: ICheckboxes

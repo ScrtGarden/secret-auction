@@ -68,7 +68,7 @@ const RETRACT_BID_MAX_GAS = '300000'
 const FINALIZE_MAX_GAS = '2000000'
 const EXTEND_MAX_GAS = '300000'
 
-const TOKENS: SelectTokens = {
+const TESTNET_SELECTION_TOKENS: SelectTokens = {
   tsdai: {
     symbol: 'TSDAI',
     decimals: 18,
@@ -91,16 +91,103 @@ const TOKENS: SelectTokens = {
   },
 }
 
+const MAINNET_SELECTION_TOKENS: SelectTokens = {
+  sscrt: {
+    symbol: 'SSCRT',
+    address: 'secret1k0jntykt7e4g3y88ltc60czgjuqdy4c9e8fzek',
+    decimals: 6,
+  },
+  seth: {
+    symbol: 'SETH',
+    address: 'secret1wuzzjsdhthpvuyeeyhfq2ftsn3mvwf9rxy6ykw',
+    decimals: 18,
+  },
+  susdt: {
+    symbol: 'SUSDT',
+    address: 'secret18wpjn83dayu4meu6wnn29khfkwdxs7kyrz9c8f',
+    decimals: 6,
+  },
+  sdai: {
+    symbol: 'SDAI',
+    address: 'secret1vnjck36ld45apf8u4fedxd5zy7f5l92y3w5qwq',
+    decimals: 18,
+  },
+  stusd: {
+    symbol: 'STUSD',
+    address: 'secret1ryh523y4e3233hphrkdslegszqz8syjfpthcpp',
+    decimals: 18,
+  },
+  custom: {
+    symbol: 'Custom',
+    decimals: 0,
+    address: '',
+  },
+}
+
+const TOKENS =
+  process.env.NEXT_PUBLIC_EXPERIMENTAL_CHAIN === 'true'
+    ? TESTNET_SELECTION_TOKENS
+    : MAINNET_SELECTION_TOKENS
+
+const DEFAULT_SELECTED_TOKEN =
+  process.env.NEXT_PUBLIC_EXPERIMENTAL_CHAIN === 'true' ? 'tsdai' : 'sscrt'
+
+const PREVIEW_AUCTIONS_FILTER: string[] =
+  process.env.NEXT_PUBLIC_EXPERIMENTAL_CHAIN === 'true'
+    ? ['SSCRT', 'TSDAI', 'TSUSDT']
+    : ['SSCRT', 'SUSDT', 'SDAI']
+
 export interface FilterToken {
   value: string
   label: string
 }
 
-const FILTER_TOKENS: FilterToken[] = [
-  { value: 'TSDAI', label: 'TSDAI' },
-  { value: 'FIRST', label: 'FIRST' },
-  { value: 'THIRD', label: 'THIRD' },
-]
+const FILTER_TOKENS = Object.values(TOKENS)
+  .map((token) => ({ label: token.symbol, value: token.symbol }))
+  .filter((token) => token.label !== 'Custom')
+
+const TESTNET_FILTER_TOGGLE_BUTTONS = {
+  all: {
+    label: 'All',
+    value: '',
+  },
+  sscrt: {
+    label: 'SSCRT Auctions',
+    value: 'SSCRT',
+  },
+  tsdai: {
+    label: 'TSDAI Auctions',
+    value: 'TSDAI',
+  },
+}
+
+const MAINNET_FILTER_TOGGLE_BUTTONS = {
+  all: {
+    label: 'All',
+    value: '',
+  },
+  sscrt: {
+    label: 'SSCRT Auctions',
+    value: 'SSCRT',
+  },
+  seth: {
+    label: 'SETH Auctions',
+    value: 'SETH',
+  },
+  susdt: {
+    label: 'SUSDT Auctions',
+    value: 'SUSDT',
+  },
+  sdai: {
+    label: 'SDAI Auctions',
+    value: 'SDAI',
+  },
+}
+
+const FILTER_TOGGLE_BUTTONS =
+  process.env.NEXT_PUBLIC_EXPERIMENTAL_CHAIN === 'true'
+    ? TESTNET_FILTER_TOGGLE_BUTTONS
+    : MAINNET_FILTER_TOGGLE_BUTTONS
 
 export interface Feature {
   icon: string
@@ -156,4 +243,7 @@ export {
   FILTER_TOKENS,
   FEATURES,
   GITHUB_LINK,
+  DEFAULT_SELECTED_TOKEN,
+  PREVIEW_AUCTIONS_FILTER,
+  FILTER_TOGGLE_BUTTONS,
 }

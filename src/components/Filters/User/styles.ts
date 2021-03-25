@@ -25,8 +25,4 @@ const Wrapper = styled.div`
   }
 `
 
-const StyledInputWithDropdown = styled(InputWithDropdown)`
-  width: 120px;
-`
-
-export { Container, Wrapper, StyledInputWithDropdown }
+export { Container, Wrapper }

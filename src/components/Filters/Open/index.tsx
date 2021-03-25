@@ -1,10 +1,10 @@
-import { ToggleButton } from '@zendeskgarden/react-buttons'
 import { FC, memo } from 'react'
 
-import { FilterToken } from '../../../../utils/constants'
-import InputWithDropdown from '../../Common/InputWithDropdown'
-import { StyledToggleButton } from '../styles'
-import { Container } from './styles'
+import { FILTER_TOGGLE_BUTTONS, FilterToken } from '../../../../utils/constants'
+import { StyledInputWithDropdown, StyledToggleButton } from '../styles'
+import { Container, Wrapper } from './styles'
+
+const FILTERS = Object.values(FILTER_TOGGLE_BUTTONS)
 
 type Props = {
   selectedBidSymbol: string
@@ -29,40 +29,32 @@ const Filters: FC<Props> = (props) => {
 
   return (
     <Container>
-      <StyledToggleButton
-        isPressed={selectedBidSymbol === ''}
-        onClick={() => onClickBidSymbol('')}
-        size="small"
-      >
-        All
-      </StyledToggleButton>
-      <StyledToggleButton
-        isPressed={selectedBidSymbol === 'SSCRT'}
-        onClick={() => onClickBidSymbol('SSCRT')}
-        size="small"
-      >
-        SSCRT Auctions
-      </StyledToggleButton>
-      <StyledToggleButton
-        isPressed={selectedBidSymbol === 'TSDAI'}
-        onClick={() => onClickBidSymbol('TSDAI')}
-        size="small"
-      >
-        TSDAI Auctions
-      </StyledToggleButton>
-      <div />
-      <InputWithDropdown
-        placeholder="Sell"
-        options={options}
-        value={sellValue}
-        onChange={onChangeSellValue}
-      />
-      <InputWithDropdown
-        placeholder="Bid"
-        options={options}
-        value={bidValue}
-        onChange={onChangeBidValue}
-      />
+      <Wrapper>
+        {FILTERS.map((filter) => (
+          <StyledToggleButton
+            key={filter.value}
+            isPressed={selectedBidSymbol === filter.value}
+            onClick={() => onClickBidSymbol(filter.value)}
+            size="small"
+          >
+            {filter.label}
+          </StyledToggleButton>
+        ))}
+      </Wrapper>
+      <Wrapper inputs>
+        <StyledInputWithDropdown
+          placeholder="Sell"
+          options={options}
+          value={sellValue}
+          onChange={onChangeSellValue}
+        />
+        <StyledInputWithDropdown
+          placeholder="Bid"
+          options={options}
+          value={bidValue}
+          onChange={onChangeBidValue}
+        />
+      </Wrapper>
     </Container>
   )
 }
