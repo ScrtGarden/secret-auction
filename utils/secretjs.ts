@@ -4,7 +4,7 @@ import { CosmWasmClient } from 'secretjs'
 let client: CosmWasmClient
 
 const createClient = () => {
-  return new CosmWasmClient(process.env.NEXT_PUBLIC_REST_URL as string)
+  return new CosmWasmClient(process.env.NEXT_PUBLIC_LCD_URL as string)
 }
 
 const initilizeClient = () => {

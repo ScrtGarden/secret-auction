@@ -42,7 +42,7 @@ const connect = async (): Promise<Response> => {
       chainId: process.env.NEXT_PUBLIC_CHAIN_ID as string,
       chainName: 'Local Secret Chain',
       rpc: process.env.NEXT_PUBLIC_RPC_URL as string,
-      rest: process.env.NEXT_PUBLIC_REST_URL as string,
+      rest: process.env.NEXT_PUBLIC_LCD_URL as string,
       bip44: {
         coinType: 529,
       },
@@ -115,7 +115,7 @@ const createSigningClient = async ({ maxGas = '300000' } = {}) => {
   try {
     const utils = getGetEnigmaUtils(process.env.NEXT_PUBLIC_CHAIN_ID)
     const secretjs = new SigningCosmWasmClient(
-      process.env.NEXT_PUBLIC_REST_URL || '',
+      process.env.NEXT_PUBLIC_LCD_URL || '',
       accounts[0].address,
       signer,
       utils,
